@@ -97,7 +97,7 @@ jobs:
         run: node --input-type=module -e "import {assertSvgAccepted} from './tools/lib/svg-accept.mjs'; await assertSvgAccepted('docs/images');"
       - name: Release provenance is not a test build
         run: node --input-type=module -e "import fs from 'node:fs'; if (JSON.parse(fs.readFileSync('dist/release-manifest.json')).testBuild !== false) process.exit(1);"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-assets
           path: |
@@ -152,7 +152,7 @@ jobs:
           PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
           PAPERCLIP_TEST_OUTPUT: test-results/release-${{ matrix.version }}-${{ matrix.panel }}
       - if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: compatibility-${{ matrix.version }}-${{ matrix.panel }}
           path: test-results/release-${{ matrix.version }}-${{ matrix.panel }}/
