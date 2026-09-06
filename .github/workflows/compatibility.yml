@@ -1,0 +1,105 @@
+name: compatibility
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - name: Resolve stable Paperclip releases from the last 30 days
+        id: versions
+        run: |
+          versions="$(node tools/recent-stables.mjs --days 30)"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+
+  official_stables:
+    needs: resolve
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.resolve.outputs.versions) }}
+        panel: [default, enabled]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: paperclip_compatibility_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --no-shell
+      - name: Official compatibility gate
+        id: first
+        continue-on-error: true
+        run: npm run test:official:isolated
+        env:
+          PAPERCLIP_TEST_VERSION: ${{ matrix.version }}
+          PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_compatibility_test
+          PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
+          PAPERCLIP_TEST_OUTPUT: test-results/first-${{ matrix.version }}-${{ matrix.panel }}
+      - name: Reset the disposable database before confirmation
+        if: steps.first.outcome == 'failure'
+        run: |
+          docker exec "${{ job.services.postgres.id }}" dropdb --if-exists --force -U postgres paperclip_compatibility_test
+          docker exec "${{ job.services.postgres.id }}" createdb -U postgres paperclip_compatibility_test
+      - name: Confirm failure with a fresh runtime and database
+        id: second
+        if: steps.first.outcome == 'failure'
+        continue-on-error: true
+        run: npm run test:official:isolated
+        env:
+          PAPERCLIP_TEST_VERSION: ${{ matrix.version }}
+          PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_compatibility_test
+          PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
+          PAPERCLIP_TEST_OUTPUT: test-results/confirmation-${{ matrix.version }}-${{ matrix.panel }}
+      - name: Record a confirmed compatibility failure
+        if: steps.second.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Compatibility: Paperclip ${{ matrix.version }} (${{ matrix.panel }})"
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$title in:title" --json title --jq '.[].title')"
+          if ! printf '%s\n' "$existing" | grep -Fxq "$title"; then
+            printf 'The 30-day stable compatibility gate failed twice with fresh runtimes. The declared support data was not changed.\n\nEvidence: %s/%s/actions/runs/%s\n' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > "$RUNNER_TEMP/compatibility-issue.md"
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$RUNNER_TEMP/compatibility-issue.md"
+          fi
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: official-${{ matrix.version }}-${{ matrix.panel }}
+          path: test-results/
+          if-no-files-found: error
+      - name: Fail after a confirmed compatibility failure
+        if: steps.second.outcome == 'failure'
+        run: exit 1

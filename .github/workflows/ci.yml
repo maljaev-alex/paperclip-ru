@@ -1,0 +1,185 @@
+name: ci
+
+on:
+  push:
+    branches: [main, "release/**", "codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        node: [20, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --no-shell
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run test:integration
+      - run: npm run test:e2e
+        env:
+          PAPERCLIP_REQUIRE_BROWSER: "1"
+      - run: npm run build
+      - run: npm run release:dry-run
+      - run: git diff --check
+      - name: Secret/path scan
+        run: node --input-type=module -e "import {assertCleanScan} from './tools/lib/secret-scan.mjs'; assertCleanScan('.');"
+      - name: SVG UTF-8/XML/headless render
+        run: node --input-type=module -e "import {assertSvgAccepted} from './tools/lib/svg-accept.mjs'; await assertSvgAccepted('docs/images');"
+      - name: Checkout cleanliness
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            echo "working tree dirty after tests" >&2
+            exit 1
+          fi
+        shell: bash
+      - if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: diagnostics-${{ matrix.os }}-${{ matrix.node }}
+          path: |
+            test-results/
+            playwright-report/
+            dist/
+          if-no-files-found: ignore
+
+  wrappers:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: PowerShell 5.1 full offline lifecycle
+        shell: powershell
+        run: |
+          $rel = Join-Path $env:TEMP "paperclip-ru-ci-rel-51"
+          $dest = Join-Path $env:TEMP "paperclip-ru-ci-51"
+          $srv = Join-Path $env:TEMP "paperclip-ru-ci-srv-51"
+          New-Item -ItemType Directory -Force -Path $srv | Out-Null
+          Copy-Item -Recurse test/fixtures/server/* $srv
+          node --input-type=module -e "import {buildRelease} from './tools/lib/release-builder.mjs'; buildRelease({ outDir: process.argv[1] });" $rel
+          & "$PSHOME\powershell.exe" -NoProfile -File scripts/install.ps1 -DryRun -NonInteractive -Json -InstallDir $dest -SourceDir $rel
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & "$PSHOME\powershell.exe" -NoProfile -File scripts/install.ps1 -NonInteractive -Json -InstallDir $dest -SourceDir $rel -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & "$PSHOME\powershell.exe" -NoProfile -File scripts/update.ps1 -NonInteractive -Json -InstallDir $dest -SourceDir $rel -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & "$PSHOME\powershell.exe" -NoProfile -File scripts/uninstall.ps1 -NonInteractive -Json -InstallDir $dest -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: PowerShell 7 + full offline lifecycle
+        shell: pwsh
+        run: |
+          $rel = Join-Path $env:TEMP "paperclip-ru-ci-rel"
+          $dest = Join-Path $env:TEMP "paperclip-ru-ci-7"
+          $srv = Join-Path $env:TEMP "paperclip-ru-ci-srv"
+          New-Item -ItemType Directory -Force -Path $srv | Out-Null
+          Copy-Item -Recurse test/fixtures/server/* $srv
+          node --input-type=module -e "import {buildRelease} from './tools/lib/release-builder.mjs'; buildRelease({ outDir: process.argv[1] });" $rel
+          ./scripts/install.ps1 -DryRun -NonInteractive -Json -InstallDir $dest -SourceDir $rel
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./scripts/install.ps1 -NonInteractive -Json -InstallDir $dest -SourceDir $rel -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./scripts/update.ps1 -NonInteractive -Json -InstallDir $dest -SourceDir $rel -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./scripts/uninstall.ps1 -NonInteractive -Json -InstallDir $dest -ServerDir $srv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  posix-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Executable shell wrappers full offline lifecycle
+        run: |
+          test -x scripts/install.sh
+          test -x scripts/uninstall.sh
+          rel="$(mktemp -d)/rel"
+          dest="$(mktemp -d)/dest"
+          srv="$(mktemp -d)/srv"
+          cp -R test/fixtures/server/. "$srv/"
+          node --input-type=module -e "import {buildRelease} from './tools/lib/release-builder.mjs'; buildRelease({ outDir: process.argv[1] });" "$rel"
+          ./scripts/install.sh --dry-run --non-interactive --json --install-dir "$dest" --source-dir "$rel"
+          ./scripts/install.sh --non-interactive --json --install-dir "$dest" --source-dir "$rel" --server-dir "$srv"
+          ./scripts/update.sh --non-interactive --json --install-dir "$dest" --source-dir "$rel" --server-dir "$srv"
+          ./scripts/uninstall.sh --non-interactive --json --install-dir "$dest" --server-dir "$srv"
+
+  official-ui:
+    strategy:
+      fail-fast: false
+      matrix:
+        panel: [default, enabled]
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: paperclip_ui_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --no-shell
+      - run: npm run test:official:isolated
+        env:
+          PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_ui_test
+          PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
+          PAPERCLIP_TEST_OUTPUT: test-results/official-${{ matrix.panel }}
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: official-ui-evidence-${{ matrix.panel }}
+          path: test-results/official-${{ matrix.panel }}/
+          if-no-files-found: error
+
+  macos-experimental:
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run test:integration
+      - run: npm run pack:check

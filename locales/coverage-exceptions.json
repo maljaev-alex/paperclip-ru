@@ -1,0 +1,73 @@
+[
+  {
+    "key": "You are the CEO. You set the direction for the company.\n\n- hire a founding engineer\n- write a hiring plan\n- break the roadmap into concrete tasks and start delegating work",
+    "category": "model-instruction",
+    "reason": "Системная инструкция первой onboarding-задачи. Статически не патчится (no-static); на экране переводит оверлей."
+  },
+  {
+    "key": "Hire your first engineer and create a hiring plan",
+    "category": "model-bound-title",
+    "reason": "Заголовок автоматически созданной задачи, уходит агенту. no-static сохраняет английский литерал."
+  },
+  {
+    "key": "SKILL.md",
+    "category": "filename",
+    "reason": "Имя файла инструкций навыка, не UI-подпись."
+  },
+  {
+    "key": "AGENTS.md",
+    "category": "filename",
+    "reason": "Имя файла инструкций агента; содержимое редактора не переводится."
+  },
+  {
+    "key": "You are agent {{ agent.name }}. Your role is {{ agent.role }}...",
+    "category": "model-instruction",
+    "reason": "Шаблон системной роли агента. Статически не патчится (no-static)."
+  },
+  {
+    "propKey": "name",
+    "category": "mermaid-shape",
+    "reason": "Имена фигур mermaid (Rectangle, Cylinder, Bang). Это идентификаторы диаграммы, не операторский UI."
+  },
+  {
+    "propKey": "semanticName",
+    "category": "mermaid-shape",
+    "reason": "Семантические имена тех же фигур mermaid."
+  },
+  {
+    "propKey": "reason",
+    "category": "machine-enum",
+    "reason": "Коды причины закрытия (backdrop, programmatic, interrupt) сравниваются в логике, а не показываются как фразы."
+  },
+  {
+    "key": "text-(--status-task-icon-todo)",
+    "propKey": "warning",
+    "category": "css-token",
+    "reason": "Класс Tailwind, ложно попавший в группу warning."
+  },
+  {
+    "key": "Collapsible",
+    "category": "radix-primitive",
+    "reason": "Служебное имя примитива Radix, не подпись экрана."
+  },
+  {
+    "key": "Dialog",
+    "category": "radix-primitive",
+    "reason": "Служебное имя примитива Radix, не подпись экрана."
+  },
+  {
+    "key": "Separator",
+    "category": "radix-primitive",
+    "reason": "Служебное имя примитива Radix, не подпись экрана."
+  },
+  {
+    "key": "Tabs",
+    "category": "radix-primitive",
+    "reason": "Служебное имя примитива Radix, не подпись экрана."
+  },
+  {
+    "propKey": "prompt",
+    "category": "model-instruction",
+    "reason": "Шаблоны промптов уходят агенту. Операторский UI их не показывает как подписи."
+  }
+]

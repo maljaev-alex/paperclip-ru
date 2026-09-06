@@ -1,0 +1,48 @@
+{
+  "schema": "paperclip-ru-lint-warning-baseline/v1",
+  "reviewedAt": "2026-09-05",
+  "total": 1634,
+  "additions": [
+    {
+      "code": "short-key",
+      "en": "Question",
+      "reason": "Question-card heading; model/editor content is protected by DOM and AST guards."
+    },
+    {
+      "code": "short-key",
+      "en": "incident",
+      "reason": "Human-facing case-type label; machine values are excluded from static replacement."
+    },
+    {
+      "code": "short-key",
+      "en": "Asc",
+      "reason": "Sort-direction label of the task list, found by opening the sort menu. Listed in no-static.json so only the DOM overlay translates it and the bundle keeps the machine value."
+    },
+    {
+      "code": "short-key",
+      "en": "Desc",
+      "reason": "Opposite sort direction of the same control; same no-static guard as Asc."
+    },
+    {
+      "code": "short-key",
+      "en": "Security",
+      "reason": "Agent role preset in the new-agent menu. Listed in no-static.json because the same word is also a machine role value in the bundle."
+    },
+    {
+      "code": "short-key",
+      "en": "Designer",
+      "reason": "Agent role preset from the same menu; same no-static guard as Security."
+    },
+    {
+      "code": "latin",
+      "en": "Ticket identifier like PAP-1009.",
+      "reason": "The example issue key PAP-1009 is an identifier and stays latin inside the translated sentence."
+    }
+  ],
+  "byCode": {
+    "glossary": 85,
+    "latin": 830,
+    "suspicious": 2,
+    "short-key": 717
+  }
+}

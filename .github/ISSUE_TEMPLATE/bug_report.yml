@@ -1,0 +1,23 @@
+name: Bug report
+description: Сбой apply/revert/overlay
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что произошло
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Версии paperclip-ru и Paperclip
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Вывод doctor --json (без персональных путей, если возможно)
+  - type: markdown
+    attributes:
+      value: Не прикладывайте секреты, дампы БД и скриншоты с живыми данными.
