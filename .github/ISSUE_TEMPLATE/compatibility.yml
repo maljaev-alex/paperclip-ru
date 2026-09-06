@@ -1,0 +1,16 @@
+name: Compatibility
+description: Новая версия Paperclip / несовместимость
+labels: [compatibility]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Версия Paperclip
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: doctor / apply / ошибка
+    validations:
+      required: true

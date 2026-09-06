@@ -1,0 +1,74 @@
+{
+  "name": "paperclip-ru",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Русская локализация операторского UI официальных npm-сборок Paperclip (неофициальный слой, не форк)",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maljaev-alex/paperclip-ru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maljaev-alex/paperclip-ru/issues"
+  },
+  "homepage": "https://github.com/maljaev-alex/paperclip-ru#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": false,
+  "bin": {
+    "paperclip-ru": "./tools/paperclip-ru.mjs"
+  },
+  "files": [
+    "tools/**/*.mjs",
+    "test/**/*",
+    "locales/*.json",
+    "scripts/**",
+    "data/*.json",
+    "docs/**/*.md",
+    "docs/images/*",
+    ".github/**",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "scripts": {
+    "apply": "node tools/paperclip-ru.mjs apply",
+    "revert": "node tools/paperclip-ru.mjs revert",
+    "status": "node tools/paperclip-ru.mjs status",
+    "extract": "node tools/paperclip-ru.mjs extract",
+    "report": "node tools/paperclip-ru.mjs report",
+    "route-matrix": "node tools/generate-route-matrix.mjs",
+    "merge": "node tools/merge-parts.mjs",
+    "lint": "node tools/lint-dictionary.mjs",
+    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:unit": "node tools/run-node-tests.mjs test/unit/*.test.mjs",
+    "test:integration": "node tools/run-node-tests.mjs test/integration/*.test.mjs",
+    "test:e2e": "node tools/run-node-tests.mjs test/e2e/*.test.mjs",
+    "build": "node tools/merge-parts.mjs --check",
+    "pack:check": "node tools/pack-release.mjs --check",
+    "release:dry-run": "node tools/pack-release.mjs --dry-run --check",
+    "test:official": "node tools/run-node-tests.mjs test/official/*.test.mjs",
+    "test:official:isolated": "node tools/official-gate.mjs",
+    "compat:recent": "node tools/recent-stables.mjs --days 30 --check"
+  },
+  "keywords": [
+    "paperclip",
+    "i18n",
+    "localization",
+    "russian",
+    "ui"
+  ],
+  "dependencies": {
+    "acorn": "^8.14.0",
+    "saxes": "6.0.0"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "typescript": "^5.9.3"
+  }
+}

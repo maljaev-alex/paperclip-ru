@@ -1,0 +1,188 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run without uploading a GitHub Release"
+        type: boolean
+        default: true
+
+jobs:
+  resolve_compatibility:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - name: Resolve and validate the 30-day stable window
+        id: versions
+        run: |
+          versions="$(node tools/recent-stables.mjs --days 30 --check)"
+          echo "versions=$versions" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: resolve_compatibility
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: paperclip_release_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Tag matches package version
+        if: github.ref_type == 'tag'
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "${GITHUB_REF_NAME}" != "$expected" ]; then
+            echo "tag ${GITHUB_REF_NAME} != $expected" >&2
+            exit 1
+          fi
+      - name: Resolve release version
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --no-shell
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run build
+      - name: Build persistent release assets
+        run: |
+          node --input-type=module -e "import {buildRelease} from './tools/lib/release-builder.mjs'; buildRelease({ outDir: 'dist' });"
+      - name: Integration against uploaded bytes
+        env:
+          PAPERCLIP_RU_DIST_DIR: ${{ github.workspace }}/dist
+        run: npm run test:integration
+      - run: npm run test:e2e
+        env:
+          PAPERCLIP_REQUIRE_BROWSER: "1"
+      - name: Official running UI from the release archive
+        run: npm run test:official:isolated
+        env:
+          PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_release_test
+          PAPERCLIP_RU_DIST_DIR: ${{ github.workspace }}/dist
+      - name: Uploaded bytes still match SHA256SUMS
+        run: (cd dist && sha256sum -c SHA256SUMS)
+      - run: npm run release:dry-run
+      - run: git diff --check
+      - name: Secret/path scan
+        run: node --input-type=module -e "import {assertCleanScan} from './tools/lib/secret-scan.mjs'; assertCleanScan('.');"
+      - name: SVG UTF-8/XML/headless render
+        run: node --input-type=module -e "import {assertSvgAccepted} from './tools/lib/svg-accept.mjs'; await assertSvgAccepted('docs/images');"
+      - name: Release provenance is not a test build
+        run: node --input-type=module -e "import fs from 'node:fs'; if (JSON.parse(fs.readFileSync('dist/release-manifest.json')).testBuild !== false) process.exit(1);"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-assets
+          path: |
+            dist/paperclip-ru-${{ env.RELEASE_VERSION }}.zip
+            dist/paperclip-ru-${{ env.RELEASE_VERSION }}.tar.gz
+            dist/release-manifest.json
+            dist/SHA256SUMS
+          if-no-files-found: error
+
+  recent_compatibility:
+    needs: [resolve_compatibility, build]
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.resolve_compatibility.outputs.versions) }}
+        panel: [default, enabled]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: paperclip_release_compat
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium --no-shell
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: release-assets
+          path: dist/
+      - name: Official archive lifecycle and UI
+        run: npm run test:official:isolated
+        env:
+          PAPERCLIP_TEST_VERSION: ${{ matrix.version }}
+          PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_release_compat
+          PAPERCLIP_RU_DIST_DIR: ${{ github.workspace }}/dist
+          PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
+          PAPERCLIP_TEST_OUTPUT: test-results/release-${{ matrix.version }}-${{ matrix.panel }}
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compatibility-${{ matrix.version }}-${{ matrix.panel }}
+          path: test-results/release-${{ matrix.version }}-${{ matrix.panel }}/
+          if-no-files-found: error
+
+  upload:
+    if: startsWith(github.ref, 'refs/tags/v') && (github.event_name != 'workflow_dispatch' || inputs.dry_run == false)
+    needs: [build, recent_compatibility]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: release-assets
+          path: dist/
+      - name: Resolve release version
+        run: |
+          version="$(node -e "const fs=require('fs');process.stdout.write(JSON.parse(fs.readFileSync('dist/release-manifest.json')).toolVersion)")"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+      - name: Verify the exact downloaded publication set
+        run: |
+          test "$(find dist -maxdepth 1 -type f | wc -l)" -eq 4
+          (cd dist && sha256sum -c SHA256SUMS)
+      - uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+        with:
+          files: |
+            dist/paperclip-ru-${{ env.RELEASE_VERSION }}.zip
+            dist/paperclip-ru-${{ env.RELEASE_VERSION }}.tar.gz
+            dist/SHA256SUMS
+            dist/release-manifest.json
+          draft: true
+          generate_release_notes: true

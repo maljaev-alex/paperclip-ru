@@ -1,0 +1,78 @@
+[
+  {
+    "en": "Even a card that asks for Anyone is narrowed to exclude its creator.",
+    "reason": "F-01: описание варианта «Кто угодно, кроме автора» в «Управлении взаимодействиями»."
+  },
+  {
+    "en": "Every card of this kind waits for a person, whatever it asked for.",
+    "reason": "F-01: описание варианта «Только человек» в том же списке."
+  },
+  {
+    "en": "Waiting to start...",
+    "reason": "F-03: emptyMessage, пустое состояние запуска."
+  },
+  {
+    "en": "You don’t manage any agents yet.",
+    "reason": "F-03: emptyMessage, пустой список агентов."
+  },
+  {
+    "en": "Export preview cancelled",
+    "reason": "F-03: заголовок тоста экспорта."
+  },
+  {
+    "en": "Export preview failed",
+    "reason": "F-03: заголовок тоста экспорта."
+  },
+  {
+    "en": "The preview request was cancelled. Your export settings are unchanged.",
+    "reason": "F-03: тело тоста экспорта."
+  },
+  {
+    "en": "This request is no longer waiting for a decision.",
+    "reason": "F-03: сообщение очереди решений."
+  },
+  {
+    "en": "Retry the preview. You do not need to reload this page.",
+    "reason": "F-03: подсказка после сбоя предпросмотра экспорта."
+  },
+  {
+    "en": "Concurrent runs on local/SSH runners; runs take turns in cloud environments.",
+    "reason": "F-03: справка параллелизма раннера."
+  },
+  {
+    "en": "Paperclip Runner currently supports Codex through app-server.",
+    "reason": "F-03: подсказка транспорта Paperclip Runner."
+  },
+  {
+    "en": "Stream the agent CLI's output live while runs execute (recommended). Turn off to deliver output only when the run finishes.",
+    "reason": "F-03: подсказка живого вывода CLI."
+  },
+  {
+    "en": "New company folder",
+    "reason": "COMPAT-2026.824: подсказка создания папки навыков."
+  },
+  {
+    "en": " in the company — the board or any agent, including the one that asked — can respond. Narrow a kind only when you need to.",
+    "reason": "COMPAT-2026.824: вторая текстовая часть настройки аудитории взаимодействий."
+  },
+  {
+    "en": "Managed Sandbox Only",
+    "reason": "COMPAT-2026.824: заголовок экспериментальной настройки."
+  },
+  {
+    "en": "Hide the local environment and run all agents in the platform-managed sandbox environment.",
+    "reason": "COMPAT-2026.824: описание экспериментальной настройки."
+  },
+  {
+    "en": "Toggle managed sandbox only experimental setting",
+    "reason": "COMPAT-2026.824: доступное имя переключателя экспериментальной настройки."
+  },
+  {
+    "en": " is paused. New runs will not start until the agent is resumed.",
+    "reason": "COMPAT-2026.817: продолжение сообщения о приостановленном агенте."
+  },
+  {
+    "en": "Lock plan document",
+    "reason": "COMPAT-2026.817: действие блокировки документа плана."
+  }
+]

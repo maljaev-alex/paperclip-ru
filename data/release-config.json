@@ -1,0 +1,15 @@
+{
+  "schema": "paperclip-ru-release-config/v1",
+  "repository": "maljaev-alex/paperclip-ru",
+  "archiveRoot": "paperclip-ru",
+  "defaultChannel": "stable",
+  "node": ">=20",
+  "powershell": ">=5.1",
+  "assets": {
+    "zip": "paperclip-ru-{version}.zip",
+    "tar": "paperclip-ru-{version}.tar.gz",
+    "manifest": "release-manifest.json",
+    "checksums": "SHA256SUMS"
+  },
+  "notes": "Публичный репозиторий: https://github.com/maljaev-alex/paperclip-ru. Канал распространения — GitHub Release (zip/tar.gz + SHA256SUMS), не npm. Пакет остаётся private."
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "paperclip-ru-compat/v1",
+  "toolVersion": "1.0.0",
+  "toolNode": ">=20",
+  "paperclipNode": ">=24.11.0",
+  "currentStable": "2026.831.1",
+  "recentStableVersions": [
+    "2026.831.1",
+    "2026.831.0",
+    "2026.824.1",
+    "2026.824.0",
+    "2026.817.0"
+  ],
+  "policy": {
+    "recentStableWindowDays": 30,
+    "recentStables": "supported only after an exact official fingerprint and lifecycle/browser verification",
+    "olderStables": "experimental",
+    "canaryAndCommit": "unsupported",
+    "registry": "npm:@paperclipai/server",
+    "windowStart": "2026-08-07",
+    "observedOn": "2026-09-06"
+  },
+  "releases": [
+    {
+      "version": "2026.831.1",
+      "publishedAt": "2026-09-02T04:45:16.794Z",
+      "support": "full",
+      "tested": "2026-09-06",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Текущая stable; полный lifecycle и браузерная матрица в обоих режимах."
+    },
+    {
+      "version": "2026.831.0",
+      "publishedAt": "2026-09-02T00:37:14.048Z",
+      "support": "full",
+      "tested": "2026-09-06",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Полный lifecycle и браузерная матрица в обоих режимах."
+    },
+    {
+      "version": "2026.824.1",
+      "publishedAt": "2026-08-25T20:50:58.336Z",
+      "support": "full",
+      "tested": "2026-09-06",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Полный lifecycle и браузерная матрица в обоих режимах."
+    },
+    {
+      "version": "2026.824.0",
+      "publishedAt": "2026-08-25T04:15:55.310Z",
+      "support": "full",
+      "tested": "2026-09-06",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Полный lifecycle и браузерная матрица в обоих режимах."
+    },
+    {
+      "version": "2026.817.0",
+      "publishedAt": "2026-08-18T03:13:52.183Z",
+      "support": "best-effort",
+      "tested": "2026-09-06",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "browser": "passed-with-known-upstream-exception",
+        "byteIdenticalRevert": true
+      },
+      "notes": "Оба режима прошли; в исходном frontend этой версии остаётся известный upstream 404 на отсутствующий /api/companies/:id/built-in-agents."
+    },
+    {
+      "version": "2026.831.1-synthetic",
+      "support": "full",
+      "synthetic": true,
+      "tested": "2026-09-04",
+      "notes": "Мини-fixture репозитория для автономных тестов, не официальный бандл."
+    }
+  ]
+}
