@@ -37,9 +37,17 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     await boardCards.filter({ hasText: 'Dashboard' }).first().waitFor({ state: 'visible' });
     await boardCards.filter({ hasText: 'Settings' }).first().waitFor({ state: 'visible' });
     await page.waitForLoadState('networkidle');
+    // The board query can replace its cards after the view switch. Wait for
+    // the final render before inspecting the translated DOM, not just the
+    // initial cards that may disappear while the query is refreshed.
+    await page.waitForFunction(() => {
+      const cards = [...document.querySelectorAll('main [role="button"].cursor-grab')];
+      return cards.some(card => card.textContent.includes('Dashboard'))
+        && cards.some(card => card.textContent.includes('Settings'));
+    });
     const boardCardText = await boardCards.allTextContents();
-    assert.ok(boardCardText.some(text => text.includes('Dashboard')), 'Board card user title');
-    assert.ok(boardCardText.some(text => text.includes('Settings')), 'Board card assignee name');
+    assert.ok(boardCardText.some(text => text.includes('Dashboard')), `Board card user title: ${JSON.stringify(boardCardText)}`);
+    assert.ok(boardCardText.some(text => text.includes('Settings')), `Board card assignee name: ${JSON.stringify(boardCardText)}`);
     const assigneeTooltips = boardCards.locator('span.inline-flex[title]:has([data-slot="avatar"])');
     if (await assigneeTooltips.count()) assert.ok((await assigneeTooltips.evaluateAll(elements => elements.map(el => el.title))).every(title => title === 'Settings'), 'Board assignee tooltips preserve user names');
     await page.goto(`${baseUrl}/${prefix}/agents/all`, { waitUntil: 'networkidle' });

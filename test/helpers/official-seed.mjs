@@ -39,7 +39,7 @@ export async function seedOfficial(baseUrl) {
   for (const [i, status] of ['todo', 'in_progress', 'done', 'blocked'].entries()) {
     issues.push(await api(`/companies/${company.id}/issues`, 'POST', { title: ['Проверить обзор', 'Проверить редактор', 'Сверить контрольные суммы', 'Подготовить публикацию'][i], description: 'English user content: Dashboard, Save, Delete.\n\n```json\n{"status":"todo","title":"Dashboard"}\n```', status, priority: 'medium', projectId: project.id, assigneeAgentId: agent.id }));
   }
-  for (const issue of issues) await api(`/issues/${issue.id}/documents/plan`, 'PUT', { title: 'План проверки', format: 'markdown', body: 'Фиктивный план для проверки интерфейса.\n' });
+  for (const issue of [...issues, ...(conversation ? [conversation] : [])]) await api(`/issues/${issue.id}/documents/plan`, 'PUT', { title: 'План проверки', format: 'markdown', body: 'Фиктивный план для проверки интерфейса.\n' });
   const file = await api(`/agents/${agent.id}/instructions-bundle/file?path=AGENTS.md`);
   assert.deepEqual(Buffer.from(file.content), Buffer.from(instructionBytes), 'Seed must preserve every instruction byte');
   return { company, agent, project, issues, conversation };
