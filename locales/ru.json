@@ -2504,5 +2504,13 @@
   "raw": "исходный текст",
   "Wrap lines": "Переносить строки",
   "Board created": "Совет создал",
-  "Board read": "Совет прочитал"
+  "Board read": "Совет прочитал",
+  "Give agents email inboxes and handle each conversation as a task.": "Назначайте агентам почтовые ящики и обрабатывайте каждую переписку как задачу.",
+  "Let people start and continue Paperclip work with an agent from Discord.": "Разрешите пользователям начинать и продолжать работу с агентом Paperclip из Discord.",
+  "Give agents repository tools or let people work with an agent from GitHub issues and pull requests.": "Предоставьте агентам инструменты репозитория или разрешите пользователям работать с агентом в задачах и запросах на слияние GitHub.",
+  "Message a Paperclip agent from Apple Messages using Photon Cloud. Pro supports DMs; dedicated lines also support groups.": "Общайтесь с агентом Paperclip из Apple Messages через Photon Cloud. Тариф Pro поддерживает личные сообщения; выделенные линии также поддерживают группы.",
+  "Let people start and continue Paperclip work with an agent from Microsoft Teams.": "Разрешите пользователям начинать и продолжать работу с агентом Paperclip из Microsoft Teams.",
+  "Give agents Slack tools or let people start and continue Paperclip work from Slack.": "Предоставьте агентам инструменты Slack или разрешите пользователям начинать и продолжать работу Paperclip из Slack.",
+  "Let people start and continue Paperclip work with an agent from Telegram.": "Разрешите пользователям начинать и продолжать работу с агентом Paperclip из Telegram.",
+  "issue conversation opened": "начал беседу"
 }

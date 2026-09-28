@@ -11,7 +11,7 @@ const integrations = new Set(['Zapier', 'Slack', 'Notion', 'Linear', 'Google She
   'Google Slides', 'Google Workspace Search', 'Google Workspace', 'Grok', 'Hugging Face',
   'Jira', 'Mem0', 'Miro', 'Mixpanel', 'Netlify', 'OpenRouter', 'PagerDuty', 'PostHog',
   'Postman', 'Resend', 'Sentry', 'Shopify', 'Stripe', 'Supabase', 'Todoist', 'Webflow', 'Wix',
-  'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Vercel Connect']);
+  'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Photon Cloud', 'iMessage Photon', 'Apple Messages', 'Vercel Connect', 'Honeycomb']);
 const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail']);
 const upstreamContentNames = new Set(['Reflection Coach', 'Summarizer', 'Refresh stale summary slots',
   'Review recent agent trajectories for coaching proposals']);
@@ -64,7 +64,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
       // sentence: an identifier label, the package manager name and the
       // adapter contract symbol.
       'ID', 'npm', 'createAdapter', 'default', 'SSH', 'Rust', 'Runner', 'app-server', 'PAP-1009',
-      'Drive', 'Calendar', 'Chat', 'Authorization',
+      'Drive', 'Calendar', 'Chat', 'Authorization', 'Pro',
       'Cmd/Ctrl', 'project', 'workspaces-overview', 'project-workspace', 'reflection-coach', 'summarize-status'];
     for (const token of allowed.sort((a, b) => b.length - a.length)) remainder = remainder.split(token).join('');
     for (const prefix of companyPrefixes) remainder = remainder.replace(new RegExp(`\\b${prefix}(?:-(?:D-)?\\d+)?\\b`, 'g'), '');
@@ -86,6 +86,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   if (searches.has(value)) return 'search-syntax';
   if (abbreviations.has(value)) return 'latin-abbreviation-kept-in-russian';
   if (iconNames.has(value)) return 'icon-identifier';
+  if (/^[0-9a-f]{8}$/.test(value) && /(?:^|\s)font-mono(?:\s|$)/.test(candidate.className || '')) return 'short-revision-identifier';
   if (modelIds.test(value)) return 'model-identifier';
   if (modelNames.has(value)) return 'model-display-name';
   if (modelParams.has(value)) return 'model-parameter-value';
@@ -98,6 +99,9 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   if (candidate.attribute === 'placeholder' && ['claude', 'codex', '/absolute/path/to/AGENTS.md', 'https://github.com/owner/repo/tree/main/company', 'npx -y @acme/mcp-tool', '@paperclipai/plugin-example', 'my-paperclip-adapter'].includes(value)) return 'command-or-path-example';
   if (candidate.attribute === 'placeholder' && value === '{\n  "mcpServers": {\n    "github": {\n      "command": "npx -y @modelcontextprotocol/server-github",\n      "env": { "GITHUB_TOKEN": "ghp_..." }\n    }\n  }\n}') return 'literal-mcp-configuration-example';
   if (/^local@paperclip\.local$/.test(value)) return 'built-in-local-account';
+  // The avatar tooltip is an account display name. Preserve it just like an
+  // agent named "Settings"; the adjacent board-role chrome is translated.
+  if (value === 'Board' && candidate.attribute === 'title' && /inline-flex.*font-medium/.test(candidate.className || '')) return 'built-in-local-board-identity';
   if (value === 'BO' && /rounded-full/.test(candidate.className || '')) return 'board-avatar-initials';
   if (/^[A-Z]{2}$/.test(value) && /rounded-full|avatar/.test(candidate.className || '')) return 'avatar-initials';
   if (companyPrefixes.includes(value) || companyPrefixes.some((prefix) => new RegExp(`^${prefix}-(?:D-)?\\d+$`).test(value))) return 'company-or-issue-identifier';

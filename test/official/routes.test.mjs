@@ -24,7 +24,7 @@ test('official operator routes, reloads, responsive layout and composer', async 
       ...['permissions', 'api-keys', 'revisions'].map(tab => `/${prefix}/agents/${seed.agent.id}/${tab}`)] : [];
   const { matrix } = await generateRouteMatrix({ serverDir, baseUrl, companyPrefix: prefix,
     companyPrefixes: companies.map(c => c.issuePrefix),
-    userValues: [seed.company.name, seed.agent.name, seed.project.name, ...seed.issues.map(i => i.title)],
+    userValues: [seed.company.name, seed.agent.name, seed.project.name, seed.conversation?.title, ...seed.issues.map(i => i.title)].filter(Boolean),
     extraRoutes: [ `/${prefix}/issues?view=board`, `/${prefix}/issues/${seed.issues[0].identifier}`, `/${prefix}/projects/${seed.project.id}`,
       ...['dashboard','instructions','skills','configuration','secrets','tools','runs','audit','budget'].map(tab => `/${prefix}/agents/${seed.agent.id}/${tab}`), ...septemberRoutes ],
     output: path.join(outputDir, 'route-matrix.json'), screenshotsDir: path.join(outputDir, 'screenshots') });

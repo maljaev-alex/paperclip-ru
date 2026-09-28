@@ -1,11 +1,12 @@
 [
-  {"pattern":"^Open Plan revision (\\d+)$","replace":"Открыть редакцию плана $1","scope":"attr"},
+  {"pattern":"^(?:Open|Открыть) (?:Plan|план) revision (\\d+)$","flags":"i","replace":"Открыть редакцию плана $1","scope":"attr"},
   {"pattern":"^(?:rev|Revision) (\\d+)$","replace":"Редакция $1"},
   {"pattern":"^Close (.{1,160})$","replace":"Закрыть $1","scope":"attr"},
-  {"pattern":"^Message (.{1,160})…$","replace":"Напишите $1…","scope":"attr"},
+  {"pattern":"^Message (.+) — describe what you want done…$","flags":"","replace":"Напишите $1 — опишите, что нужно сделать…"},
+  {"pattern":"^Message (.{1,160})…$","replace":"Напишите $1…"},
   {"pattern":"^(.{1,160}) navigation$","replace":"$1 — навигация","scope":"attr"},
   {"pattern":"^(.{1,160}) avatar$","replace":"$1 — аватар","scope":"attr"},
-  {"pattern":"^Board (.{1,160})$","replace":"Совет {tl:1}","scope":"attr"},
+  {"pattern":"^(?:Board|Совет) (.{1,160})$","replace":"Совет {tl:1}","scope":"attr"},
   {"pattern":"^(Decisions|Решения), (\\d+) decisions$","replace":"Решения, $2 {plural:2:решение|решения|решений}","scope":"attr"},
   {"pattern":"^General - (.{1,160})$","replace":"Универсальный специалист — $1"},
   {"pattern":"^Blocked · (\\d+) (?:blocker needs|blockers need|блокировка требует|блокировки требуют) attention; (\\d+) covered by active work$","replace":"Заблокировано · $1 {plural:1:блокировка требует|блокировки требуют|блокировок требуют} внимания; в работе: $2"},
@@ -252,7 +253,6 @@
   {"pattern":"^Failed to disable 1 timer heartbeat: (.+)$","flags":"","replace":"Не удалось отключить пробуждение по таймеру: $1"},
   {"pattern":"^Failed to disable (\\d+) of (\\d+) timer heartbeats\\. First error: (.+)$","flags":"","replace":"Не удалось отключить $1 из $2 пробуждений по таймеру. Первая ошибка: $3"},
 
-  {"pattern":"^Message (.+) — describe what you want done…$","flags":"","replace":"Напишите $1 — опишите, что нужно сделать…"},
   {"pattern":"^Plan with (.+) — shapes the plan doc, no code changes…$","flags":"","replace":"План с $1 — формирует документ плана, без правок кода…"},
   {"pattern":"^Ask (.+) a question — read-only, nothing runs…$","flags":"","replace":"Вопрос $1 — только чтение, ничего не запускается…"},
 

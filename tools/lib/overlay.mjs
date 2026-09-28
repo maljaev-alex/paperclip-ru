@@ -203,7 +203,7 @@ function overlaySource() {
   var EDITOR_ROLE = /^(textbox|searchbox)$/;
 
   function activitySummary(el) {
-    return el.matches('span.shrink-0.truncate') && el.classList.contains('max-w-1/2') && el.querySelector('span.text-muted-foreground');
+    return el.matches('span.shrink-0.truncate[title]') && el.classList.contains('max-w-1/2');
   }
 
   function userTextElement(el) {
@@ -211,6 +211,7 @@ function overlaySource() {
     if (el.closest('svg,[role="img"],.sr-only,[data-slot="badge"]')) return false;
     if (el.closest('[translate="no"], [data-testid="issue-detail-header"] h2, [data-testid="task-chat-composer-assignee"]')) return true;
     if (el.matches('span.inline-flex[title]') && el.querySelector('[data-slot="avatar"]') && el.querySelector('.truncate')) return true;
+    if (activitySummary(el)) return false;
     // Official issue rows/cards render the user title separately from status
     // controls. Do not translate a title merely because it equals a UI label.
     if (el.matches('.line-clamp-2.text-sm') || (el.matches('.truncate[title]') && !activitySummary(el))) return true;
@@ -219,11 +220,12 @@ function overlaySource() {
     if (el.matches('[role="menuitem"] .truncate[class*="organization-popover-name-line-height"]')) return true;
     var link = el.closest('a[href]');
     var entity = /^\/[^/]+\/(?:issues|agents|projects|goals|routines|cases|chats)\/(?!all(?:\/|$)|new(?:\/|$))[^/?#]+(?:\/|$)/;
+    var entityName = /^\/[^/]+\/(?:(?:issues|chats|goals|routines|cases)\/[^/?#]+|agents\/[^/?#]+(?:\/(?:dashboard|overview))?|projects\/[^/?#]+(?:\/issues)?)(?:\/)?(?:[?#].*)?$/;
     var nameLeaf = el.matches('.truncate:not(.text-muted-foreground), h3') || (el.matches('.font-medium') && !el.matches('.inline-flex'));
     // The streamlined shell puts the entity name directly in its breadcrumb
     // link; navigation labels are separate links without the truncate class.
-    if (link === el && entity.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
-    if (link && el !== link && entity.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
+    if (link === el && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
+    if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
     if (entity.test(current)) {
       if (/^H[12]$/.test(el.tagName) && /(?:text-2xl|text-3xl)/.test(el.className || '')) return true;
