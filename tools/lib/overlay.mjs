@@ -202,18 +202,27 @@ function overlaySource() {
   var CODE_CLASS = /(^|\s|_)(cm-|shiki|hljs|token|language-|code-block|prism|paperclip-markdown|paperclip-mdxeditor-content|prose|ProseMirror|mdxeditor|mdx-editor|lexical|editor-input|monaco-editor|ace_|w-md-editor|contentEditable)/;
   var EDITOR_ROLE = /^(textbox|searchbox)$/;
 
+  function activitySummary(el) {
+    return el.matches('span.shrink-0.truncate') && el.classList.contains('max-w-1/2') && el.querySelector('span.text-muted-foreground');
+  }
+
   function userTextElement(el) {
     if (!el || el.nodeType !== 1) return false;
     if (el.closest('svg,[role="img"],.sr-only,[data-slot="badge"]')) return false;
     if (el.closest('[translate="no"], [data-testid="issue-detail-header"] h2, [data-testid="task-chat-composer-assignee"]')) return true;
+    if (el.matches('span.inline-flex[title]') && el.querySelector('[data-slot="avatar"]') && el.querySelector('.truncate')) return true;
     // Official issue rows/cards render the user title separately from status
     // controls. Do not translate a title merely because it equals a UI label.
-    if (el.matches('.line-clamp-2.text-sm, .truncate[title]')) return true;
+    if (el.matches('.line-clamp-2.text-sm') || (el.matches('.truncate[title]') && !activitySummary(el))) return true;
     // Company switcher entries pair the user name with the company prefix.
     if (el.matches('[role="menuitem"] > .truncate') && el.nextElementSibling && el.nextElementSibling.matches('.font-mono')) return true;
+    if (el.matches('[role="menuitem"] .truncate[class*="organization-popover-name-line-height"]')) return true;
     var link = el.closest('a[href]');
-    var entity = /^\/[^/]+\/(?:issues|agents|projects|goals|routines|cases)\/(?!all(?:\/|$)|new(?:\/|$))[^/?#]+(?:\/|$)/;
-    var nameLeaf = el.matches('.truncate, h3') || (el.matches('.font-medium') && !el.matches('.inline-flex'));
+    var entity = /^\/[^/]+\/(?:issues|agents|projects|goals|routines|cases|chats)\/(?!all(?:\/|$)|new(?:\/|$))[^/?#]+(?:\/|$)/;
+    var nameLeaf = el.matches('.truncate:not(.text-muted-foreground), h3') || (el.matches('.font-medium') && !el.matches('.inline-flex'));
+    // The streamlined shell puts the entity name directly in its breadcrumb
+    // link; navigation labels are separate links without the truncate class.
+    if (link === el && entity.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
     if (entity.test(current)) {
@@ -256,6 +265,8 @@ function overlaySource() {
     if (!node) return true;
     var el = node.nodeType === 1 ? node : node.parentElement;
     if (!el) return true;
+    // Copy/wrap controls belong to the renderer, even inside protected prose.
+    if (el.closest('button.paperclip-markdown-codeblock-action')) return true;
     if (userTextElement(el)) return false;
     if (isPlaceholderChrome(el) || (el.parentElement && isPlaceholderChrome(el.parentElement))) return true;
     for (var i = 0; el; i++, el = el.parentElement) {
@@ -370,7 +381,7 @@ function overlaySource() {
   }
 
   function attributeAllowed(el, name) {
-    if (name === "title" && el.matches('.truncate')) return false;
+    if (name === "title" && el.matches('.truncate') && !activitySummary(el)) return false;
     if ((el.tagName === "INPUT" || el.tagName === "TEXTAREA") && /^(placeholder|aria-label|aria-description|aria-placeholder)$/.test(name)) return allowed(el.parentElement);
     return allowed(el);
   }

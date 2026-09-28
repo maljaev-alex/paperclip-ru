@@ -14,9 +14,12 @@ export function officialApi(baseUrl) {
 
 // Call only against a disposable database: all names and content are fictitious.
 export async function prepareOfficialInstance(baseUrl) {
+  const settings = await officialApi(baseUrl)('/instance/settings/experimental');
   await officialApi(baseUrl)('/instance/settings/experimental', 'PATCH', {
     enableApps: true, enablePipelines: true, enableCases: true, enableStatusCards: true,
     enableDecisions: true, enableIsolatedWorkspaces: true, enableGoalsSidebarLink: true,
+    ...(Object.hasOwn(settings, 'enableAgentChat') ? { enableAgentChat: true } : {}),
+    ...(Object.hasOwn(settings, 'enableChatConnectors') ? { enableChatConnectors: true } : {}),
   });
 }
 

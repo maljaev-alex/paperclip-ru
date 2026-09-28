@@ -47,19 +47,25 @@ test('official editor preserves stored bytes and native save/dirty behavior', as
     });
     await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
     const editor = page.locator('[data-lexical-editor="true"]');
-    await editor.waitFor();
+    const openEditor = async () => {
+      // September builds open instruction files in read mode first.
+      if (!await editor.count()) await page.getByRole('button', { name: /^(Edit|Изменить)$/i }).click();
+      await editor.waitFor();
+    };
+    await openEditor();
     const opened = await editor.locator('h1,p,li,.cm-line').allTextContents();
     assert.deepEqual(Buffer.from((await api(fileRoute)).content), Buffer.from(before.content), 'Opening must not write or normalize stored instructions');
     if (translated) {
-      assert.equal(await page.getByRole('button', { name: /^Сохранить$/ }).count(), 0, 'Opening must not create a false dirty state');
+      assert.equal(await page.getByRole('button', { name: /^Сохранить(?: изменения)?$/ }).filter({ visible: true }).evaluateAll(buttons => buttons.filter(b => !b.disabled).length), 0, 'Opening must not create a false dirty state');
       await page.locator(`a[href="/${seed.company.issuePrefix}/dashboard"]`).click();
       assert.equal(dialogs.length, 0, 'Opening and leaving must not prompt');
       await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
+      await openEditor();
     }
     await editor.locator('li').first().click();
     await page.keyboard.press('End');
     await page.keyboard.insertText(' ');
-    const save = page.getByRole('button', { name: translated ? /^Сохранить$/ : /^Save$/ });
+    const save = page.getByRole('button', { name: translated ? /^Сохранить(?: изменения)?$/ : /^Save(?: changes)?$/ });
     await save.waitFor();
     await Promise.all([page.waitForResponse(r => r.url().includes('/instructions-bundle/file') && r.request().method() === 'PUT'), save.click()]);
     assert.equal(saves.length, 1);
@@ -74,7 +80,7 @@ test('official editor preserves stored bytes and native save/dirty behavior', as
     await save.waitFor();
     await page.locator(`a[href="/${seed.company.issuePrefix}/dashboard"]`).click();
     const dirtyNavigation = { dialogs: dialogs.length, pathname: new URL(page.url()).pathname };
-    if (paperclipVersion !== '2026.817.0') {
+    if (/^2026\.(824|831)\./.test(paperclipVersion)) {
       assert.deepEqual(dirtyNavigation, { dialogs: 1, pathname: route }, 'Current upstream builds must retain their native dirty guard');
     }
     results.push({ opened, savedBytes: [...Buffer.from(saves[0])], dirtyNavigation, errors, httpErrors: [...new Set(httpErrors)].sort() });

@@ -1,4 +1,11 @@
 [
+  {"pattern":"^Open Plan revision (\\d+)$","replace":"Открыть редакцию плана $1","scope":"attr"},
+  {"pattern":"^(?:rev|Revision) (\\d+)$","replace":"Редакция $1"},
+  {"pattern":"^Close (.{1,160})$","replace":"Закрыть $1","scope":"attr"},
+  {"pattern":"^Message (.{1,160})…$","replace":"Напишите $1…","scope":"attr"},
+  {"pattern":"^(.{1,160}) navigation$","replace":"$1 — навигация","scope":"attr"},
+  {"pattern":"^(.{1,160}) avatar$","replace":"$1 — аватар","scope":"attr"},
+  {"pattern":"^Board (.{1,160})$","replace":"Совет {tl:1}","scope":"attr"},
   {"pattern":"^(Decisions|Решения), (\\d+) decisions$","replace":"Решения, $2 {plural:2:решение|решения|решений}","scope":"attr"},
   {"pattern":"^General - (.{1,160})$","replace":"Универсальный специалист — $1"},
   {"pattern":"^Blocked · (\\d+) (?:blocker needs|blockers need|блокировка требует|блокировки требуют) attention; (\\d+) covered by active work$","replace":"Заблокировано · $1 {plural:1:блокировка требует|блокировки требуют|блокировок требуют} внимания; в работе: $2"},

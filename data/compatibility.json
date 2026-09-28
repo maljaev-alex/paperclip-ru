@@ -22,6 +22,28 @@
   },
   "releases": [
     {
+      "version": "2026.916.1",
+      "support": "full",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "pending",
+        "browser": "pending"
+      },
+      "notes": "Local candidate only; acceptance tests pending. Do not publish."
+    },
+    {
+      "version": "2026.916.0",
+      "support": "full",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "pending",
+        "browser": "pending"
+      },
+      "notes": "Local candidate only; acceptance tests pending. Do not publish."
+    },
+    {
       "version": "2026.831.1",
       "publishedAt": "2026-09-02T04:45:16.794Z",
       "support": "full",
