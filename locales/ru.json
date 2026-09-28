@@ -379,6 +379,7 @@
   "No user memberships found for this organization yet.": "Для этой организации пока не найдено ни одного участника.",
   "No user secrets are defined for this organization yet. An admin defines which credentials each member supplies.": "Для этой организации пока не заданы пользовательские секреты. Администратор определяет, какие учётные данные предоставляет каждый участник.",
   "Open organization": "Открыть организацию",
+  "Open organization switcher": "Открыть переключатель организаций",
   "Open the organization to view it.": "Откройте организацию, чтобы посмотреть её.",
   "Open the skill from the organization that owns it.": "Откройте навык из организации, которой он принадлежит.",
   "Opening organization...": "Открытие организации...",

@@ -3,13 +3,12 @@
   "toolVersion": "1.0.0",
   "toolNode": ">=20",
   "paperclipNode": ">=24.11.0",
-  "currentStable": "2026.831.1",
+  "currentStable": "2026.916.1",
   "recentStableVersions": [
+    "2026.916.1",
+    "2026.916.0",
     "2026.831.1",
-    "2026.831.0",
-    "2026.824.1",
-    "2026.824.0",
-    "2026.817.0"
+    "2026.831.0"
   ],
   "policy": {
     "recentStableWindowDays": 30,
@@ -17,37 +16,15 @@
     "olderStables": "experimental",
     "canaryAndCommit": "unsupported",
     "registry": "npm:@paperclipai/server",
-    "windowStart": "2026-08-07",
-    "observedOn": "2026-09-06"
+    "windowStart": "2026-08-30",
+    "observedOn": "2026-09-29"
   },
   "releases": [
     {
       "version": "2026.916.1",
+      "publishedAt": "2026-09-21T21:21:23.278Z",
       "support": "full",
-      "verification": {
-        "source": "official-npm-package",
-        "fingerprint": "matched",
-        "lifecycle": "pending",
-        "browser": "pending"
-      },
-      "notes": "Local candidate only; acceptance tests pending. Do not publish."
-    },
-    {
-      "version": "2026.916.0",
-      "support": "full",
-      "verification": {
-        "source": "official-npm-package",
-        "fingerprint": "matched",
-        "lifecycle": "pending",
-        "browser": "pending"
-      },
-      "notes": "Local candidate only; acceptance tests pending. Do not publish."
-    },
-    {
-      "version": "2026.831.1",
-      "publishedAt": "2026-09-02T04:45:16.794Z",
-      "support": "full",
-      "tested": "2026-09-06",
+      "tested": "2026-09-29",
       "verification": {
         "source": "official-npm-package",
         "fingerprint": "matched",
@@ -58,13 +35,47 @@
         ],
         "byteIdenticalRevert": true
       },
-      "notes": "Текущая stable; полный lifecycle и браузерная матрица в обоих режимах."
+      "notes": "Текущая stable; полный lifecycle, 67 браузерных маршрутов и точный откат в обоих режимах."
+    },
+    {
+      "version": "2026.916.0",
+      "publishedAt": "2026-09-16T18:13:30.238Z",
+      "support": "full",
+      "tested": "2026-09-29",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Полный lifecycle, 67 браузерных маршрутов и точный откат в обоих режимах."
+    },
+    {
+      "version": "2026.831.1",
+      "publishedAt": "2026-09-02T04:45:16.794Z",
+      "support": "full",
+      "tested": "2026-09-29",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "Полный lifecycle и браузерная матрица в обоих режимах."
     },
     {
       "version": "2026.831.0",
       "publishedAt": "2026-09-02T00:37:14.048Z",
       "support": "full",
-      "tested": "2026-09-06",
+      "tested": "2026-09-29",
       "verification": {
         "source": "official-npm-package",
         "fingerprint": "matched",

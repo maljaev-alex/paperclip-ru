@@ -31,6 +31,10 @@ CSS classes, storage keys, brands and model names.
 
 See the [compatibility matrix](docs/COMPATIBILITY.md) for exact versions and test scope.
 
+The source on `main` supports Paperclip 2026.916.1 and 2026.916.0.
+The published paperclip-ru v1.0.0 archive does not include this support;
+use the current source checkout for these September versions.
+
 ## Install from GitHub Release
 
 1. Download `paperclip-ru-<version>.zip` or `.tar.gz`, `release-manifest.json` and `SHA256SUMS` from a stable GitHub Release.
