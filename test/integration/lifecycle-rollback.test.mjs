@@ -4,8 +4,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { createTestRoot, makeTempServer, runTool, treeInventory, assertInventoryUnchanged } from "../helpers/copy-fixture.mjs";
 import { buildRelease } from "../../tools/lib/release-builder.mjs";
-import { makeReleaseVariant } from "../helpers/release-variant.mjs";
+import { makeReleaseVariant, NEXT_TOOL_VERSION } from "../helpers/release-variant.mjs";
 import { readOwnershipMarker, writeOwnershipMarker, lifecycleJournalPath, recoverInterruptedLifecycle } from "../../tools/lib/lifecycle.mjs";
+import { TOOL_VERSION } from "../../tools/lib/constants.mjs";
 
 let releases;
 function releasePair() {
@@ -173,23 +174,23 @@ async function installed(t, state = "applied/current") {
   }
   return { root, installDir, tool, server, ui: path.join(server, "ui-dist") };
 }
-function updateArgs(fx, asset = "paperclip-ru-1.0.1.zip") {
-  return ["update", "--json", "--release-version", "1.0.1", "--source-dir", releasePair().next, "--asset", asset, "--install-dir", fx.installDir, "--server-dir", fx.server];
+function updateArgs(fx, asset = `paperclip-ru-${NEXT_TOOL_VERSION}.zip`) {
+  return ["update", "--json", "--release-version", NEXT_TOOL_VERSION, "--source-dir", releasePair().next, "--asset", asset, "--install-dir", fx.installDir, "--server-dir", fx.server];
 }
 
-for (const asset of ["paperclip-ru-1.0.1.zip", "paperclip-ru-1.0.1.tar.gz"]) {
+for (const asset of [`paperclip-ru-${NEXT_TOOL_VERSION}.zip`, `paperclip-ru-${NEXT_TOOL_VERSION}.tar.gz`]) {
   test(`old installed CLI updates to a different tool version from ${asset}`, async (t) => {
     const fx = await installed(t);
     const result = await runTool(updateArgs(fx, asset), { tool: fx.tool });
     const doc = parsed(result);
     assert.equal(result.code, 0, result.stdout + result.stderr);
-    assert.equal(doc.toolVersion, "1.0.1");
-    assert.equal(doc.installedVersion, "1.0.0");
-    assert.equal(doc.selectedVersion, "1.0.1");
-    assert.equal(readOwnershipMarker(fx.installDir).toolVersion, "1.0.1");
+    assert.equal(doc.toolVersion, NEXT_TOOL_VERSION);
+    assert.equal(doc.installedVersion, TOOL_VERSION);
+    assert.equal(doc.selectedVersion, NEXT_TOOL_VERSION);
+    assert.equal(readOwnershipMarker(fx.installDir).toolVersion, NEXT_TOOL_VERSION);
     const verify = await runTool(["verify", "--json", "--server-dir", fx.server], { tool: fx.tool });
     assert.equal(verify.code, 0, verify.stdout);
-    assert.equal(parsed(verify).toolVersion, "1.0.1");
+    assert.equal(parsed(verify).toolVersion, NEXT_TOOL_VERSION);
   });
 }
 
@@ -210,7 +211,7 @@ for (const state of ["applied/current", "installed_not_applied", "applied/stale"
       assert.equal(fs.existsSync(lifecycleJournalPath(fx.installDir)), false);
       const status = await runTool(["status", "--json", "--server-dir", fx.server], { tool: fx.tool });
       assert.equal(parsed(status).stateAfter, state);
-      assert.equal(parsed(status).toolVersion, "1.0.0");
+      assert.equal(parsed(status).toolVersion, TOOL_VERSION);
     });
   }
 }

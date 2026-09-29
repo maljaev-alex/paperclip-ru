@@ -4,12 +4,16 @@ import { extractReleaseArchive } from "../../tools/lib/archive-read.mjs";
 import { writeZipFromDirectory, writeTarGzFromDirectory } from "../../tools/lib/zip-write.mjs";
 import { treeInventory } from "../../tools/lib/tree-snapshot.mjs";
 import { hashFile } from "../../tools/lib/fs-atomic.mjs";
+import { TOOL_VERSION } from "../../tools/lib/constants.mjs";
+
+export const NEXT_TOOL_VERSION = TOOL_VERSION.replace(/\d+$/, patch => String(Number(patch) + 1));
 
 // Synthetic next tool version. The real old/new CLIs and payloads have different
 // bytes, so restoration cannot pass by accidentally leaving the new root active.
-export function makeReleaseVariant(baseDist, destination, version = "1.0.1") {
+export function makeReleaseVariant(baseDist, destination, version = NEXT_TOOL_VERSION) {
   fs.mkdirSync(destination, { recursive: true });
   const old = JSON.parse(fs.readFileSync(path.join(baseDist, "release-manifest.json"), "utf8"));
+  if (version === old.toolVersion) throw new Error("Cross-version fixture must change the tool version");
   const scratch = path.join(destination, "source");
   extractReleaseArchive(path.join(baseDist, `paperclip-ru-${old.toolVersion}.zip`), scratch);
   const root = path.join(scratch, "paperclip-ru");
