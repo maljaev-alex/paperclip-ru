@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { assertInventoryUnchanged, createTestRoot, makeTempServer, runTool, treeHashes, treeInventory } from "../helpers/copy-fixture.mjs";
 import { lifecycleJournalPath, recoverInterruptedLifecycle, writeOwnershipMarker } from "../../tools/lib/lifecycle.mjs";
-import { OVERLAY_FILE } from "../../tools/lib/constants.mjs";
+import { OVERLAY_FILE, TOOL_VERSION } from "../../tools/lib/constants.mjs";
 import { buildRelease } from "../../tools/lib/release-builder.mjs";
 
 function jsonOut(res) {
@@ -582,7 +582,7 @@ test("release bytes детерминированы при SOURCE_DATE_EPOCH", as
     const { sha256 } = await import("../../tools/lib/fs-atomic.mjs");
     buildRelease({ testBuild: true, outDir: a });
     buildRelease({ testBuild: true, outDir: b });
-    for (const name of ["paperclip-ru-1.0.0.zip", "paperclip-ru-1.0.0.tar.gz", "release-manifest.json"]) {
+    for (const name of [`paperclip-ru-${TOOL_VERSION}.zip`, `paperclip-ru-${TOOL_VERSION}.tar.gz`, "release-manifest.json"]) {
       assert.equal(sha256(fs.readFileSync(path.join(a, name))), sha256(fs.readFileSync(path.join(b, name))), name);
     }
   } finally {

@@ -1,6 +1,6 @@
 {
   "schema": "paperclip-ru-compat/v1",
-  "toolVersion": "1.0.0",
+  "toolVersion": "1.0.1",
   "toolNode": ">=20",
   "paperclipNode": ">=24.11.0",
   "currentStable": "2026.916.1",
