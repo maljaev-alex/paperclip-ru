@@ -10,6 +10,15 @@ test("слой ru.json перекрывает bulk", () => {
   assert.equal(dict.exact.get("heartbeat"), "пробуждение");
 });
 
+test("September composite chrome preserves embedded entity names", () => {
+  const { translate } = createTranslator(loadDictionary());
+  assert.equal(translate('Message Settings…'), 'Напишите Settings…');
+  assert.equal(translate('Message Settings — describe what you want done…'), 'Напишите Settings — опишите, что нужно сделать…');
+  assert.equal(translate('Close Dashboard', 'attr'), 'Закрыть Dashboard');
+  assert.equal(translate('Settings navigation', 'attr'), 'Settings — навигация');
+  assert.equal(translate('Открыть план revision 3', 'attr'), 'Открыть редакцию плана 3');
+});
+
 test("описания вариантов «Лимит» в управлении взаимодействиями переведены", () => {
   const dict = loadDictionary();
   const notCreator = "Even a card that asks for Anyone is narrowed to exclude its creator.";

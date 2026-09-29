@@ -7,7 +7,8 @@ import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { seedOfficial } from '../test/helpers/official-seed.mjs';
-import { treeInventory, compareTree } from './lib/tree-snapshot.mjs';
+import { treeInventory } from './lib/tree-snapshot.mjs';
+import { restoreOfficialUi } from './lib/official-gate-cleanup.mjs';
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const databaseUrl = process.env.PAPERCLIP_TEST_DATABASE_URL;
@@ -102,10 +103,8 @@ try {
   }
   fs.closeSync(log);
   if (server && before) {
-    await execute(process.execPath, [activeCli, 'revert', '--json', '--server-dir', server], { label: 'revert' });
-    const check = compareTree(before, path.join(server, 'ui-dist'), { mtimes: false });
-    fs.writeFileSync(path.join(output, 'revert-inventory.json'), JSON.stringify(check));
-    if (!check.ok) throw new Error('Official bundle revert differs from the original inventory');
+    await restoreOfficialUi({ before, uiDist: path.join(server, 'ui-dist'), output,
+      revert: () => execute(process.execPath, [activeCli, 'revert', '--json', '--server-dir', server], { label: 'revert' }) });
   }
   const relative = path.relative(fs.realpathSync(os.tmpdir()), root);
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error('Unsafe gate cleanup path');

@@ -23,6 +23,7 @@
 | `lifecycle.mjs` | Загрузка release, staging, ownership и orchestration lifecycle. |
 | `lint.mjs` | Правила контекстного lint словарей. |
 | `manifest.mjs` | Чтение и строгая валидация manifest/baseline. |
+| `official-gate-cleanup.mjs` | Очистка тестовой official-сборки без потери исходной ошибки; обязательный revert изменённых файлов. |
 | `overlay.mjs` | Генерация браузерного слоя перевода. |
 | `panels.mjs` | Опциональный модуль изменения ширины панелей. |
 | `paths.mjs` | Безопасное обнаружение установленного Paperclip. |

@@ -14,26 +14,33 @@ export function officialApi(baseUrl) {
 
 // Call only against a disposable database: all names and content are fictitious.
 export async function prepareOfficialInstance(baseUrl) {
-  await officialApi(baseUrl)('/instance/settings/experimental', 'PATCH', {
+  const settings = await officialApi(baseUrl)('/instance/settings/experimental');
+  return officialApi(baseUrl)('/instance/settings/experimental', 'PATCH', {
     enableApps: true, enablePipelines: true, enableCases: true, enableStatusCards: true,
     enableDecisions: true, enableIsolatedWorkspaces: true, enableGoalsSidebarLink: true,
+    ...(Object.hasOwn(settings, 'enableAgentChat') ? { enableAgentChat: true } : {}),
+    ...(Object.hasOwn(settings, 'enableChatConnectors') ? { enableChatConnectors: true } : {}),
   });
 }
 
 export async function seedOfficial(baseUrl) {
   const api = officialApi(baseUrl);
-  await prepareOfficialInstance(baseUrl);
+  const settings = await prepareOfficialInstance(baseUrl);
   const company = await api('/companies', 'POST', { name: 'Демонстрация локализации', description: 'Фиктивные данные для проверки релиза', budgetMonthlyCents: 75000 });
   await api(`/companies/${company.id}`, 'PATCH', { requireBoardApprovalForNewAgents: false });
   const agent = await api(`/companies/${company.id}/agents`, 'POST', { name: 'Тестовый исследователь', role: 'general', title: 'Специалист', adapterType: 'codex_local', adapterConfig: {}, runtimeConfig: { heartbeat: { enabled: false } }, instructionsBundle: { entryFile: 'AGENTS.md', files: { 'AGENTS.md': instructionBytes } } });
   await api(`/agents/${agent.id}/pause`, 'POST', {});
+  // Create the task-backed conversation without sending a message or waking
+  // the paused agent. Empty-chat placeholder IDs are not real task resources.
+  const conversation = settings.enableAgentChat
+    ? await api(`/companies/${company.id}/chats/${agent.id}`, 'POST', {}) : null;
   const project = await api(`/companies/${company.id}/projects`, 'POST', { name: 'Проверка релиза', description: 'Фиктивный проект', status: 'in_progress', color: '#5b65d6' });
   const issues = [];
   for (const [i, status] of ['todo', 'in_progress', 'done', 'blocked'].entries()) {
     issues.push(await api(`/companies/${company.id}/issues`, 'POST', { title: ['Проверить обзор', 'Проверить редактор', 'Сверить контрольные суммы', 'Подготовить публикацию'][i], description: 'English user content: Dashboard, Save, Delete.\n\n```json\n{"status":"todo","title":"Dashboard"}\n```', status, priority: 'medium', projectId: project.id, assigneeAgentId: agent.id }));
   }
-  for (const issue of issues) await api(`/issues/${issue.id}/documents/plan`, 'PUT', { title: 'План проверки', format: 'markdown', body: 'Фиктивный план для проверки интерфейса.\n' });
+  for (const issue of [...issues, ...(conversation ? [conversation] : [])]) await api(`/issues/${issue.id}/documents/plan`, 'PUT', { title: 'План проверки', format: 'markdown', body: 'Фиктивный план для проверки интерфейса.\n' });
   const file = await api(`/agents/${agent.id}/instructions-bundle/file?path=AGENTS.md`);
   assert.deepEqual(Buffer.from(file.content), Buffer.from(instructionBytes), 'Seed must preserve every instruction byte');
-  return { company, agent, project, issues };
+  return { company, agent, project, issues, conversation };
 }
