@@ -1,5 +1,5 @@
 export const TOOL_NAME = "paperclip-ru";
-export const TOOL_VERSION = "1.0.1";
+export const TOOL_VERSION = "1.0.2";
 export const MANIFEST_SCHEMA = "paperclip-ru-manifest/v3";
 export const MANIFEST_SCHEMAS_SUPPORTED = Object.freeze([
   "paperclip-ru-manifest/v2",

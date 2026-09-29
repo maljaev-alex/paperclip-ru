@@ -12,16 +12,16 @@ on:
 
 jobs:
   resolve_compatibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     outputs:
       versions: ${{ steps.versions.outputs.versions }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
       - name: Resolve and validate the 30-day stable window
@@ -32,7 +32,7 @@ jobs:
 
   build:
     needs: resolve_compatibility
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     services:
@@ -48,10 +48,10 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
@@ -97,7 +97,7 @@ jobs:
         run: node --input-type=module -e "import {assertSvgAccepted} from './tools/lib/svg-accept.mjs'; await assertSvgAccepted('docs/images');"
       - name: Release provenance is not a test build
         run: node --input-type=module -e "import fs from 'node:fs'; if (JSON.parse(fs.readFileSync('dist/release-manifest.json')).testBuild !== false) process.exit(1);"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-assets
           path: |
@@ -114,7 +114,7 @@ jobs:
       matrix:
         version: ${{ fromJSON(needs.resolve_compatibility.outputs.versions) }}
         panel: [default, enabled]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     services:
@@ -130,10 +130,10 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
@@ -152,7 +152,7 @@ jobs:
           PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}
           PAPERCLIP_TEST_OUTPUT: test-results/release-${{ matrix.version }}-${{ matrix.panel }}
       - if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: compatibility-${{ matrix.version }}-${{ matrix.panel }}
           path: test-results/release-${{ matrix.version }}-${{ matrix.panel }}/
@@ -161,7 +161,7 @@ jobs:
   upload:
     if: startsWith(github.ref, 'refs/tags/v') && (github.event_name != 'workflow_dispatch' || inputs.dry_run == false)
     needs: [build, recent_compatibility]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -177,7 +177,7 @@ jobs:
         run: |
           test "$(find dist -maxdepth 1 -type f | wc -l)" -eq 4
           (cd dist && sha256sum -c SHA256SUMS)
-      - uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+      - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           files: |
             dist/paperclip-ru-${{ env.RELEASE_VERSION }}.zip

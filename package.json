@@ -1,6 +1,6 @@
 {
   "name": "paperclip-ru",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Русская локализация операторского UI официальных npm-сборок Paperclip (неофициальный слой, не форк)",
   "type": "module",
