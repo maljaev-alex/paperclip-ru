@@ -47,18 +47,18 @@ for these September versions.
 Windows PowerShell:
 
 ```powershell
-Get-FileHash .\paperclip-ru-1.0.1.zip -Algorithm SHA256
+Get-FileHash .\paperclip-ru-1.0.2.zip -Algorithm SHA256
 # Compare with the matching line in SHA256SUMS before extraction.
 # Run from the verified bootstrap directory:
-.\scripts\install.ps1 -Version 1.0.1 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
+.\scripts\install.ps1 -Version 1.0.2 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
 ```
 
 POSIX:
 
 ```bash
-grep " paperclip-ru-1.0.1.tar.gz$" SHA256SUMS | sha256sum -c -
+grep " paperclip-ru-1.0.2.tar.gz$" SHA256SUMS | sha256sum -c -
 # Run from the verified bootstrap directory:
-./scripts/install.sh --version 1.0.1 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
+./scripts/install.sh --version 1.0.2 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
 ```
 
 The default installation is `%LOCALAPPDATA%\paperclip-ru` on Windows and

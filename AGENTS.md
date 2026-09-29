@@ -120,7 +120,7 @@ ZIP и tar.gz имеют одинаковый корень `paperclip-ru/`. По
 ### Windows PowerShell
 
 ```powershell
-$ver = "1.0.1"
+$ver = "1.0.2"
 $asset = "paperclip-ru-$ver.zip"
 # $distDir — каталог с ZIP, SHA256SUMS и release-manifest.json
 $pattern = "^([a-fA-F0-9]{64})\s+$([regex]::Escape($asset))$"
@@ -138,7 +138,7 @@ root команда `<dest>\tools\paperclip-ru.mjs` (без второго `pape
 ### POSIX
 
 ```bash
-ver=1.0.1
+ver=1.0.2
 asset="paperclip-ru-${ver}.tar.gz"
 # $dist_dir — каталог с tar.gz, SHA256SUMS и release-manifest.json
 grep " ${asset}$" "$dist_dir/SHA256SUMS" | (cd "$dist_dir" && sha256sum -c -)
@@ -228,7 +228,7 @@ Postconditions: новый baseline для новой версии; `applied/cur
 ### Windows PowerShell
 
 ```powershell
-.\scripts\update.ps1 -Version 1.0.1 -NonInteractive -Json -SourceDir $distDir -InstallDir $dest -ServerDir "<SERVER>"
+.\scripts\update.ps1 -Version 1.0.2 -NonInteractive -Json -SourceDir $distDir -InstallDir $dest -ServerDir "<SERVER>"
 ```
 
 `$distDir` — каталог с `paperclip-ru-<version>.zip` (или `.tar.gz`), `SHA256SUMS` и `release-manifest.json`. Распакованный каталог без checksum receipt отклонён.
@@ -236,7 +236,7 @@ Postconditions: новый baseline для новой версии; `applied/cur
 ### POSIX
 
 ```bash
-./scripts/update.sh --version 1.0.1 --non-interactive --json --source-dir "$dist_dir" --install-dir "$dest" --server-dir "<SERVER>"
+./scripts/update.sh --version 1.0.2 --non-interactive --json --source-dir "$dist_dir" --install-dir "$dest" --server-dir "<SERVER>"
 ```
 
 При неуспехе lifecycle автоматически восстанавливает полный snapshot инструмента

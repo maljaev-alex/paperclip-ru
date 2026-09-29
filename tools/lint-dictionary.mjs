@@ -7,6 +7,8 @@
  * Usage: node tools/lint-dictionary.mjs [--fix] [--report <path>] [--json]
  */
 import { lintDictionary, applySafeFixes } from "./lib/lint.mjs";
+import fs from "node:fs";
+import { applyLintBaseline } from "./lib/lint-baseline.mjs";
 
 const argv = process.argv.slice(2);
 const fix = argv.includes("--fix");
@@ -19,18 +21,23 @@ if (reportIdx >= 0 && (!reportPath || reportPath.startsWith("-"))) {
   process.exit(2);
 }
 
-const result = lintDictionary();
+const baselineFile = new URL("../data/lint-warning-baseline.json", import.meta.url);
+const result = applyLintBaseline(lintDictionary(), JSON.parse(fs.readFileSync(baselineFile, "utf8")));
 if (json) {
-  console.log(JSON.stringify({ counts: result.counts, issues: result.issues }, null, 2));
+  console.log(JSON.stringify(result, null, 2));
 } else {
   console.log(`error: ${result.counts.error}`);
   console.log(`warning: ${result.counts.warning}`);
   console.log(`info: ${result.counts.info}`);
+  console.log(`accepted baseline findings: ${result.counts.accepted} (exact matches; see --json)`);
   console.log(`Всего записей: ${result.counts.entries}`);
   for (const item of result.issues.error.slice(0, 20)) {
     console.log(`  E ${item.code}: ${item.message}`);
   }
   if (result.issues.error.length > 20) console.log(`  ... и ещё ${result.issues.error.length - 20} ошибок`);
+  for (const item of result.issues.warning.slice(0, 20)) {
+    console.log(`  W ${item.code}: ${item.en}: ${item.message}`);
+  }
 }
 
 if (reportPath) {
@@ -46,20 +53,8 @@ if (fix) {
   if (!json) console.log(`Исправлено автоматически: ${n}`);
 }
 
-const baselineFile = new URL("../data/lint-warning-baseline.json", import.meta.url);
-const baseline = JSON.parse((await import("node:fs")).readFileSync(baselineFile, "utf8"));
-const byCode = {};
-for (const item of result.issues.warning) {
-  byCode[item.code] = (byCode[item.code] || 0) + 1;
-}
-const baselineDrift = [];
-for (const [code, n] of Object.entries(byCode)) {
-  const allowed = baseline.byCode?.[code];
-  if (allowed == null) baselineDrift.push(`новый warning ${code} (${n})`);
-  else if (n > allowed) baselineDrift.push(`${code}: ${n} > baseline ${allowed}`);
-}
-if (baselineDrift.length) {
-  console.error(`lint warning baseline нарушен: ${baselineDrift.join("; ")}`);
+if (result.counts.warning > 0) {
+  console.error("Unaccepted dictionary diagnostics; review the exact entries before changing the baseline.");
   process.exitCode = 1;
 }
 if (result.counts.error > 0) process.exitCode = 1;

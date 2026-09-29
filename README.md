@@ -59,7 +59,7 @@ placeholders, aria-текст, системные сообщения UI, наз�
 2. Проверьте checksum (см. ниже).
 3. Распакуйте архив во временный bootstrap-каталог отдельно от конечной установки.
 4. В распакованном `paperclip-ru/` выполните `npm ci --omit=dev` по lockfile.
-5. Запустите `scripts/install.ps1 -Version 1.0.1 -SourceDir <distDir> -NonInteractive -Json` (POSIX: `scripts/install.sh --version 1.0.1 --source-dir <distDir> --non-interactive --json`). Скрипт проверит архив, установит инструмент в пользовательский каталог и выполнит doctor/dry-run/apply/verify. Полный сценарий и пути: [`AGENTS.md`](AGENTS.md).
+5. Запустите `scripts/install.ps1 -Version 1.0.2 -SourceDir <distDir> -NonInteractive -Json` (POSIX: `scripts/install.sh --version 1.0.2 --source-dir <distDir> --non-interactive --json`). Скрипт проверит архив, установит инструмент в пользовательский каталог и выполнит doctor/dry-run/apply/verify. Полный сценарий и пути: [`AGENTS.md`](AGENTS.md).
 
 Self-contained artifact в v1 не поставляется. Для офлайн-установки или явного
 выбора заранее проверенных файлов передайте каталог скачанных assets через
@@ -232,12 +232,12 @@ source tree.
 ## Checksum релизного архива
 
 ```powershell
-Get-FileHash .\paperclip-ru-1.0.1.zip -Algorithm SHA256
+Get-FileHash .\paperclip-ru-1.0.2.zip -Algorithm SHA256
 # сравните с строкой в SHA256SUMS
 ```
 
 ```bash
-grep " paperclip-ru-1.0.1.tar.gz$" SHA256SUMS | sha256sum -c -
+grep " paperclip-ru-1.0.2.tar.gz$" SHA256SUMS | sha256sum -c -
 ```
 
 ## Как сообщить о новой английской строке
