@@ -112,15 +112,15 @@ ZIP и tar.gz имеют одинаковый корень `paperclip-ru/`. По
 в install root команда `<dest>/tools/paperclip-ru.mjs` существует без
 дополнительного `package/`. Checksum проверяет **только скачанный** asset.
 
-Сетевая установка без `--source-dir` берёт repository из
-`data/release-config.json` (`maljaev-alex/paperclip-ru`). Пока владелец не
-опубликовал GitHub Release, используйте `--source-dir` с уже проверенным
-локальным артефактом. npm publish не используется.
+Сетевая установка без `--source-dir` выбирает опубликованный stable GitHub Release
+из repository в `data/release-config.json` (`maljaev-alex/paperclip-ru`).
+Для локального кандидата используйте `--source-dir` с уже проверенным
+артефактом. npm publish не используется.
 
 ### Windows PowerShell
 
 ```powershell
-$ver = "1.0.0"
+$ver = "1.0.1"
 $asset = "paperclip-ru-$ver.zip"
 # $distDir — каталог с ZIP, SHA256SUMS и release-manifest.json
 $pattern = "^([a-fA-F0-9]{64})\s+$([regex]::Escape($asset))$"
@@ -138,7 +138,7 @@ root команда `<dest>\tools\paperclip-ru.mjs` (без второго `pape
 ### POSIX
 
 ```bash
-ver=1.0.0
+ver=1.0.1
 asset="paperclip-ru-${ver}.tar.gz"
 # $dist_dir — каталог с tar.gz, SHA256SUMS и release-manifest.json
 grep " ${asset}$" "$dist_dir/SHA256SUMS" | (cd "$dist_dir" && sha256sum -c -)

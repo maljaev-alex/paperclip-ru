@@ -1,7 +1,7 @@
 {
   "schema": "paperclip-ru-lint-warning-baseline/v1",
-  "reviewedAt": "2026-09-05",
-  "total": 1634,
+  "reviewedAt": "2026-09-29",
+  "total": 1697,
   "additions": [
     {
       "code": "short-key",
@@ -37,12 +37,327 @@
       "code": "latin",
       "en": "Ticket identifier like PAP-1009.",
       "reason": "The example issue key PAP-1009 is an identifier and stays latin inside the translated sentence."
+    },
+    {
+      "code": "short-key",
+      "en": "Full",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Chats",
+      "reason": "Reviewed official 2026.916 display key (aria-label, children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Runtime",
+      "reason": "Reviewed official 2026.916 display key (label, children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Channels",
+      "reason": "Reviewed official 2026.916 display key (label, children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Discover",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Runner",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " more ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Thought",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Subagent",
+      "reason": "Reviewed official 2026.916 display key (title). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " times",
+      "reason": "Reviewed official 2026.916 display key (text). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Changed ",
+      "reason": "Reviewed official 2026.916 display key (text). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Skip",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Opening",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Merged",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " Details",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Response",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Subtasks",
+      "reason": "Reviewed official 2026.916 display key (aria-label, children, ariaLabel, label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Progress",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " complete",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " tab",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " needs ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " changed ",
+      "reason": "Reviewed official 2026.916 display key (text). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "runtime ",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Mappings",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " ignored",
+      "reason": "Reviewed official 2026.916 display key (detail). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Mapping",
+      "reason": "Reviewed official 2026.916 display key (placeholder). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Visible",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " frames",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "frame ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "seq ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Surface",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Policy",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " avatar",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Manage",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Email ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " risk",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Binding",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Why",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Revise",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Dismiss ",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Steer",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " will ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Personal",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Manage ",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Domain",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Register",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Check ",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": " again",
+      "reason": "Reviewed official 2026.916 display key (aria-label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Test ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Expiry",
+      "reason": "Reviewed official 2026.916 display key (children, label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Page ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Duration",
+      "reason": "Reviewed official 2026.916 display key (label). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Legacy",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "short-key",
+      "en": "Assign ",
+      "reason": "Reviewed official 2026.916 display key (children). Kept in no-static; the DOM overlay protects entity names, editors and code."
+    },
+    {
+      "code": "glossary",
+      "en": "Google must register both the Workspace email used to authorize Paperclip and the Google Cloud project that owns the OAuth client. Registration is limited to those emails and projects; it does not enable unrelated Paperclip customers.",
+      "reason": "Workspace is the Google product name, not an execution directory."
+    },
+    {
+      "code": "glossary",
+      "en": "Search Workspace",
+      "reason": "Workspace is the Google product name."
+    },
+    {
+      "code": "glossary",
+      "en": "The address didn't resolve. Check the spelling, or confirm the server is published on the internet.",
+      "reason": "Resolve means DNS name resolution here, not closing a task."
+    },
+    {
+      "code": "glossary",
+      "en": "Resolved final response decision",
+      "reason": "Resolved describes the final response decision selected by server policy."
+    },
+    {
+      "code": "glossary",
+      "en": "Search Gmail, Drive, Calendar, and Chat through one read-only Google Workspace search tool.",
+      "reason": "Google Workspace is a product name, not an execution workspace."
+    },
+    {
+      "code": "short-key",
+      "en": "Read",
+      "reason": "Official instruction viewer mode or activity verb. no-static preserves protocol values; editor and user content stay protected."
+    },
+    {
+      "code": "short-key",
+      "en": "read",
+      "reason": "Official instruction viewer mode or activity verb. no-static preserves protocol values; editor and user content stay protected."
+    },
+    {
+      "code": "short-key",
+      "en": "Raw",
+      "reason": "Official instruction viewer mode or activity verb. no-static preserves protocol values; editor and user content stay protected."
+    },
+    {
+      "code": "short-key",
+      "en": "raw",
+      "reason": "Official instruction viewer mode or activity verb. no-static preserves protocol values; editor and user content stay protected."
     }
   ],
   "byCode": {
-    "glossary": 85,
+    "glossary": 90,
     "latin": 830,
     "suspicious": 2,
-    "short-key": 717
+    "short-key": 775
   }
 }

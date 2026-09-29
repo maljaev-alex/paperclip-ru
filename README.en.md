@@ -31,6 +31,11 @@ CSS classes, storage keys, brands and model names.
 
 See the [compatibility matrix](docs/COMPATIBILITY.md) for exact versions and test scope.
 
+Support for Paperclip 2026.916.1 and 2026.916.0 is included in paperclip-ru
+**v1.0.1** and later. Install this or a newer
+[stable release](https://github.com/maljaev-alex/paperclip-ru/releases/latest)
+for these September versions.
+
 ## Install from GitHub Release
 
 1. Download `paperclip-ru-<version>.zip` or `.tar.gz`, `release-manifest.json` and `SHA256SUMS` from a stable GitHub Release.
@@ -42,25 +47,25 @@ See the [compatibility matrix](docs/COMPATIBILITY.md) for exact versions and tes
 Windows PowerShell:
 
 ```powershell
-Get-FileHash .\paperclip-ru-1.0.0.zip -Algorithm SHA256
+Get-FileHash .\paperclip-ru-1.0.1.zip -Algorithm SHA256
 # Compare with the matching line in SHA256SUMS before extraction.
 # Run from the verified bootstrap directory:
-.\scripts\install.ps1 -Version 1.0.0 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
+.\scripts\install.ps1 -Version 1.0.1 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
 ```
 
 POSIX:
 
 ```bash
-grep " paperclip-ru-1.0.0.tar.gz$" SHA256SUMS | sha256sum -c -
+grep " paperclip-ru-1.0.1.tar.gz$" SHA256SUMS | sha256sum -c -
 # Run from the verified bootstrap directory:
-./scripts/install.sh --version 1.0.0 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
+./scripts/install.sh --version 1.0.1 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
 ```
 
 The default installation is `%LOCALAPPDATA%\paperclip-ru` on Windows and
 `${XDG_DATA_HOME:-$HOME/.local/share}/paperclip-ru` on POSIX. The final executable
 is `<installDir>/tools/paperclip-ru.mjs`. `--source-dir` points to the directory
-containing the verified archive, manifest and checksums. Before the first public
-release, use the locally built release assets in that directory.
+containing the verified archive, manifest and checksums. Without `--source-dir`,
+the bootstrap selects a published stable release from the configured repository.
 
 The complete unattended lifecycle is documented in [AGENTS.md](AGENTS.md).
 Do not use `curl | sh` or `irm | iex`. This package is not published to npm.

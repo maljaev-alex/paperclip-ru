@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseArgv } from "../../tools/lib/args.mjs";
-import { EXIT } from "../../tools/lib/constants.mjs";
+import { EXIT, TOOL_VERSION } from "../../tools/lib/constants.mjs";
 import { ToolError } from "../../tools/lib/fs-atomic.mjs";
 import { candidateRoots } from "../../tools/lib/paths.mjs";
 import { buildManifest, normalizeManifest } from "../../tools/lib/manifest.mjs";
@@ -118,7 +118,7 @@ test("manifest schema v3", () => {
     overlayHash: hash2,
   });
   assert.equal(m.schema, "paperclip-ru-manifest/v3");
-  assert.equal(m.toolVersion, "1.0.0");
+  assert.equal(m.toolVersion, TOOL_VERSION);
   assert.ok(m.appliedAt);
   const n = normalizeManifest(m);
   assert.equal(n.files["index.html"].baselineHash, hash);

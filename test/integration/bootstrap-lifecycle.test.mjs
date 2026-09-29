@@ -7,6 +7,7 @@ import { createTestRoot, makeTempServer, treeHashes, runTool } from '../helpers/
 import { buildRelease } from '../../tools/lib/release-builder.mjs';
 import { extractReleaseArchive } from '../../tools/lib/archive-read.mjs';
 import { installRuntimeDeps } from '../../tools/lib/lifecycle.mjs';
+import { TOOL_VERSION } from '../../tools/lib/constants.mjs';
 
 const shells = process.platform === 'win32'
   ? [{ name: 'PowerShell 5.1', exe: 'powershell', ext: 'ps1' }, { name: 'PowerShell 7', exe: process.env.PAPERCLIP_TEST_PWSH || 'pwsh', ext: 'ps1' }, { name: 'Git Bash', exe: 'C:/Program Files/Git/bin/bash.exe', ext: 'sh' }]
@@ -16,7 +17,7 @@ for (const shell of shells) test(`${shell.name}: verified archive bootstrap inst
   const root = createTestRoot('bootstrap-lifecycle', t);
   const dist = process.env.PAPERCLIP_RU_DIST_DIR || buildRelease({ testBuild: true, outDir: path.join(root, 'dist') }).dist;
   const bootstrap = path.join(root, 'bootstrap');
-  const asset = `paperclip-ru-1.0.0.${shell.ext === 'ps1' ? 'zip' : 'tar.gz'}`;
+  const asset = `paperclip-ru-${TOOL_VERSION}.${shell.ext === 'ps1' ? 'zip' : 'tar.gz'}`;
   extractReleaseArchive(path.join(dist, asset), bootstrap);
   const tool = path.join(bootstrap, 'paperclip-ru');
   installRuntimeDeps(tool);
@@ -25,7 +26,7 @@ for (const shell of shells) test(`${shell.name}: verified archive bootstrap inst
   const original = treeHashes(server);
   const dest = path.join(root, 'installed');
   const run = (action, dry = false) => new Promise((resolve, reject) => {
-    const values = { 'install-dir': dest, 'server-dir': server, ...(action === 'uninstall' ? {} : { 'source-dir': dist, version: '1.0.0' }) };
+    const values = { 'install-dir': dest, 'server-dir': server, ...(action === 'uninstall' ? {} : { 'source-dir': dist, version: TOOL_VERSION }) };
     const option = value => shell.ext === 'ps1' ? '-' + value.split('-').map(p => p[0].toUpperCase() + p.slice(1)).join('') : '--' + value;
     const args = [option('json'), option('non-interactive'), ...(dry ? [option('dry-run')] : []), ...Object.entries(values).flatMap(([k, v]) => [option(k), v])];
     const file = path.join(tool, 'scripts', `${action}.${shell.ext}`);

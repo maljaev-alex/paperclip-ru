@@ -32,6 +32,15 @@ test('entity names stay intact while adjacent status, activity and accessibility
       <span id="next-run">Next: 07.09.2026, 10:00:00</span>
       <span id="technical-kind">cron</span>
       <span id="revision">Revision 1 · updated 5 сент., 3:16</span>`;
+    document.body.insertAdjacentHTML('beforeend', `
+      <a id="agent-breadcrumb" class="truncate" href="/CMP/agents/settings/overview">Settings</a>
+      <a href="/CMP/agents/settings/channels"><span id="agent-channels" class="truncate">Channels</span></a>
+      <a href="/CMP/agents/settings/overview"><h3 class="truncate">Settings</h3><p id="agent-role-caption" class="text-xs text-muted-foreground truncate">General - Специалист</p></a>
+      <span id="assignee-tooltip" class="inline-flex" title="Settings"><span data-slot="avatar">SE</span><span class="truncate">Settings</span></span>
+      <div role="menuitem"><span class="min-w-0 flex-1"><span id="company-nested" class="block truncate font-medium leading-(--organization-popover-name-line-height)">Dashboard</span><span class="block truncate text-muted-foreground">CMP</span></span></div>
+      <div role="menuitem"><span id="company-action" class="min-w-0 flex-1 truncate">Create organization</span></div>
+      <a href="/CMP/issues/CMP-1"><span class="max-w-1/2 shrink-0 truncate" id="activity-tooltip" title="Board created"><span>Board</span> <span class="text-muted-foreground">created</span></span></a>
+      <div class="paperclip-markdown"><pre><code id="sample-code">Save Dashboard</code><button class="paperclip-markdown-codeblock-action" id="code-copy">Copy</button></pre></div>`);
     window.__paperclipRu.resweep();
     const company = document.createElement('span');
     company.id = 'company';
@@ -44,7 +53,13 @@ test('entity names stay intact while adjacent status, activity and accessibility
     action.setAttribute('aria-label', 'Save');
     document.body.appendChild(action);
   });
-  for (const [id, text] of Object.entries({ task: 'Dashboard', agent: 'Settings', 'activity-name': 'Settings' })) assert.equal(await page.locator(`#${id}`).innerText(), text);
+  for (const [id, text] of Object.entries({ task: 'Dashboard', agent: 'Settings', 'activity-name': 'Settings', 'agent-breadcrumb': 'Settings', 'company-nested': 'Dashboard', 'sample-code': 'Save Dashboard' })) assert.equal(await page.locator(`#${id}`).innerText(), text);
+  assert.equal(await page.locator('#company-action').innerText(), 'Создать организацию');
+  assert.equal(await page.locator('#code-copy').innerText(), 'Копировать');
+  assert.equal(await page.locator('#activity-tooltip').getAttribute('title'), 'Совет создал');
+  assert.equal(await page.locator('#agent-role-caption').innerText(), 'Универсальный специалист — Специалист');
+  assert.equal(await page.locator('#assignee-tooltip').getAttribute('title'), 'Settings');
+  assert.equal(await page.locator('#agent-channels').innerText(), 'Каналы');
   for (const id of ['status', 'time', 'role', 'open', 'actor', 'event', 'revision']) assert.doesNotMatch(await page.locator(`#${id}`).innerText(), /[A-Za-z]{2}/, id);
   for (const id of ['blocked', 'change', 'reason', 'decisions']) assert.doesNotMatch(await page.locator(`#${id}`).getAttribute('aria-label'), /[A-Za-z]{2}/, id);
   assert.equal(await page.locator('#decisions').getAttribute('aria-label'), 'Решения, 21 решение');

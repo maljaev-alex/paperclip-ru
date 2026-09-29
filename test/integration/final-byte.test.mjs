@@ -10,6 +10,7 @@ import { extractZipToDirectory } from "../../tools/lib/zip-write.mjs";
 import { readZipEntries } from "../../tools/lib/archive-read.mjs";
 import { PROJECT_ROOT } from "../../tools/lib/dictionary.mjs";
 import { sha256 } from "../../tools/lib/fs-atomic.mjs";
+import { TOOL_VERSION } from "../../tools/lib/constants.mjs";
 
 function jsonOut(res) {
   return JSON.parse(res.stdout.trim().split(/\r?\n/).filter(Boolean).at(-1));
@@ -61,8 +62,8 @@ test("release contains the complete tracked contributor snapshot and no intermed
   const built = buildRelease({ testBuild: true, outDir: dist });
   assert.deepEqual(fs.readdirSync(dist).sort(), publishableAssetNames().sort());
   assert.deepEqual(built.manifest.assets.map((asset) => asset.name).sort(), [
-    "paperclip-ru-1.0.0.tar.gz",
-    "paperclip-ru-1.0.0.zip",
+    `paperclip-ru-${TOOL_VERSION}.tar.gz`,
+    `paperclip-ru-${TOOL_VERSION}.zip`,
   ]);
 
   const entries = readZipEntries(built.zipPath).map((entry) => entry.name);
@@ -100,7 +101,7 @@ test("release contains the complete tracked contributor snapshot and no intermed
   }
 });
 
-for (const asset of ["paperclip-ru-1.0.0.zip", "paperclip-ru-1.0.0.tar.gz"]) {
+for (const asset of [`paperclip-ru-${TOOL_VERSION}.zip`, `paperclip-ru-${TOOL_VERSION}.tar.gz`]) {
   test(`final-byte lifecycle ${asset}`, async (t) => {
     const root = createTestRoot(`final-${asset.includes("zip") ? "zip" : "tar"}`, t);
     const preset = process.env.PAPERCLIP_RU_DIST_DIR;
@@ -110,13 +111,14 @@ for (const asset of ["paperclip-ru-1.0.0.zip", "paperclip-ru-1.0.0.tar.gz"]) {
     }
     const dist = preset && fs.existsSync(preset) ? preset : path.join(root, "dist");
     const built = preset && fs.existsSync(path.join(preset, asset))
-      ? { zipPath: path.join(preset, "paperclip-ru-1.0.0.zip"), tarPath: path.join(preset, "paperclip-ru-1.0.0.tar.gz") }
+      ? { zipPath: path.join(preset, `paperclip-ru-${TOOL_VERSION}.zip`), tarPath: path.join(preset, `paperclip-ru-${TOOL_VERSION}.tar.gz`) }
       : buildRelease({ testBuild: true, outDir: dist });
     assert.ok(fs.existsSync(built.zipPath));
     assert.ok(fs.existsSync(built.tarPath));
     verifyChecksum(dist, asset);
     verifyChecksum(dist, "release-manifest.json");
     const detached = JSON.parse(fs.readFileSync(path.join(dist, "release-manifest.json"), "utf8"));
+    assert.equal(detached.toolVersion, TOOL_VERSION);
     assert.match(detached.artifactManifestSha256, /^[a-f0-9]{64}$/i);
 
     const unpacked = path.join(root, "unpacked");
