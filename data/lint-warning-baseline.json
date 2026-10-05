@@ -9856,6 +9856,648 @@
       "code": "suspicious",
       "en": "You are the CEO. You set the direction for the company.\n\n- hire a founding engineer\n- write a hiring plan\n- break the roadmap into concrete tasks and start delegating work",
       "reason": "Inherited from the published v1.0.1 warning allowance; pinned to this exact translation and diagnostic. This is retained review debt, not a claim that the heuristic is false."
+    },
+    {
+      "id": "f178999baf63f8f66b96462a2c8fbd4cb58476404fd48f4d2e0bb4e7b03ce844",
+      "code": "latin",
+      "en": "Send a POST request with Content-Type: application/json. Keep this URL private when signing is disabled.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "9ff15a7862bcba81be9a33dc50dc8e163b862d30152560302621d130a4890b03",
+      "code": "short-key",
+      "en": "Check",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "1266717878ec8f0a8f17073aa4e86388d9a3771d09750d2803b3981f856b3737",
+      "code": "latin",
+      "en": "Use the tools exposed by your Arcade MCP connection.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "a7e40b411636fd08dd8e4ab403bf51aa2d20a31de50c5d09f487b0e3e00f961f",
+      "code": "latin",
+      "en": "Paste your Arcade MCP URL. Sign in if required, or add a token or headers under Advanced authentication.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "96d0e4623df2c6bd01d4e1dade981f9d490cc12d89e18dca894d6328e0999bc4",
+      "code": "latin",
+      "en": "Connect MCP server",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "470fc207b01f33eb1859c4c8e175d33a13a6e7f6af661785ff4b7653a5faf87a",
+      "code": "latin",
+      "en": "Use the tools exposed by your Executor MCP connection.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "b33ecda49837ab5a17b55ef4f3c0db6cb29394df7efddd1823356659356355b9",
+      "code": "latin",
+      "en": "Paste your Executor MCP URL. Sign in if required, or add a token or headers under Advanced authentication.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "e4dbfa1be9bb095602a96a0fd8913806c8851d8262bf31485f294a3d103bde94",
+      "code": "latin",
+      "en": "Inspect services and logs, deploy applications, and run commands in your Railway containers.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "b92b365c7e1833812f14ecd21bc2bf6bfbe925b3021fb96bd32d4ba5b192af6b",
+      "code": "latin",
+      "en": "Authorize your Railway account in the browser.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "c36234e78fad8cdd04f726d05225175197c8c61a8bb05b181778bc0d655f47a2",
+      "code": "latin",
+      "en": "Sign in to Railway and select the workspaces your agents may use. Paperclip adds direct service, deployment, and bounded log tools when Railway accepts the connection for API access. Container commands require the separate SSH setup on the connection. Project tokens are not supported by Railway's hosted connection.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "0cb09ecce7dbfddf7d30ea0262352559804b291272ed74feec12d74928c06b25",
+      "code": "latin",
+      "en": "Connect Railway",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "27cdb30be392b5b61867380954fefcf240ebfd5fa77f57ba839874715bb8d919",
+      "code": "latin",
+      "en": "Railway enforces the workspaces selected at consent. Selected actions start Allowed; choose Ask first for operations you want to approve.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "aa2f8be4b719cd4c7f3d26468610dcc66952aeff8e980c86636688290b3f4058",
+      "code": "latin",
+      "en": "The general Railway agent and committing staged changes are unavailable because their internal changes cannot be individually reviewed in Paperclip.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "23444be525a19bc7aa2b71c363f2f37fbd875e1f9992e56c1246c0fabb519a3c",
+      "code": "latin",
+      "en": "Live Railway qualification is pending. If Railway rejects API access, reconnect with the required permissions; Paperclip never falls back to another credential.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "dd6e413c28a90bd1b034e2059fe47abb07bd75614a9974b7f2be3aef74a06b39",
+      "code": "latin",
+      "en": "Sign in to Composio Connect, or paste an externally configured MCP session URL and headers.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "00e74a1d0be3a99d414f45cd04d89be6857de6e97fccccf279c7004f51d65448",
+      "code": "latin",
+      "en": "Connect You.com's provider-hosted MCP server.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "b57c40919ceb4264af0d7c2f5adc2e9341560da577c287e0c80d6ced2a65fa53",
+      "code": "latin",
+      "en": "Connect You.com in the browser. A You.com account for browser sign-in, or a You.com API key from you.com/platform for higher rate limits; a keyless free profile is also available.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "ff860e778ce2946ee9f58caebe1f670411a677b7869f65f1099d3a55b269c376",
+      "code": "latin",
+      "en": "Sign in with You.com",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "36bf9b94bd2e0714c8783bfe4e35267a350447431c44f367962d55665a5f28d7",
+      "code": "latin",
+      "en": "A You.com account for browser sign-in, or a You.com API key from you.com/platform for higher rate limits; a keyless free profile is also available.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "53a8fa9d59cc132016e04e3a5c98e2067769d55a5649ea6de0d6396d78be5ac2",
+      "code": "latin",
+      "en": "Use a customer-created You.com key. A You.com account for browser sign-in, or a You.com API key from you.com/platform for higher rate limits; a keyless free profile is also available.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "a52cf3e1b740adc085e5223079e37892b55ba3b11c0148e3c50de7d1e576852d",
+      "code": "latin",
+      "en": "You.com API key",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "bd00a2115dab4c4a05107d4783c39ea73a103f73202e51f7a30e31fe2f5988a5",
+      "code": "latin",
+      "en": "Paste your You.com API key",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "7cfc008ae0aca61e825408f65f2da57351b9013a15c6d9b012451d2e688b5823",
+      "code": "latin",
+      "en": "Use the keyless free profile. You.com limits the free profile to a reduced read-only tool set.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d0cbdc3bfdc93ebebbc06c0b9a90b539af99e1e62720ffa8c18cf420d57f2b4c",
+      "code": "latin",
+      "en": "The free profile is keyless and exposes a reduced read-only tool set with You.com rate limits.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "80147cb27663d75292f7299789a788c199bce914e4b6630b949cd743681fbd0d",
+      "code": "latin",
+      "en": "Show experimental Zapier, Arcade, Composio Connect, and Executor setup. Existing MCP connections keep running when hidden.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d271be7feb11a1cdee9893fb29d10296d2a04b9732e1c4b3575ba140971769ce",
+      "code": "latin",
+      "en": "This legacy Composio connection is no longer supported. Add a new Composio MCP connection from Connectors, then remove this connection. Existing credentials and permissions are not migrated.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "a4387079bc3f68b3070b5ddd77497456ba000b8518475128111dde414e23cd98",
+      "code": "short-key",
+      "en": "Reviews",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "58cdb9e8d5d379ddf7bd10712d9dcaaf9147d1912b1b4aef709448d2d878bb18",
+      "code": "latin",
+      "en": "Connect Railway for deployments, logs, and container access.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "83f05290c034f720d6e4f43f7039e7be5b46e018b9ec0978513882bcd5ed0356",
+      "code": "short-key",
+      "en": " text",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "e9dab2ca9323122df69e4cb1a2f4070b58e190ffe5d4f6d0a6964b3eb51d9cb1",
+      "code": "latin",
+      "en": "Other apps can’t reach this localhost URL",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "40634e0ea46642f3bfaf880b17c993a638e5c7b57d08fc6bcf25a0ecb78dc640",
+      "code": "latin",
+      "en": "Tailscale Serve is private to your tailnet, even with HTTPS. Apps outside your tailnet need Tailscale Funnel or another public HTTPS address. If Funnel is already enabled for this URL, you can continue.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "006c74ab245ba13378e839f27e6d70a20460edc39e98451a5a1ade1e7c23b9c0",
+      "code": "latin",
+      "en": "This URL uses HTTP. Many apps require HTTPS, and HTTP does not encrypt webhook credentials or payloads.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "50a24305cb3ac47f01c9b7360929bdcfbbf0ae238f3ebebe36aeca62f53eecc2",
+      "code": "latin",
+      "en": "You can continue for local or private-network use. For public senders, use a publicly reachable HTTPS URL.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "1c973a2520a55fee81eebbd0c5f5cb056d077daab56ddc0b701b8b28d7121f63",
+      "code": "short-key",
+      "en": "Repeat",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "4e0b152fe14663122853ec747db291fae908ed9d9143e4c3d1f25260ee55e881",
+      "code": "short-key",
+      "en": "Time",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "1650d9bb7625ca915b3ec1920465aed218ad4ec500daa4038b58e82c6193ff70",
+      "code": "latin",
+      "en": "Open this webhook in your repository settings. Under Recent Deliveries, choose Redeliver on an event.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "03cc5ee1f6f099545977fbb8b54f204ee1ec91c095f781655b8a37ee16e6ceda",
+      "code": "latin",
+      "en": "Check that the webhook is enabled in your sending app and that its URL matches. Scripts must send POST with a JSON body.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "f1657c0b553e88f9c7b9ec770cf7449b73767dd7e981b5d33b814f5ed68b2acd",
+      "code": "short-key",
+      "en": "trigger",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "4b6425977ffa6b8078f056d13cb9068b10f7a5e713e840c20f92c6eb5396d8f0",
+      "code": "short-key",
+      "en": "triggers",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "765acd4e0d593887be9482a0db0b2d2c5721710947cdf554c7ea0645973f0ab9",
+      "code": "short-key",
+      "en": "Manual",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "761ced9fe54f10fb52e2f7732707b3da04df80741a04712e4db14779403b67be",
+      "code": "short-key",
+      "en": "Retired",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "e486ca3a1164f00e61592d62983a7111bf90f4cfecfeb28bc70c86b2cd855ef3",
+      "code": "latin",
+      "en": "Enter a valid MCP URL",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d62af975b17164c296001d35165ebb41a6a95cba62611705eb2502fadf55c5bc",
+      "code": "latin",
+      "en": "Paste the complete server URL, including https:// or http://. A dashboard page is not an MCP endpoint.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "2e90ff976243fb4e61a81b1dc4acea9e042c0c65be37d7395bbc1797eb6cd26f",
+      "code": "latin",
+      "en": "Paste the token only, without the word Bearer. It is kept in the connection’s credentials.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "2daed25514a71b4b4b3ab33979afeccf1400c68e4e99b5ff3e868199d580c852",
+      "code": "short-key",
+      "en": "Headers",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "3d6faefb4981b8403fabe051c6ebbd998bac663f02c745974de042e8ca16f79d",
+      "code": "short-key",
+      "en": "Header ",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "3532645823f550632a66f9880233a2c37eff8520c1648011a06f5982c2e87688",
+      "code": "short-key",
+      "en": " name",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "fd51cb3dd8717f30f22e5672554c17593065b9412b89e9ac56a126a06153bbe5",
+      "code": "short-key",
+      "en": " value",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "efa11a6fa5e3a5d907b80a907925147e966b5bab8012d5f0c82ba5a5a53f0de4",
+      "code": "latin",
+      "en": "Use the apps and actions on your Zapier MCP server.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "1e343049ca2d1089badd9b1d5ac66f999902ec3a13510164c75eda0308650db0",
+      "code": "latin",
+      "en": "Paste the full URL from Zapier",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "6c2f79b4ea2b325ce6f5a362123729a192dfee880665484608c9008f2e2a0b4e",
+      "code": "latin",
+      "en": "The full server URL can contain a secret token. Paste it exactly as Zapier provides it.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d6255d89b1e6ea58ef02285a0cfd9112e68a661208bb73bda9eb58baf1f7dbca",
+      "code": "latin",
+      "en": "For a separate token, use https://mcp.zapier.com/api/v1/connect and choose Bearer token.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "828cdba79da4382673376a4e53a4f5b9b44ec3cef604bd19229ac21e8a3ceadb",
+      "code": "latin",
+      "en": "Use the tools exposed by your Arcade gateway.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "cc756412be19b87727fc5d55ff1aaf88469796397bea98b1f390e2f32025df9c",
+      "code": "latin",
+      "en": "Copy the MCP gateway URL from Arcade. App authorization may be required the first time you use a tool.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "bc73bdceea260f799cfcfbc97d91752375cc50da917eb6beb2e07c5c0a2f0fea",
+      "code": "latin",
+      "en": "For Arcade Headers, use an API key as the bearer token and add the Arcade-User-ID header for the acting user.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "8273d2bfc4b4f617da7e5487b337623c7f5c0ce253276e3c42f466a466b4d550",
+      "code": "latin",
+      "en": "Composio Connect is prefilled. For an externally configured session, replace this with its MCP URL and add its supplied headers under Advanced authentication.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "43a89f0511ea5f60e6f0cf2c70935c76de8c041c1810e20ed5963e258d59c534",
+      "code": "latin",
+      "en": "Run tools through your Executor workspace.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "8e0b590d91536282d357413fb4b594685b2d191a232448030d2257a66477fa63",
+      "code": "latin",
+      "en": "Paste your Executor workspace MCP URL",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "e00fffdfdcd366a263a49db9fb822097afdbd8e9e1ffd1a38e6bab2b47ac9395",
+      "code": "latin",
+      "en": "Use the hosted workspace URL or a self-hosted HTTP endpoint reachable from Paperclip. The server’s endpoint policy also applies.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "699c82da4044bccaa66edc2e8d693c69ee0e6340aced133760d251a58defbf0d",
+      "code": "latin",
+      "en": "Keep any options in the copied URL. If using an API key, use a user key; workspace and organization keys cannot open an MCP session.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "893e80de5ae118678f84ec18c6bdd02d1e018e384a162cf0502a2a2185fe3fad",
+      "code": "latin",
+      "en": "GitHub comments and pull requests can contain malicious instructions. We recommend a low-trust agent with a scoped work boundary and an isolated sandbox runtime.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "aef408fab899753d18837bcef66a13eacca135237845edf890bdf2302188c4ea",
+      "code": "latin",
+      "en": "New pull request",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "fb976c200859e15d399b66f2dd58969ef67cd625f8a7b727e18d5f34f7856964",
+      "code": "short-key",
+      "en": "Reopened",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "a07e43bbc124619a4d7ccd64af8f53134b6b4d2c7d443beef66cd613f1f22520",
+      "code": "short-key",
+      "en": "Mention",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "00b3fb38878bebd6cade26f8590190afd33edd4a3d04e5301e1a7d1bd9069d03",
+      "code": "latin",
+      "en": "Linked members’ PRs and authorized mentions",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "6d5949911c04b393fa17549243f97b5b9ccb2c2852a8f4c029e263d421c643d6",
+      "code": "latin",
+      "en": "Allowed authors’ PRs and authorized mentions",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "05b456d3aa5fbe40e383f6d7c03e62b59a9002217fa21223cab58bc5e543092f",
+      "code": "latin",
+      "en": "Include draft PRs",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "215813a17fa7a9d33f6d10729341ba692a9f427ceb1b04b1de4c071f800eba95",
+      "code": "latin",
+      "en": "One username or glob per line.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "bec20fe188c39041fb87db048488d6279f128d1df5f2c374586893d792f3cf00",
+      "code": "short-key",
+      "en": " prompt",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "32ca5f2056e1409147fda0c23b4c8e7535bef066010c8752b0f1df9296170589",
+      "code": "latin",
+      "en": "Paperclip supplies repository, PR, base and head commits, sender, and prior head as typed context. Saved revisions remain attached to review activity.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "fa0bcaf7ef0649f6e4cb1691dba041b6ea2e015a145b204990486e88b9541e86",
+      "code": "latin",
+      "en": "Paperclip Review check",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "40604119296cfb05b5eecbeed2956e2f6223df68ac933fb42f15500a6aef7190",
+      "code": "latin",
+      "en": "Paperclip computes the result for the exact reviewed commit. Incomplete reviews cannot pass. To require it before merging, select “Paperclip Review” in your GitHub branch protection or ruleset settings and choose this bot’s GitHub App as the expected source. Run a review first so the check appears in GitHub’s selector.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d4f547f4013dcc550e8fc8b1611648abe8a7a1dc4f52a8079bc0bf890b9adc70",
+      "code": "latin",
+      "en": "Accountable for automatic tasks. The PR author and webhook sender remain recorded separately.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "b1eb2de49fa28551cbdcb7a1d4c02ec4e98cb902314afd530c47c9cf2726968b",
+      "code": "latin",
+      "en": "Automatic PR reviews for @",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "fc0fb634c7044afc5d4de2f24fba6004f7e48ec44dd68596c8baca23276d2a7a",
+      "code": "latin",
+      "en": "Adding a member switches access to the selected-member list. Automatic PR reviews start off.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "224e62daaa6316638b51d185a561f3293bde4d6cba6522d1d8a9e3f0a326e072",
+      "code": "short-key",
+      "en": "Sponsor",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "832422ee6ceae3fbda495a66774606149dc872f62084e5a16641f470b0d47e2f",
+      "code": "latin",
+      "en": "Connect GitHub App",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d273f28f947f9e65a70248aa67f1a6e5ada48369aa5b29f7e2b6d69c087c4bd4",
+      "code": "latin",
+      "en": "Install GitHub App",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "7d427265a8a0511cb14e6cce0f6fe62bc96b02dac44fd81f6bb09c1f49687d45",
+      "code": "latin",
+      "en": "A publicly reachable HTTPS address is required before App registration. Configure the instance’s public URL or an explicit webhook ingress URL, then refresh. ",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "316cff8a8f55b4bcbc7ab71c5ff240fdd764b765f42e0cdcf8263778018fe459",
+      "code": "latin",
+      "en": "Create a dedicated GitHub App for",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "f1a03a50657ebb5bbdcbc18556e3d9f67f0da24693eaa7720bde49d975ef58a7",
+      "code": "latin",
+      "en": "Find this in your GitHub App’s settings.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "0e7cdd1ff2f666ecff26f054afcf5dfed854f3b175f88253765623e45d00b151",
+      "code": "latin",
+      "en": "Paste the PEM key. It is vaulted server-side.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "ede3601783eaee9567e8c8728e4fc257a487fd60d31b6d757ddc2a8c9abf8022",
+      "code": "latin",
+      "en": "GitHub App name",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "b06288e0b716c0f21ad7e03e1d8a8126589acd27ab75de80ab2f51b99f81cf5b",
+      "code": "latin",
+      "en": "Contents: read. Issues, Pull requests, Checks: write. Events: issue_comment, pull_request_review_comment, pull_request.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "5bf71d5892618aa006d1064de598dd4fd0e8a1a3e0fa930d1c8113e43fd0a868",
+      "code": "short-key",
+      "en": "Under ",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "3fe816c0a87a2884fca520e4359bc1869d04eb7e6c13aa4dd8ebc225d858eb2d",
+      "code": "short-key",
+      "en": "Give ",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "4f4d5875d9d7f69516d835a64e1d1ce469009499a5e98f49facdd76e952ea938",
+      "code": "short-key",
+      "en": "Link ",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "4883da4cc39a0579eddf6893db28edf02b6f64ab7e5d6cd3b6cb096851948197",
+      "code": "latin",
+      "en": "If the Request URL is missing or different, paste this URL into Event Subscriptions. If verification fails, check that your public HTTPS server is reachable and your Signing Secret is correct.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "c3fe86bdc74981acda4158ee32cdf910f08e3007f1bc1a0c10ff5d31a000df80",
+      "code": "latin",
+      "en": "Public HTTPS URL required",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "d702d59398390280f95e1f54c0c6b33f808659554e2c79d4605566d1a82024ae",
+      "code": "latin",
+      "en": "Slack needs a public HTTPS URL to send messages to Paperclip. Configure one for this instance before creating or connecting your Slack app.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "a20ea1396911ed490f64fa4c4383b5dc7b7ae17709557fd8a73a99709dce8d3b",
+      "code": "latin",
+      "en": "Your Bot User OAuth Token must start with ",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "9f66dda80e71b1af975b50ae6edeac40f2838339a647b7948e93d0c71fcd0e74",
+      "code": "latin",
+      "en": ", NOT an app or bot token. The Signing Secret has no token prefix.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "04873717525913ee2fc2eddca7646ea0482e8407fb66d37ebe2e66fba6935346",
+      "code": "latin",
+      "en": "Uses the same GitHub App, limited to this bot’s enabled repositories and bound tasks. Tool policies still apply.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "9f2374eec0e28fac72c2dad584f9eda7cd6b3101344c3085780f71c13d63423c",
+      "code": "latin",
+      "en": "No reviews yet. Mention the bot on an enabled repository’s PR, or enable automatic review events in Settings.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "3a55b45b2f03f1fe0cd6d2bdaff8cd047be7efab777ddd19c41911bce25fcd58",
+      "code": "short-key",
+      "en": " omitted",
+      "reason": "Reviewed in Paperclip 2026.1001.0 UI context; excluded from static replacement in no-static.json and subject to runtime user-content protection."
+    },
+    {
+      "id": "e87487c9e49615b6df68f0b7848a11a41a3f153e68e27ec9b6da17dc3d83b563",
+      "code": "latin",
+      "en": "Railway operations",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "af70c1b981d63a2d29dd03e0b0ea92112303f85329e509a5ba9528ee7175f235",
+      "code": "latin",
+      "en": "To allow Paperclip direct SSH access to Railway containers, you can optionally generate an SSH key pair. ",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "9ac249e59c6f632e60e72de9a85a5355bb8015f3ee778be396ba281dfe9eeb62",
+      "code": "latin",
+      "en": "Railway SSH documentation",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "09120287268a739fd79d515becf63d1210585c3e8a834b4a0b514025b9cc1dc8",
+      "code": "latin",
+      "en": "Generate SSH key pair",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "31ad6d72a8138a975edac761ee1e45f1accb0b5ce53b5cb79f06436e6ffa251d",
+      "code": "latin",
+      "en": "Register this public key in the Railway account used by this authorization. The private key stays in Paperclip’s vault. ",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "752caac16f2ba047679f3952ae83a71e626800c0c13f1c6986b001a5b79f049d",
+      "code": "latin",
+      "en": "Railway key setup",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "fd02410bc0da367bb47e95a2c57a2a1ae3ca9d4a1ec422bb5d080abdc2a012a0",
+      "code": "latin",
+      "en": "Verified Railway host key",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "47e82f61f96bf7837d8eb4c314e29ed6edf954e60c58912aae90d52a22fa3902",
+      "code": "latin",
+      "en": "Paste the ssh.railway.com line from a known_hosts entry you have independently verified. Paperclip refuses untrusted or changed host keys.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "7a902101ab7fb527472190f19a9920c141ffefe20681a0db4827317f466dd052",
+      "code": "latin",
+      "en": " Removing the key stops new Paperclip connections. Also remove its public key from Railway.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "c9f87d342dc43e75838e5e05488712057eb6b5555522b1c77d1754cafa1e54ee",
+      "code": "latin",
+      "en": "Add Composio MCP connection",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "cd7617bdf52c8c2fb6c4a12a858296c8808510d04f317df88efa46ac18d64f63",
+      "code": "latin",
+      "en": "Connect Zapier, Arcade, Composio Connect, and Executor through their MCP servers.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "3e8ba31ab5d9c8f0c9a3d21431b0a75dae2422f3831e18509e09d93793a0e8e9",
+      "code": "latin",
+      "en": "Turning this off hides setup for these connectors. Existing MCP connections keep running.",
+      "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
     }
   ]
 }

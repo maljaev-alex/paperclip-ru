@@ -19,14 +19,14 @@ test('official operator routes, reloads, responsive layout and composer', async 
   const storedIssue = await officialApi(baseUrl)(`/issues/${seed.issues[0].id}`);
   assert.equal(storedIssue.description, expectedDescription, 'Stored user markdown must remain byte-for-byte unchanged');
   const version = JSON.parse(fs.readFileSync(path.join(serverDir, 'package.json'), 'utf8')).version;
-  const septemberRoutes = ['2026.916.0', '2026.916.1'].includes(version)
+  const chatRoutes = ['2026.916.0', '2026.916.1', '2026.1001.0'].includes(version)
     ? [`/${prefix}/chats/${seed.agent.id}`, `/${prefix}/apps/chat/connect`,
       ...['permissions', 'api-keys', 'revisions'].map(tab => `/${prefix}/agents/${seed.agent.id}/${tab}`)] : [];
   const { matrix } = await generateRouteMatrix({ serverDir, baseUrl, companyPrefix: prefix,
     companyPrefixes: companies.map(c => c.issuePrefix),
     userValues: [seed.company.name, seed.agent.name, seed.project.name, seed.conversation?.title, ...seed.issues.map(i => i.title)].filter(Boolean),
     extraRoutes: [ `/${prefix}/issues?view=board`, `/${prefix}/issues/${seed.issues[0].identifier}`, `/${prefix}/projects/${seed.project.id}`,
-      ...['dashboard','instructions','skills','configuration','secrets','tools','runs','audit','budget'].map(tab => `/${prefix}/agents/${seed.agent.id}/${tab}`), ...septemberRoutes ],
+      ...['dashboard','instructions','skills','configuration','secrets','tools','runs','audit','budget'].map(tab => `/${prefix}/agents/${seed.agent.id}/${tab}`), ...chatRoutes ],
     output: path.join(outputDir, 'route-matrix.json'), screenshotsDir: path.join(outputDir, 'screenshots') });
   const browser = await chromium.launch({ headless: true, channel: 'chromium' });
   try {

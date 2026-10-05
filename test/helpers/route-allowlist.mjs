@@ -1,5 +1,5 @@
 // Exact product names and technical identifiers observed in the official UI.
-// Sentences and unknown human-facing labels always remain audit failures.
+// Operator sentences and unknown human-facing labels remain audit failures.
 const brands = new Set(['Paperclip', 'Codex', 'Claude Code', 'Cursor', 'Cursor Cloud', 'Gemini CLI', 'Grok Build', 'Hermes Gateway', 'Hermes', 'HTTP', 'Kimi Code', 'OpenClaw Gateway', 'OpenCode', 'Pi', 'Smoke Lab', 'JSON', 'Markdown', 'API', 'CLI', 'MCP', 'URL', 'USD', 'UTC', 'GitHub', 'OpenAI', 'Anthropic', 'Google', 'OAuth', 'ACP', 'ACPX', 'Docker', 'Node.js']);
 const ids = new Set(['acpx_local', 'claude_local', 'codex_local', 'cursor', 'cursor_cloud', 'gemini_local', 'grok_local', 'hermes_gateway', 'hermes_local', 'http', 'kimi_local', 'openclaw_gateway', 'opencode_local', 'pi_local']);
 const files = new Set(['AGENTS.md', '.paperclip.yaml', 'COMPANY.md', 'README.md', 'org-chart.png']);
@@ -11,8 +11,12 @@ const integrations = new Set(['Zapier', 'Slack', 'Notion', 'Linear', 'Google She
   'Google Slides', 'Google Workspace Search', 'Google Workspace', 'Grok', 'Hugging Face',
   'Jira', 'Mem0', 'Miro', 'Mixpanel', 'Netlify', 'OpenRouter', 'PagerDuty', 'PostHog',
   'Postman', 'Resend', 'Sentry', 'Shopify', 'Stripe', 'Supabase', 'Todoist', 'Webflow', 'Wix',
-  'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Photon Cloud', 'iMessage Photon', 'Apple Messages', 'Vercel Connect', 'Honeycomb']);
-const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail']);
+  'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Photon Cloud', 'iMessage Photon', 'Apple Messages', 'Vercel Connect', 'Honeycomb',
+  'Railway', 'You.com', 'Arcade', 'Executor', 'Composio Connect']);
+const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail', 'first-task']);
+// This is the shipped skill's description, consumed by agents as content.
+// Preserve its bytes and accept it only in the observed skill-card surfaces.
+const firstTaskDescription = "Guide the user's first Paperclip task when its description invokes /first-task. Interpret the opening answer, clarify their goal, propose a plan or a single task, and wait for approval before hiring agents or executing approved work.";
 const upstreamContentNames = new Set(['Reflection Coach', 'Summarizer', 'Refresh stale summary slots',
   'Review recent agent trajectories for coaching proposals']);
 
@@ -75,6 +79,9 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   if (brands.has(value)) return 'product-or-format-name';
   if (integrations.has(value)) return 'integration-product-name';
   if (upstreamSkills.has(value)) return 'upstream-skill-identifier';
+  if (value === firstTaskDescription && candidate.tag === 'P'
+      && /(?:line-clamp-2|truncate)/.test(candidate.className || '')
+      && /text-muted-foreground/.test(candidate.className || '')) return 'upstream-skill-description';
   if (upstreamContentNames.has(value)) return 'upstream-seeded-content';
   if ([...upstreamContentNames].some((name) => value === `- ${name}`)) return 'upstream-seeded-content';
   if (value === 'Enter') return 'keyboard-key-name';

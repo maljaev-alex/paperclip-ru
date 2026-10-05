@@ -1,4 +1,6 @@
 [
+  {"pattern":"^(\\d+) active webhooks?$","replace":"$1 {plural:1:активный вебхук|активных вебхука|активных вебхуков}"},
+  {"pattern":"^Manage this (.{1,160}) connection\\.$","replace":"Управление подключением $1."},
   {"pattern":"^(?:Open|Открыть) (?:Plan|план) revision (\\d+)$","flags":"i","replace":"Открыть редакцию плана $1","scope":"attr"},
   {"pattern":"^(?:rev|Revision) (\\d+)$","replace":"Редакция $1"},
   {"pattern":"^Close (.{1,160})$","replace":"Закрыть $1","scope":"attr"},
