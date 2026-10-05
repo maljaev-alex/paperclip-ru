@@ -31,6 +31,10 @@ CSS classes, storage keys, brands and model names.
 
 See the [compatibility matrix](docs/COMPATIBILITY.md) for exact versions and test scope.
 
+Paperclip **2026.1001.0** requires **paperclip-ru v1.0.3** or later. This release
+adds Russian UI text for routine webhooks, GitHub review bots, Slack onboarding
+and the new MCP connection setup flows.
+
 Support for Paperclip 2026.916.1 and 2026.916.0 is included in paperclip-ru
 **v1.0.1** and later. Install this or a newer
 [stable release](https://github.com/maljaev-alex/paperclip-ru/releases/latest)
@@ -47,18 +51,18 @@ for these September versions.
 Windows PowerShell:
 
 ```powershell
-Get-FileHash .\paperclip-ru-1.0.2.zip -Algorithm SHA256
+Get-FileHash .\paperclip-ru-1.0.3.zip -Algorithm SHA256
 # Compare with the matching line in SHA256SUMS before extraction.
 # Run from the verified bootstrap directory:
-.\scripts\install.ps1 -Version 1.0.2 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
+.\scripts\install.ps1 -Version 1.0.3 -SourceDir "<distDir>" -NonInteractive -Json -ServerDir "<serverDir>"
 ```
 
 POSIX:
 
 ```bash
-grep " paperclip-ru-1.0.2.tar.gz$" SHA256SUMS | sha256sum -c -
+grep " paperclip-ru-1.0.3.tar.gz$" SHA256SUMS | sha256sum -c -
 # Run from the verified bootstrap directory:
-./scripts/install.sh --version 1.0.2 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
+./scripts/install.sh --version 1.0.3 --source-dir "$dist_dir" --non-interactive --json --server-dir "$server_dir"
 ```
 
 The default installation is `%LOCALAPPDATA%\paperclip-ru` on Windows and

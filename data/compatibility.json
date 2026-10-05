@@ -26,10 +26,15 @@
       "verification": {
         "source": "official-npm-package",
         "fingerprint": "matched",
-        "lifecycle": "pending",
-        "browserModes": []
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
       },
-      "notes": "Candidate under verification; release requires lifecycle and browser acceptance."
+      "notes": "Текущая stable; полный lifecycle, 67 браузерных маршрутов и точный откат в обоих режимах.",
+      "tested": "2026-10-05"
     },
     {
       "version": "2026.916.1",
@@ -46,7 +51,7 @@
         ],
         "byteIdenticalRevert": true
       },
-      "notes": "Текущая stable; полный lifecycle, 67 браузерных маршрутов и точный откат в обоих режимах."
+      "notes": "Полный lifecycle, 67 браузерных маршрутов и точный откат в обоих режимах."
     },
     {
       "version": "2026.916.0",
