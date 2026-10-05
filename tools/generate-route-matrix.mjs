@@ -21,6 +21,17 @@ function localUrl(value) {
   return url.origin;
 }
 
+export async function waitForRouteContent(page, { timeout = 15000, requireRouteTitle = true } = {}) {
+  // networkidle and the overlay can precede router hydration. The bare brand
+  // title belongs to the loading shell; a route title may still be untranslated
+  // here, so the existing language assertion remains an independent check.
+  await page.waitForFunction((needsRouteTitle) => {
+    const title = document.title.trim();
+    return Boolean(window.__paperclipRu && document.body.textContent.trim()
+      && (!needsRouteTitle || (title && title !== 'Paperclip')));
+  }, requireRouteTitle, { timeout });
+}
+
 export async function generateRouteMatrix({ output, serverDir, baseUrl, companyPrefix = "CMP", extraRoutes = [], screenshotsDir, userValues = [], companyPrefixes = [companyPrefix], viewports = [{ width: 1440, height: 900 }, { width: 390, height: 844 }] } = {}) {
   if (serverDir && !baseUrl) throw new Error("Official route coverage requires --base-url of a running Paperclip server");
   if (baseUrl && !serverDir) throw new Error("--base-url requires --server-dir to verify the served bundle");
@@ -156,7 +167,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
       currentRoute = route;
       await page.setViewportSize(viewports[0]);
       await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle", timeout: 45000 });
-      await page.waitForFunction(() => Boolean(window.__paperclipRu && document.body.textContent.trim()));
+      await waitForRouteContent(page, { requireRouteTitle: !synthetic });
       const board = !synthetic && new URL(`${baseUrl}${route}`).searchParams.get('view') === 'board';
       if (board) {
         await page.getByRole('button', { name: 'Доска', exact: true }).click();
@@ -176,6 +187,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
       for (const viewport of viewports) {
         await page.setViewportSize(viewport);
         await page.reload({ waitUntil: 'networkidle' });
+        await waitForRouteContent(page, { requireRouteTitle: !synthetic });
         auditCandidates(await readState(), route, viewport);
         if (board && await page.locator('main [role="button"].cursor-grab').count() === 0) runtimeLeaks.push({ route, reason: 'board-not-rendered', viewport });
         const reload = await page.evaluate(() => ({ lang: document.documentElement.lang, title: document.title, overflow: document.documentElement.scrollWidth - innerWidth, hooks: window.__paperclipRu?.diagnostics.hookFailures }));
