@@ -1,14 +1,13 @@
 {
   "schema": "paperclip-ru-compat/v1",
-  "toolVersion": "1.0.2",
+  "toolVersion": "1.0.3",
   "toolNode": ">=20",
   "paperclipNode": ">=24.11.0",
-  "currentStable": "2026.916.1",
+  "currentStable": "2026.1001.0",
   "recentStableVersions": [
+    "2026.1001.0",
     "2026.916.1",
-    "2026.916.0",
-    "2026.831.1",
-    "2026.831.0"
+    "2026.916.0"
   ],
   "policy": {
     "recentStableWindowDays": 30,
@@ -16,10 +15,22 @@
     "olderStables": "experimental",
     "canaryAndCommit": "unsupported",
     "registry": "npm:@paperclipai/server",
-    "windowStart": "2026-08-30",
-    "observedOn": "2026-09-29"
+    "windowStart": "2026-09-05",
+    "observedOn": "2026-10-05"
   },
   "releases": [
+    {
+      "version": "2026.1001.0",
+      "publishedAt": "2026-10-02T01:52:29.068Z",
+      "support": "full",
+      "verification": {
+        "source": "official-npm-package",
+        "fingerprint": "matched",
+        "lifecycle": "pending",
+        "browserModes": []
+      },
+      "notes": "Candidate under verification; release requires lifecycle and browser acceptance."
+    },
     {
       "version": "2026.916.1",
       "publishedAt": "2026-09-21T21:21:23.278Z",
