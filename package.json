@@ -64,7 +64,7 @@
     "ui"
   ],
   "dependencies": {
-    "acorn": "^8.14.0",
+    "acorn": "^8.19.0",
     "saxes": "6.0.0"
   },
   "devDependencies": {
