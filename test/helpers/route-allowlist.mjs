@@ -53,9 +53,24 @@ const fieldKeyLists = new Set(['status, id, updated']);
 // Latin abbreviations that stay latin in Russian operator text.
 const abbreviations = new Set(['ID']);
 
-export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [] } = {}) {
+export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [], activityActors = [] } = {}) {
   const value = candidate.value;
   if (candidate.context === 'assistant-client-name' && assistantClientNames.includes(value)) return 'seeded-assistant-client-name';
+  if (candidate.context === 'activity-actor-name') {
+    return /^\/[^/]+\/dashboard\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN' && !candidate.attribute
+      && activityActors.some(actor => actor.label === value) ? 'api-activity-actor-name' : null;
+  }
+  if (candidate.context === 'activity-actor-title') {
+    const prefix = `${candidate.actorName} `;
+    if (/^\/[^/]+\/dashboard\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN' && candidate.attribute === 'title'
+        && activityActors.some(actor => actor.label === candidate.actorName) && value.startsWith(prefix)) {
+      const action = value.slice(prefix.length);
+      // Only the name is data. The remaining action must still pass the
+      // language audit, independently of every seeded user/account name.
+      if (/[\u0400-\u04ff]/.test(action) && classifyEnglish({ value: action })) return 'api-activity-actor-with-translated-action';
+    }
+    return null;
+  }
   if (['mcp.connection_authorized', 'mcp.connection_revoked'].includes(value)
       && /^\/[^/]+\/activity\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN'
       && /(?:^|\s)font-mono(?:\s|$)/.test(candidate.className || '')

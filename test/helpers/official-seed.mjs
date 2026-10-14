@@ -4,6 +4,18 @@ import { officialAuthenticated, officialCookieHeader } from './official-auth.mjs
 export const officialAssistantClientName = 'Dashboard';
 
 export const instructionBytes = '# Release QA instructions\r\n\r\n- Keep English content exactly.  \r\n- Preserve Dashboard and Save as model instructions.\r\n\r\n```json\r\n{"status":"in_progress","label":"Dashboard","count":21}\r\n```\r\n\r\n';
+
+export function activityActorsFromMembers(response) {
+  assert.ok(Array.isArray(response?.members), 'QA company members must be returned by the API');
+  return response.members.flatMap(member => {
+    if (member.principalType !== 'user' || member.status !== 'active' || typeof member.principalId !== 'string') return [];
+    // Match the actual profile fields used by buildCompanyUserProfileMap.
+    // An absent API name/email does not invent a known identity for the audit.
+    const label = member.user?.name?.trim() || member.user?.email?.trim();
+    return label ? [{ id: member.principalId, label }] : [];
+  });
+}
+
 export function officialApi(baseUrl) {
   const url = new URL(baseUrl);
   assert.ok(['http:', 'https:'].includes(url.protocol) && ['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname), 'Tests require a local, isolated Paperclip server');
@@ -56,5 +68,9 @@ export async function seedOfficial(baseUrl) {
   for (const issue of [...issues, ...(conversation ? [conversation] : [])]) await api(`/issues/${issue.id}/documents/plan`, 'PUT', { title: 'План проверки', format: 'markdown', body: 'Фиктивный план для проверки интерфейса.\n' });
   const file = await api(`/agents/${agent.id}/instructions-bundle/file?path=AGENTS.md`);
   assert.deepEqual(Buffer.from(file.content), Buffer.from(instructionBytes), 'Seed must preserve every instruction byte');
-  return { company, agent, project, issues, conversation, experimental: settings };
+  const activityActors = activityActorsFromMembers(await api(`/companies/${company.id}/members`));
+  assert.ok(activityActors.length > 0, 'QA activity identities must be confirmed by the company API');
+  if (!officialAuthenticated()) assert.ok(activityActors.some(actor => actor.id === 'local-board'), 'Local QA board identity must exist in the API');
+  activityActors.push({ id: agent.id, label: agent.name });
+  return { company, agent, project, issues, conversation, activityActors, experimental: settings };
 }

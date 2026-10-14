@@ -26,6 +26,7 @@ test('official operator routes, reloads, responsive layout and composer', async 
   const { matrix } = await generateRouteMatrix({ serverDir, baseUrl, companyPrefix: prefix,
     companyPrefixes: companies.map(c => c.issuePrefix),
     userValues: [seed.company.name, seed.agent.name, seed.project.name, seed.conversation?.title, seed.owner?.name, seed.owner?.email, ...seed.issues.map(i => i.title)].filter(Boolean),
+    activityActors: seed.activityActors,
     assistantClientNames: officialAuthenticated() ? [officialAssistantClientName] : [],
     extraRoutes: plan.extraRoutes,
     onRoute: route => process.stderr.write(`Official route: ${route}\n`),

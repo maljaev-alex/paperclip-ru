@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { classifyEnglish } from '../helpers/route-allowlist.mjs';
+import { activityActorsFromMembers } from '../helpers/official-seed.mjs';
 
 test('known connector products and technical terms cannot conceal untranslated operator sentences', () => {
   for (const name of ['Browser Use Cloud', 'Fireflies', 'Neon', 'GitHub Code Review Bot', 'Mem0', 'Zep', 'Supermemory', 'Cognee', 'Honcho']) {
@@ -40,4 +41,40 @@ test('literal URL examples and seeded actor names do not exempt other URLs or En
   assert.ok(classifyEnglish({ value: 'Release QA Owner \u043e\u0442\u043e\u0437\u0432\u0430\u043b \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 MCP', attribute: 'title' }, values));
   assert.equal(classifyEnglish({ value: 'Release QA Owner revoked', attribute: 'title' }, values), null);
   assert.equal(classifyEnglish({ value: 'Release QA Owner read', attribute: 'title' }, values), null);
+});
+
+test('activity identities come from active API profiles without inventing a Board fallback', () => {
+  const member = (principalId, user, extra = {}) => ({ principalId, principalType: 'user', status: 'active', user, ...extra });
+  assert.deepEqual(activityActorsFromMembers({ members: [
+    member('local-board', { name: '  Board  ', email: 'local@paperclip.local' }),
+    member('custom', { name: 'Save', email: 'owner@example.invalid' }),
+    member('email-only', { name: ' ', email: ' qa@example.invalid ' }),
+    member('missing', null), member('inactive', { name: 'Unknown' }, { status: 'archived' }),
+    member('agent', { name: 'Settings' }, { principalType: 'agent' }),
+  ] }), [
+    { id: 'local-board', label: 'Board' }, { id: 'custom', label: 'Save' }, { id: 'email-only', label: 'qa@example.invalid' },
+  ]);
+  assert.deepEqual(activityActorsFromMembers({ members: [member('local-board', null)] }), []);
+  assert.throws(() => activityActorsFromMembers({}), /company members/);
+});
+
+test('API actor names are allowed only in ActivityRow data and translated title prefixes', () => {
+  const options = { activityActors: [{ id: 'local-board', label: 'Board' }, { id: 'custom', label: 'Save' }, { id: 'verb-name', label: 'created' }] };
+  const name = { route: '/CMP/dashboard', tag: 'SPAN', className: '', context: 'activity-actor-name' };
+  const title = { ...name, className: 'max-w-1/2 shrink-0 truncate', context: 'activity-actor-title', attribute: 'title' };
+  for (const actorName of ['Board', 'Save', 'created']) {
+    assert.equal(classifyEnglish({ ...name, value: actorName }, options), 'api-activity-actor-name');
+    for (const action of ['\u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043b', '\u0441\u043e\u0437\u0434\u0430\u043d\u043e', '\u0441\u043e\u0437\u0434\u0430\u043b \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442 \u0434\u043b\u044f \u0437\u0430\u0434\u0430\u0447\u0438']) {
+      assert.equal(classifyEnglish({ ...title, actorName, value: `${actorName} ${action}` }, options), 'api-activity-actor-with-translated-action');
+    }
+    for (const action of ['read', 'created', '\u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043b failed', '\u0441\u043e\u0437\u0434\u0430\u043d\u043e created']) {
+      assert.equal(classifyEnglish({ ...title, actorName, value: `${actorName} ${action}` }, { ...options, userValues: ['created', 'failed'] }), null);
+    }
+  }
+  for (const change of [{ context: undefined }, { route: '/CMP/issues' }, { tag: 'H1' }, { attribute: 'aria-label' }]) {
+    assert.equal(classifyEnglish({ ...name, ...change, value: 'Board' }, options), null);
+  }
+  assert.equal(classifyEnglish({ ...name, value: 'Settings' }, options), null);
+  assert.equal(classifyEnglish({ ...title, actorName: 'Save', value: 'Board \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043b' }, options), null);
+  assert.equal(classifyEnglish({ value: 'Board \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043b', attribute: 'title' }, options), null);
 });
