@@ -6,23 +6,11 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import { seedOfficial } from '../helpers/official-seed.mjs';
 import { officialBrowserOptions } from '../helpers/official-auth.mjs';
-
-async function visibleHandleCount(page) {
-  return page.evaluate(() => [...document.querySelectorAll('.pc-ru-resize-handle')].filter((h) => !h.hidden && h.getBoundingClientRect().height > 40).length);
-}
+import { reachablePanelHandleCount, tryOpenRightPanel as probeRightPanel } from '../helpers/panel-interaction.mjs';
 
 async function tryOpenRightPanel(page) {
   const names = [/^Новая задача$/, /^Новый секрет$/, /^Новый навык$/, /Настроить столбц/, /^Столбцы$/, /^Фильтры$/];
-  for (const name of names) {
-    const loc = page.getByRole('button', { name }).first();
-    if (!(await loc.count()) || !(await loc.isVisible().catch(() => false))) continue;
-    await loc.click({ timeout: 4000 }).catch(() => {});
-    await page.waitForTimeout(450);
-    if (await visibleHandleCount(page) > 0) return true;
-    await page.keyboard.press('Escape').catch(() => {});
-    await page.waitForTimeout(120);
-  }
-  return false;
+  return probeRightPanel(page, names);
 }
 
 /**
@@ -64,7 +52,7 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
     for (const route of routes) {
       await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 45000 });
       await page.waitForFunction(() => Boolean(window.__paperclipRu));
-      if (enabled && (await visibleHandleCount(page)) === 0) await tryOpenRightPanel(page);
+      if (enabled && (await reachablePanelHandleCount(page)) === 0) await tryOpenRightPanel(page);
       const probe = await page.evaluate(() => ({
         panelApi: typeof window.__paperclipRuPanels === 'object' && window.__paperclipRuPanels !== null,
         panels: [...document.querySelectorAll('[data-pc-ru-panel]')].map((p) => p.getAttribute('data-pc-ru-panel')),
@@ -85,6 +73,10 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
 
       if (enabled && probe.handles > 0 && !report.panelReachable) {
         report.panelReachable = true;
+        const handle = page.locator('.pc-ru-resize-handle:not([hidden])').first();
+        const box = await handle.boundingBox();
+        assert.ok(box && box.height > 40, 'The panel handle must have a drag surface');
+        await handle.hover({ position: { x: box.width / 2, y: Math.min(box.height / 2, 200) }, timeout: 4000 });
         const target = await page.evaluate(() => {
           const handle = [...document.querySelectorAll('.pc-ru-resize-handle')].find((h) => !h.hidden && h.getBoundingClientRect().height > 40);
           const kind = handle.getAttribute('data-pc-ru-for');
@@ -92,10 +84,17 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
           const hr = handle.getBoundingClientRect();
           return { kind, x: hr.left + hr.width / 2, y: hr.top + Math.min(hr.height / 2, 200), width: Math.round(panel.getBoundingClientRect().width) };
         });
+        await page.evaluate(() => {
+          window.__qaPanelPointerDown = null;
+          document.addEventListener('pointerdown', event => {
+            window.__qaPanelPointerDown = { handle: event.target.classList.contains('pc-ru-resize-handle'), kind: event.target.getAttribute('data-pc-ru-for') };
+          }, { capture: true, once: true });
+        });
         await page.mouse.move(target.x, target.y);
         await page.mouse.down();
         for (let i = 1; i <= 8; i++) await page.mouse.move(target.x - (160 * i) / 8, target.y);
         const during = await page.evaluate(() => document.body.classList.contains('pc-ru-resizing'));
+        const pointerDown = await page.evaluate(() => window.__qaPanelPointerDown);
         await page.mouse.up();
         await page.waitForTimeout(400);
         const after = await page.evaluate((t) => ({
@@ -104,9 +103,13 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
           resizing: document.body.classList.contains('pc-ru-resizing'),
           userSelect: document.body.style.userSelect,
         }), target);
-        await page.reload({ waitUntil: 'networkidle' });
-        await page.waitForTimeout(600);
+        await page.reload({ waitUntil: 'networkidle', timeout: 45000 });
         if (target.kind === 'sheet' || target.kind === 'drawer') await tryOpenRightPanel(page);
+        else {
+          // networkidle can precede the fixed panel's React commit. Require
+          // its actual, stable hit target before checking the restored width.
+          await page.locator(`.pc-ru-resize-handle[data-pc-ru-for='${target.kind}']:not([hidden])`).first().hover({ timeout: 15000 });
+        }
         const restored = await page.evaluate((t) => {
           const panel = document.querySelector(`[data-pc-ru-panel='${t.kind}']`);
           return {
@@ -115,8 +118,9 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
             stored: localStorage.getItem(`paperclip-ru:panel-width:${t.kind}`),
           };
         }, target);
-        report.drag = { route, kind: target.kind, before: target.width, during, after, restored };
+        report.drag = { route, kind: target.kind, before: target.width, pointerDown, during, after, restored };
 
+        assert.deepEqual(pointerDown, { handle: true, kind: target.kind }, 'The real pointerdown must reach the selected handle');
         assert.ok(during, 'the body must carry the resizing class during a drag');
         assert.ok(after.width > target.width + 40, `a real drag must widen the panel (${target.width} -> ${after.width})`);
         assert.ok(after.stored != null, 'the chosen width must be persisted');

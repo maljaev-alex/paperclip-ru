@@ -70,9 +70,23 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     else assert.ok((await page.locator('main').innerText()).includes('Dashboard'), 'Issue detail user title');
     const issueBreadcrumb = page.locator('[data-slot="breadcrumb-page"] .truncate');
     if (await issueBreadcrumb.count()) assert.ok((await issueBreadcrumb.allTextContents()).every(text => text.trim() === 'Dashboard'), 'Every responsive issue breadcrumb keeps its user title');
-    const composerAssignee = page.locator('[data-testid="task-chat-composer-assignee"] .truncate');
-    if (await composerAssignee.count()) assert.equal(await composerAssignee.innerText(), 'Settings');
-    else assert.ok((await page.locator('main').innerText()).includes('Settings'), 'Issue detail assignee name');
+    const composerPicker = page.locator('[data-testid="task-chat-composer-assignee"]');
+    if (stableAtLeast(version, '2026.1005.0')) await composerPicker.waitFor({ state: 'visible', timeout: 15000 });
+    if (await composerPicker.count()) {
+      const combinedPicker = stableAtLeast(version, '2026.1005.0') && !stableAtLeast(version, '2026.1012.0');
+      // 1005 renders the selected name and the model hint as separate direct
+      // spans; 1012 gives the name its own test ID. Never select by its value.
+      const composerAssignee = composerPicker.locator(stableAtLeast(version, '2026.1012.0')
+        ? '[data-testid="task-chat-composer-assignee-label"]'
+        : combinedPicker ? ':scope > span.max-w-24.truncate' : '.truncate');
+      assert.equal(await composerAssignee.count(), 1, 'Exactly one selected agent name slot');
+      assert.equal(await composerAssignee.innerText(), 'Settings', 'Composer keeps the selected agent name');
+      if (combinedPicker) {
+        const modelHint = composerPicker.locator(':scope > span.min-w-0.truncate.text-muted-foreground');
+        assert.equal(await modelHint.count(), 1, 'Exactly one model hint next to the selected agent');
+        assert.equal(await modelHint.innerText(), 'По настройкам оболочки', 'Composer model hint still translates');
+      }
+    } else assert.ok((await page.locator('main').innerText()).includes('Settings'), 'Issue detail assignee name');
     await page.goto(`${baseUrl}/${prefix}/agents/${seed.agent.id}/dashboard`, { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1,h2').allTextContents()).includes('Settings'), 'Agent heading user name');
     if (new URL(page.url()).pathname.endsWith('/overview')) {

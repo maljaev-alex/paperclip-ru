@@ -46,13 +46,13 @@ test('literal URL examples and seeded actor names do not exempt other URLs or En
 test('activity identities come from active API profiles without inventing a Board fallback', () => {
   const member = (principalId, user, extra = {}) => ({ principalId, principalType: 'user', status: 'active', user, ...extra });
   assert.deepEqual(activityActorsFromMembers({ members: [
-    member('local-board', { name: '  Board  ', email: 'local@paperclip.local' }),
-    member('custom', { name: 'Save', email: 'owner@example.invalid' }),
-    member('email-only', { name: ' ', email: ' qa@example.invalid ' }),
+    member('local-board', { name: '  Board  ', email: 'local\u0040paperclip.local' }),
+    member('custom', { name: 'Save', email: 'owner\u0040example.invalid' }),
+    member('email-only', { name: ' ', email: ' qa\u0040example.invalid ' }),
     member('missing', null), member('inactive', { name: 'Unknown' }, { status: 'archived' }),
     member('agent', { name: 'Settings' }, { principalType: 'agent' }),
   ] }), [
-    { id: 'local-board', label: 'Board' }, { id: 'custom', label: 'Save' }, { id: 'email-only', label: 'qa@example.invalid' },
+    { id: 'local-board', label: 'Board' }, { id: 'custom', label: 'Save' }, { id: 'email-only', label: 'qa\u0040example.invalid' },
   ]);
   assert.deepEqual(activityActorsFromMembers({ members: [member('local-board', null)] }), []);
   assert.throws(() => activityActorsFromMembers({}), /company members/);

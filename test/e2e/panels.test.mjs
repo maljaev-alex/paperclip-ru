@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import { loadDictionary } from "../../tools/lib/dictionary.mjs";
 import { buildOverlay } from "../../tools/lib/overlay.mjs";
+import { inspectPanelHandles, reachablePanelHandleCount, tryOpenRightPanel } from '../helpers/panel-interaction.mjs';
 
 const FIXTURE = `<!doctype html>
 <html lang="en">
@@ -72,7 +73,7 @@ const FIXTURE = `<!doctype html>
 </body>
 </html>`;
 
-async function withBrowser(t, run) {
+async function withBrowser(t, run, { fixture = FIXTURE, waitForPanel = true } = {}) {
   let playwright;
   try {
     playwright = await import("playwright");
@@ -81,7 +82,7 @@ async function withBrowser(t, run) {
   }
   const browser = await playwright.chromium.launch({ headless: true, channel: "chromium" });
   const overlay = buildOverlay(loadDictionary(), { toolVersion: "1.0.0" }, { panelResize: true });
-  const html = FIXTURE.replace("</head>", `<script>${overlay}</script></head>`);
+  const html = fixture.replace("</head>", `<script>${overlay}</script></head>`);
   const serverHttp = http.createServer((req, res) => {
     res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
     res.end(html);
@@ -91,7 +92,7 @@ async function withBrowser(t, run) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
   try {
     await page.goto(`http://127.0.0.1:${port}/`);
-    await page.waitForFunction(() => window.__paperclipRuPanels && window.__paperclipRuPanels.attached().length > 0);
+    await page.waitForFunction((needsPanel) => window.__paperclipRuPanels && (!needsPanel || window.__paperclipRuPanels.attached().length > 0), waitForPanel);
     await run(page);
   } finally {
     await browser.close();
@@ -158,4 +159,46 @@ test("инспектор навыка в 2-колоночной сетке ре�
     assert.ok(nested.width >= 180, `вложенная колонка ${nested.width}`);
     assert.match(nested.grid, /px/);
   });
+});
+
+test('a background handle behind a modal is not a reachable panel', async (t) => {
+  const fixture = `<!doctype html><html><head><style>
+    body { margin: 0; }
+    #layout { display: grid; grid-template-columns: minmax(0,1fr) 18rem; width: 1200px; height: 720px; }
+    #layout > aside { border-left: 1px solid; }
+  </style></head><body><button id="open">Open fixture</button><div id="layout"><main>Content</main></div>
+  <script>
+    document.getElementById('open').onclick = () => {
+      document.body.style.pointerEvents = 'none';
+      const modal = document.createElement('div');
+      modal.id = 'modal'; modal.setAttribute('role', 'dialog');
+      modal.style.cssText = 'position:fixed;inset:0;z-index:50;pointer-events:auto;background:#0008';
+      document.body.append(modal);
+      setTimeout(() => { document.getElementById('layout').append(document.createElement('aside')); }, 80);
+    };
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      const handle = document.querySelector('.pc-ru-resize-handle');
+      const rect = handle.getBoundingClientRect();
+      window.blockedProbe = { pointerEvents: getComputedStyle(handle).pointerEvents,
+        target: document.elementFromPoint(rect.left + rect.width / 2, rect.top + 100).id };
+      document.getElementById('modal').remove(); document.body.style.pointerEvents = '';
+    });
+  </script></body></html>`;
+  await withBrowser(t, async page => {
+    assert.equal(await reachablePanelHandleCount(page), 0);
+    assert.equal(await tryOpenRightPanel(page, [/^Open fixture$/]), true);
+    assert.deepEqual(await page.evaluate(() => window.blockedProbe), { pointerEvents: 'none', target: 'modal' });
+    assert.equal(await page.locator('[role=dialog]').count(), 0);
+    const targets = await page.evaluate(inspectPanelHandles);
+    assert.equal(targets.length, 1);
+    assert.equal(targets[0].reachable, true);
+    const target = targets[0];
+    await page.mouse.move(target.x, target.y);
+    await page.mouse.down();
+    assert.equal(await page.evaluate(() => document.body.classList.contains('pc-ru-resizing')), true);
+    await page.mouse.move(target.x - 100, target.y, { steps: 5 });
+    await page.mouse.up();
+    assert.equal(await page.evaluate(() => localStorage.getItem('paperclip-ru:panel-width:detail')), '388');
+  }, { fixture, waitForPanel: false });
 });
