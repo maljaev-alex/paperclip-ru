@@ -5,6 +5,7 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import { officialApi, seedOfficial } from '../helpers/official-seed.mjs';
 import { verifyInstall } from '../../tools/lib/apply.mjs';
+import { officialBrowserOptions, useOriginalOfficialAssets } from '../helpers/official-auth.mjs';
 
 test('official editor preserves stored bytes and native save/dirty behavior', async (t) => {
   const baseUrl = process.env.PAPERCLIP_TEST_BASE_URL;
@@ -21,14 +22,8 @@ test('official editor preserves stored bytes and native save/dirty behavior', as
   t.after(() => browser.close());
   const results = [];
   for (const translated of [false, true]) {
-    const context = await browser.newContext();
-    if (!translated) await context.route('**/assets/*', async (request) => {
-      const rel = new URL(request.request().url()).pathname.slice(1);
-      if (rel === 'assets/paperclip-ru-overlay.js') return request.fulfill({ contentType: 'text/javascript', body: '' });
-      const original = path.join(serverDir, 'ui-dist', '.paperclip-ru', 'baseline', rel);
-      if (fs.existsSync(original)) return request.fulfill({ path: original, contentType: 'text/javascript' });
-      return request.continue();
-    });
+    const context = await browser.newContext(officialBrowserOptions());
+    if (!translated) await useOriginalOfficialAssets(context, serverDir);
     const page = await context.newPage();
     const errors = [], httpErrors = [], dialogs = [], saves = [];
     page.on('pageerror', e => errors.push(String(e)));

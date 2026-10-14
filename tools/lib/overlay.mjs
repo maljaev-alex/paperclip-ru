@@ -177,15 +177,67 @@ function overlaySource() {
     return out;
   }
 
+  // These three official sentences have a count, modifier, noun and ending
+  // in separate React text nodes. Match their complete, known shape before
+  // agreeing any fragment; never join a heading or inspect nested user data.
+  var COUNT_SENTENCES = [
+    { kind: "sources-warning", parts: [{ sources: ["selected"], key: "\u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439" }, { sources: ["skill has","skills have"], key: "\u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442" }, { sources: ["validation errors and will be skipped."], key: "\u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b." }] },
+    { kind: "sources-new", parts: [{ sources: ["new"], key: "\u043d\u043e\u0432\u044b\u0439" }, { sources: ["skill","skills"], key: "\u043d\u0430\u0432\u044b\u043a" }, { sources: ["available"], key: "\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d" }] },
+    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] }
+  ];
+
+  function countSentencePart(value, part) {
+    var text = value.trim().toLowerCase();
+    if (part.sources.some(function (source) {
+      var mapped = lookup(source);
+      return text === source.toLowerCase() || (mapped !== null && text === mapped.trim().toLowerCase());
+    })) return true;
+    return (PLURALS[part.key] || []).some(function (form) { return text === form.toLowerCase(); });
+  }
+
+  function agreeCountSentence(node, value) {
+    var parent = node.parentElement;
+    if (!parent || !nativeNodeValue) return null;
+    var sourcesRoute = /^\/[^/]+\/skills\/sources(?:\/[^/]+)?\/?$/.test(window.location.pathname);
+    var kind = sourcesRoute && parent.matches('p.text-sm.text-muted-foreground') ? 'sources-warning'
+      : sourcesRoute && parent.matches('a.text-xs.underline') ? 'sources-new'
+      : parent.matches('.execution-blocker-notice p') ? 'saved-messages' : null;
+    if (!kind) return null;
+    var children = Array.prototype.slice.call(parent.childNodes);
+    if (children.some(function (child) { return child.nodeType !== 3 && child.nodeType !== 8; })) return null;
+    var nodes = children.filter(function (child) { return child.nodeType === 3; });
+    if (nodes.length !== 4 || nodes.indexOf(node) === -1) return null;
+    var text = nodes.map(function (child) { return child === node ? value : child.nodeValue; });
+    var count = text[0].trim();
+    if (!/^\d+$/.test(count)) return null;
+    var sentence = COUNT_SENTENCES.find(function (candidate) { return candidate.kind === kind; });
+    if (!sentence || !sentence.parts.every(function (part, index) {
+      return PLURALS[part.key] && countSentencePart(text[index + 1], part);
+    })) return null;
+    var result = value;
+    sentence.parts.forEach(function (part, index) {
+      var target = nodes[index + 1];
+      var current = text[index + 1];
+      var forms = PLURALS[part.key];
+      var next = current.match(/^\s*/)[0] + plural(count, forms[0], forms[1], forms[2]) + current.match(/\s*$/)[0];
+      if (target === node) result = next;
+      else if (target.nodeValue !== next) nativeNodeValue.call(target, next);
+    });
+    return result;
+  }
+
   // "26 files" reaches the DOM as the nodes "26" and " file" + "s": the number
   // and the noun never meet in one string, so the {plural:N:...} rule syntax
   // cannot reach them. Once the noun node sits in the tree its previous sibling
   // holds the count, which is enough to pick the right Russian form.
   function agree(node, value) {
     if (!node || typeof value !== "string") return value;
+    var sentence = agreeCountSentence(node, value);
+    if (sentence !== null) return sentence;
     var forms = PLURALS[value.replace(/^\s+|\s+$/g, "")];
     if (!forms) return value;
     var prev = node.previousSibling;
+    while (prev && prev.nodeType === 8) prev = prev.previousSibling;
     var count = prev && prev.nodeType === 3 ? String(prev.nodeValue).replace(/[\s\u00a0\u202f]/g, "") : "";
     if (!/^\d+$/.test(count)) return value;
     var lead = value.match(/^\s*/)[0];
@@ -204,6 +256,47 @@ function overlaySource() {
 
   function activitySummary(el) {
     return el.matches('span.shrink-0.truncate[title]') && el.classList.contains('max-w-1/2');
+  }
+
+  function mcpConsentRoute() {
+    return /^\/(?:mcp-connect\/[^/]+|mcp-device)\/?$/.test(window.location.pathname);
+  }
+
+  function poolAccountRoute() {
+    return /^\/[^/]+\/apps\/(?:connect|[^/]+\/[^/]+)\/?$/.test(window.location.pathname);
+  }
+
+  function poolOrderList(el) {
+    if (!el || el.tagName !== 'OL') return false;
+    var label = el.getAttribute('aria-label');
+    return label === 'Connection order' || label === translate('Connection order', 'attr');
+  }
+
+  function poolPickerLabel(el) {
+    if (!poolAccountRoute()) return null;
+    var label = el.closest('div.max-h-80.overflow-y-auto > label.flex.cursor-pointer');
+    return label && label.querySelector(':scope > [role="checkbox"][data-slot="checkbox"]')
+      && label.querySelector(':scope > span.min-w-0.flex-1 > span.block.truncate.text-sm.font-medium') ? label : null;
+  }
+
+  function textAfterLabel(node, selector, label) {
+    if (!node || node.nodeType !== 3 || !node.parentElement || !node.parentElement.matches(selector)) return false;
+    var previous = node.previousSibling;
+    while (previous && previous.nodeType === 8) previous = previous.previousSibling;
+    if (!previous || previous.nodeType !== 3) return false;
+    var value = previous.nodeValue.trim();
+    return value === label || value === translate(label).trim();
+  }
+
+  function userTextNode(node) {
+    var current = window.location.pathname;
+    if (/^\/assistant-connections\/?$/.test(current)) {
+      return textAfterLabel(node, '[data-slot="card"] > p.text-sm.text-muted-foreground', 'Organization:');
+    }
+    if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current)) {
+      return textAfterLabel(node, 'section[aria-labelledby="connected-assistants"] > p.text-sm.text-muted-foreground', 'No assistants connected to');
+    }
+    return false;
   }
 
   function userTextElement(el) {
@@ -227,6 +320,23 @@ function overlaySource() {
     if (link === el && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
+    // The official MCP consent/setup surfaces display client and organization
+    // names without the usual entity links. Keep only those exact data leaves
+    // untouched; adjacent headings, permissions and actions still translate.
+    if (mcpConsentRoute()) {
+      if (el.closest('h1 bdi')) return true;
+      if (el.closest('[data-slot="card"]') && el.matches('p.break-words.text-lg.font-semibold, label > span.break-words.font-medium')) return true;
+    }
+    if (/^\/assistant-connections\/?$/.test(current) && el.matches('[data-slot="card"] h2.font-medium')) return true;
+    if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current) && el.matches('div.space-y-1 > p.font-medium, details section > p.text-sm > strong:first-of-type')) return true;
+    if (/^\/[^/]+\/apps\/?$/.test(current) && el.matches('[data-app-slug="assistant-connection"] .border-t > span:not([class])')) return true;
+    if (poolAccountRoute()) {
+      if (poolPickerLabel(el) && el.matches('label > span.min-w-0.flex-1 > span.block.truncate.text-sm.font-medium')) return true;
+      if (poolOrderList(el.closest('ol[aria-label]')) && el.matches('ol > li > div.min-w-0.flex-1 > p.truncate.text-sm.font-medium')) return true;
+      var details = el.closest('details');
+      if (details && details.parentElement && el.matches('details > fieldset > div.space-y-2 > p.text-sm.font-medium')
+          && poolOrderList(details.parentElement.querySelector(':scope > ol[aria-label]'))) return true;
+    }
     if (entity.test(current)) {
       if (/^H[12]$/.test(el.tagName) && /(?:text-2xl|text-3xl)/.test(el.className || '')) return true;
       if (/\/projects\//.test(current) && el.matches('h2.text-xl.cursor-pointer')) return true;
@@ -265,6 +375,7 @@ function overlaySource() {
 
   function allowed(node) {
     if (!node) return true;
+    if (userTextNode(node)) return false;
     var el = node.nodeType === 1 ? node : node.parentElement;
     if (!el) return true;
     // Copy/wrap controls belong to the renderer, even inside protected prose.
@@ -384,6 +495,8 @@ function overlaySource() {
 
   function attributeAllowed(el, name) {
     if (name === "title" && el.matches('.truncate') && !activitySummary(el)) return false;
+    if (name === "aria-label" && mcpConsentRoute() && el.matches('[data-slot="card"] input[type="radio"][name="company"]')) return false;
+    if (name === "aria-label" && el.matches('[role="checkbox"][data-slot="checkbox"]') && poolPickerLabel(el)) return false;
     if ((el.tagName === "INPUT" || el.tagName === "TEXTAREA") && /^(placeholder|aria-label|aria-description|aria-placeholder)$/.test(name)) return allowed(el.parentElement);
     return allowed(el);
   }

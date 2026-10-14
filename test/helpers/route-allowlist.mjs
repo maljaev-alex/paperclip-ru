@@ -52,8 +52,9 @@ const fieldKeyLists = new Set(['status, id, updated']);
 // Latin abbreviations that stay latin in Russian operator text.
 const abbreviations = new Set(['ID']);
 
-export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [] } = {}) {
+export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [] } = {}) {
   const value = candidate.value;
+  if (candidate.context === 'assistant-client-name' && assistantClientNames.includes(value)) return 'seeded-assistant-client-name';
   if (/[\u0400-\u04ff]/.test(value)) {
     // A translated sentence may contain a brand or a filename, but arbitrary
     // English fragments in the same sentence must still fail the audit.
@@ -67,7 +68,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
       // Latin fragments that stay literal inside an otherwise translated
       // sentence: an identifier label, the package manager name and the
       // adapter contract symbol.
-      'ID', 'npm', 'createAdapter', 'default', 'SSH', 'Rust', 'Runner', 'app-server', 'PAP-1009',
+      'ID', 'npm', 'createAdapter', 'default', 'SSH', 'Rust', 'Runner', 'app-server', 'PAP-1009', 'paperclip_connection',
       'Drive', 'Calendar', 'Chat', 'Authorization', 'Pro',
       'Cmd/Ctrl', 'project', 'workspaces-overview', 'project-workspace', 'reflection-coach', 'summarize-status'];
     for (const token of allowed.sort((a, b) => b.length - a.length)) remainder = remainder.split(token).join('');

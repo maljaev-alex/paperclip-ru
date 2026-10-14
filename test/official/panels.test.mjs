@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { seedOfficial } from '../helpers/official-seed.mjs';
+import { officialBrowserOptions } from '../helpers/official-auth.mjs';
 
 async function visibleHandleCount(page) {
   return page.evaluate(() => [...document.querySelectorAll('.pc-ru-resize-handle')].filter((h) => !h.hidden && h.getBoundingClientRect().height > 40).length);
@@ -56,7 +57,7 @@ test('official panel module: opt-in state, real drag when a panel is reachable',
   const browser = await chromium.launch({ headless: true, channel: 'chromium' });
   const report = { enabled, probes: [], drag: null, panelReachable: false };
   try {
-    const page = await browser.newPage({ viewport: { width: 1600, height: 950 } });
+    const page = await browser.newPage({ ...officialBrowserOptions(), viewport: { width: 1600, height: 950 } });
     const pageErrors = [];
     page.on('pageerror', (e) => pageErrors.push(String(e.message)));
 

@@ -6,7 +6,10 @@ import path from 'node:path';
 import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { randomBytes } from 'node:crypto';
 import { seedOfficial } from '../test/helpers/official-seed.mjs';
+import { bootstrapOfficialAuth, officialAuthenticated } from '../test/helpers/official-auth.mjs';
+import { validateOfficialBrowserSuite } from '../test/helpers/official-routes.mjs';
 import { treeInventory } from './lib/tree-snapshot.mjs';
 import { restoreOfficialUi } from './lib/official-gate-cleanup.mjs';
 
@@ -22,6 +25,9 @@ let runtime;
 let server;
 let before;
 let accepted;
+const authenticated = officialAuthenticated();
+const browserSuite = process.env.PAPERCLIP_TEST_SUITE || 'all';
+const previousStorageState = process.env.PAPERCLIP_TEST_STORAGE_STATE;
 let activeCli = path.join(project, 'tools/paperclip-ru.mjs');
 const log = fs.openSync(path.join(output, 'server.log'), 'w');
 const execute = (program, args, { cwd = project, env = process.env, label = 'command' } = {}) => new Promise((resolve, reject) => {
@@ -41,6 +47,7 @@ const execute = (program, args, { cwd = project, env = process.env, label = 'com
 try {
   const version = process.env.PAPERCLIP_TEST_VERSION || JSON.parse(fs.readFileSync(path.join(project, 'data/compatibility.json'))).currentStable;
   if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('Official gate requires an explicit stable version');
+  validateOfficialBrowserSuite({ version, browserSuite, artifact: Boolean(process.env.PAPERCLIP_RU_DIST_DIR) });
   fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify({ private: true, dependencies: { '@paperclipai/server': version } }));
   const npmEnv = { ...process.env };
   // npm run exports project-only configuration such as allow-scripts. The
@@ -79,10 +86,14 @@ try {
   const port = socket.address().port;
   await new Promise(resolve => socket.close(resolve));
   const home = path.join(root, 'home');
-  const runtimeEnv = { ...process.env, PAPERCLIP_HOME: home, PAPERCLIP_CONFIG: path.join(home, 'config.json'), PAPERCLIP_INSTANCE_ID: 'release-qa', DATABASE_URL: databaseUrl,
-    PAPERCLIP_TELEMETRY_DISABLED: '1', PAPERCLIP_MIGRATION_AUTO_APPLY: 'true', HEARTBEAT_SCHEDULER_ENABLED: 'false', HOST: '127.0.0.1', PORT: String(port), SERVE_UI: 'true' };
-  runtime = spawn(process.execPath, [path.join(server, 'dist/index.js')], { cwd: root, env: runtimeEnv, windowsHide: true, stdio: ['ignore', log, log] });
   const baseUrl = `http://127.0.0.1:${port}`;
+  const runtimeEnv = { ...process.env, PAPERCLIP_HOME: home, PAPERCLIP_CONFIG: path.join(home, 'config.json'), PAPERCLIP_INSTANCE_ID: 'release-qa', DATABASE_URL: databaseUrl,
+    PAPERCLIP_TELEMETRY_DISABLED: '1', PAPERCLIP_MIGRATION_AUTO_APPLY: 'true', HEARTBEAT_SCHEDULER_ENABLED: 'false', HOST: '127.0.0.1', PORT: String(port), SERVE_UI: 'true',
+    PAPERCLIP_DEPLOYMENT_MODE: authenticated ? 'authenticated' : 'local_trusted', PAPERCLIP_DEPLOYMENT_EXPOSURE: 'private',
+    PAPERCLIP_PUBLIC_URL: authenticated ? baseUrl : '', PAPERCLIP_AUTH_PUBLIC_BASE_URL: authenticated ? baseUrl : '',
+    PAPERCLIP_AUTH_BASE_URL_MODE: authenticated ? 'explicit' : 'auto', PAPERCLIP_AUTH_DISABLE_SIGN_UP: 'false',
+    ...(authenticated ? { BETTER_AUTH_SECRET: randomBytes(48).toString('base64url'), BETTER_AUTH_TRUSTED_ORIGINS: baseUrl } : {}) };
+  runtime = spawn(process.execPath, [path.join(server, 'dist/index.js')], { cwd: root, env: runtimeEnv, windowsHide: true, stdio: ['ignore', log, log] });
   const deadline = Date.now() + 120000;
   for (;;) {
     if (runtime.exitCode !== null) throw new Error('Official server exited during startup');
@@ -90,12 +101,24 @@ try {
     if (Date.now() > deadline) throw new Error('Official server startup timed out');
     await new Promise(resolve => setTimeout(resolve, 500));
   }
+  delete process.env.PAPERCLIP_TEST_STORAGE_STATE;
+  let owner;
+  if (authenticated) {
+    const storageState = path.join(root, 'qa-owner-session.json');
+    owner = await bootstrapOfficialAuth(baseUrl, storageState);
+    process.env.PAPERCLIP_TEST_STORAGE_STATE = storageState;
+  }
   const seed = await seedOfficial(baseUrl);
+  if (owner) seed.owner = owner;
   const seedFile = path.join(root, 'seed.json');
   fs.writeFileSync(seedFile, JSON.stringify(seed));
-  await execute(process.execPath, [path.join(project, 'tools/run-node-tests.mjs'), 'test/official/*.test.mjs'], { label: 'browser', env: { ...process.env, PAPERCLIP_TEST_BASE_URL: baseUrl, PAPERCLIP_SERVER_DIR: server, PAPERCLIP_TEST_SEED: seedFile, PAPERCLIP_TEST_OUTPUT: output, PAPERCLIP_RU_PANEL_RESIZE: panelResize ? '1' : '' } });
-  accepted = { ok: true, version, output, artifact: Boolean(process.env.PAPERCLIP_RU_DIST_DIR), panelResize, features: appliedManifest.features };
+  await execute(process.execPath, [path.join(project, 'tools/run-node-tests.mjs'), browserSuite === 'all' ? 'test/official/*.test.mjs' : 'test/official/assistant-connection.test.mjs'], { label: 'browser', env: { ...process.env, PAPERCLIP_TEST_BASE_URL: baseUrl, PAPERCLIP_SERVER_DIR: server, PAPERCLIP_TEST_SEED: seedFile, PAPERCLIP_TEST_OUTPUT: output, PAPERCLIP_RU_PANEL_RESIZE: panelResize ? '1' : '' } });
+  accepted = { ok: true, version, output, artifact: Boolean(process.env.PAPERCLIP_RU_DIST_DIR), panelResize, features: appliedManifest.features,
+    deploymentMode: authenticated ? 'authenticated' : 'local_trusted', authenticatedOwner: authenticated, browserSuite,
+    completeBrowserSuite: browserSuite === 'all', coverage: browserSuite === 'all' ? 'complete-official-suite' : 'partial-diagnostic-only' };
 } finally {
+  if (previousStorageState === undefined) delete process.env.PAPERCLIP_TEST_STORAGE_STATE;
+  else process.env.PAPERCLIP_TEST_STORAGE_STATE = previousStorageState;
   if (runtime && runtime.exitCode === null) {
     const stopped = new Promise(resolve => runtime.once('close', resolve));
     runtime.kill();

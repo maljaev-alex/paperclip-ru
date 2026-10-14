@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 import { officialApi, seedOfficial } from '../helpers/official-seed.mjs';
+import { officialBrowserOptions } from '../helpers/official-auth.mjs';
 
 test('official user names equal to dictionary keys stay unchanged', async () => {
   const baseUrl = process.env.PAPERCLIP_TEST_BASE_URL;
@@ -16,7 +17,7 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     await api(`/agents/${seed.agent.id}`, 'PATCH', { name: 'Settings' });
     await api(`/companies/${seed.company.id}`, 'PATCH', { name: 'Dashboard' });
     await api(`/projects/${seed.project.id}`, 'PATCH', { name: 'Settings' });
-    const page = await browser.newPage();
+    const page = await browser.newPage(officialBrowserOptions());
     const prefix = seed.company.issuePrefix;
     await page.goto(`${baseUrl}/${prefix}/issues`, { waitUntil: 'networkidle' });
     assert.ok((await page.locator('.line-clamp-2.text-sm').allTextContents()).includes('Dashboard'), 'Issue list user title');
