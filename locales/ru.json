@@ -280,6 +280,8 @@
   "Could not start the login.": "Не удалось начать вход.",
   "Could not load environment settings to determine which environment to test in. Retry the test.": "Не удалось загрузить настройки окружения, чтобы выбрать, где запускать проверку. Повторите проверку.",
   "Authenticated. The environment has credentials now.": "Аутентификация прошла. В окружении теперь есть учётные данные.",
+  "Authenticated private": "Приватный с аутентификацией",
+  "Authenticated public": "Публичный с аутентификацией",
   "Preparing the login…": "Подготовка входа…",
   "Start the workspace runtime to publish its board.": "Запустите среду выполнения рабочей области, чтобы опубликовать её доску.",
   "Task-level model override — replaces the agent's primary model for this issue.": "Переопределение модели на уровне задачи — заменяет основную модель агента для этой задачи.",

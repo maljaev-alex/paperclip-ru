@@ -13,7 +13,7 @@ import { ToolError, assertInside, atomicWriteFile, copyFileAtomic, ensureDir, ha
 import { findServerPackage, listTargets, workPaths } from "./paths.mjs";
 import { loadDictionary, dictionaryStats } from "./dictionary.mjs";
 import { extractOccurrences, applyDictionary } from "./strings.mjs";
-import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation } from "./overlay.mjs";
+import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, patchActivityActorFallbacks } from "./overlay.mjs";
 import { assessCompatibility, loadCompatibility } from "./compatibility.mjs";
 import { buildManifest, featureList, featuresEqual, inspectManifestFile, liveHash, overlayRel, proveLegacyV2Manifest } from "./manifest.mjs";
 import { classifyFail, classifyState, hasIndexMarker, overlayPathOf } from "./classify.mjs";
@@ -47,13 +47,16 @@ function patchJs(source, dict) {
   const result = applyDictionary(source, occurrences, dict.exact, { skipStatic: dict.noStatic });
   const dirty = patchInstructionDirtyCompare(result.code);
   const overview = patchSkillOverviewNavigation(dirty.code);
+  const byo = patchByoAppSidebar(overview.code);
+  const actors = patchActivityActorFallbacks(byo.code, dict.exact);
   return {
-    code: overview.code,
+    code: actors.code,
     replacements: result.replacements,
     used: result.used,
     skipped: null,
     dirtyPatched: dirty.patched,
     overviewTabPatched: overview.patched,
+    activityActorNamesPatched: actors.patched,
   };
 }
 
@@ -63,6 +66,7 @@ export function planPatch({ server, dict, targets, live, panelResize, stats }) {
   let jsReplacements = 0;
   let dirtyPatched = false;
   let overviewTabPatched = false;
+  let activityActorNamesPatched = false;
 
   for (const rel of targets) {
     if (rel === "index.html") continue;
@@ -71,6 +75,7 @@ export function planPatch({ server, dict, targets, live, panelResize, stats }) {
     jsReplacements += patched.replacements;
     if (patched.dirtyPatched) dirtyPatched = true;
     if (patched.overviewTabPatched) overviewTabPatched = true;
+    if (patched.activityActorNamesPatched) activityActorNamesPatched = true;
     for (const [k, v] of patched.used) usedTotal.set(k, (usedTotal.get(k) || 0) + v);
     planned.push({
       rel,
@@ -85,7 +90,7 @@ export function planPatch({ server, dict, targets, live, panelResize, stats }) {
     });
   }
 
-  const overlay = buildOverlay(dict, { toolVersion: TOOL_VERSION, serverVersion: server.version }, { panelResize });
+  const overlay = buildOverlay(dict, { toolVersion: TOOL_VERSION, serverVersion: server.version, activityActorNamesPatched }, { panelResize });
   const overlayHash = sha256(Buffer.from(overlay));
   const overlayStamp = overlayHash.slice(0, 10);
   const html = patchIndexHtml(live.get("index.html"), overlayStamp);
@@ -322,10 +327,10 @@ function conflictState(classified) {
   return classified.state === STATE.CONFLICT || classified.state === STATE.CONFLICT_PARTIAL;
 }
 
-function liveNeedsSurgicalJsPatches(live) {
+function liveNeedsSurgicalJsPatches(live, dict) {
   for (const [rel, source] of live) {
     if (!rel.endsWith(".js")) continue;
-    const after = patchSkillOverviewNavigation(patchInstructionDirtyCompare(source).code);
+    const after = patchActivityActorFallbacks(patchByoAppSidebar(patchSkillOverviewNavigation(patchInstructionDirtyCompare(source).code).code).code, dict.exact);
     if (after.code !== source) return true;
   }
   return false;
@@ -464,9 +469,12 @@ export function runApply(opts) {
   if (panelResize) warnings.push("Опциональный модуль изменения ширины панелей включён.");
 
   const requestedFeatures = featureList(panelResize);
+  // Derive this source capability from both original and already-patched JS;
+  // the idempotent overlay hash must use the same metadata as planPatch.
+  const activityActorNamesPatched = [...live].some(([rel, source]) => rel.endsWith('.js') && patchActivityActorFallbacks(source, dict.exact).patched);
   const nextOverlay = buildOverlay(
     dict,
-    { toolVersion: TOOL_VERSION, serverVersion: server.version },
+    { toolVersion: TOOL_VERSION, serverVersion: server.version, activityActorNamesPatched },
     { panelResize },
   );
   const nextOverlayHash = sha256(Buffer.from(nextOverlay));
@@ -496,7 +504,7 @@ export function runApply(opts) {
     undeclaredBefore.length === 0 &&
     // A new surgical JS patch (dirty-compare, skill Overview navigation) must
     // still rewrite even when the overlay and dictionary hashes match.
-    !liveNeedsSurgicalJsPatches(live) &&
+    !liveNeedsSurgicalJsPatches(live, dict) &&
     !opts.forceBaseline;
 
   if (undeclaredBefore.length && !alreadyCurrent) {

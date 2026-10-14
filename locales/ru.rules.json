@@ -1,4 +1,10 @@
 [
+  {"pattern":"^mcp connection authorized$","replace":"авторизовал","scope":"text"},
+  {"pattern":"^mcp connection revoked$","replace":"отозвал","scope":"text"},
+  {"pattern":"^mcp_connection$","replace":"подключение MCP","scope":"text"},
+  {"pattern":"^(.{1,160}) mcp connection authorized$","replace":"$1 авторизовал подключение MCP","scope":"attr"},
+  {"pattern":"^(.{1,160}) mcp connection revoked$","replace":"$1 отозвал подключение MCP","scope":"attr"},
+  {"pattern":"^(.{1,160}) read$","replace":"$1 прочитал","scope":"attr"},
   {"pattern":"^Connect (.{1,160})$","replace":"Подключить $1","scope":"attr"},
   {"pattern":"^Add key (.{1,160})$","replace":"Добавить ключ: $1","scope":"attr"},
   {"pattern":"^Move (.{1,160}) up$","replace":"Переместить $1 выше","scope":"attr"},

@@ -12,8 +12,9 @@ const integrations = new Set(['Zapier', 'Slack', 'Notion', 'Linear', 'Google She
   'Jira', 'Mem0', 'Miro', 'Mixpanel', 'Netlify', 'OpenRouter', 'PagerDuty', 'PostHog',
   'Postman', 'Resend', 'Sentry', 'Shopify', 'Stripe', 'Supabase', 'Todoist', 'Webflow', 'Wix',
   'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Photon Cloud', 'iMessage Photon', 'Apple Messages', 'Vercel Connect', 'Honeycomb',
-  'Railway', 'You.com', 'Arcade', 'Executor', 'Composio Connect']);
-const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail', 'first-task']);
+  'Railway', 'You.com', 'Arcade', 'Executor', 'Composio Connect',
+  'Browser Use Cloud', 'Fireflies', 'Neon', 'GitHub Code Review Bot', 'Zep', 'Supermemory', 'Cognee', 'Honcho']);
+const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail', 'first-task', 'slack']);
 // This is the shipped skill's description, consumed by agents as content.
 // Preserve its bytes and accept it only in the observed skill-card surfaces.
 const firstTaskDescription = "Guide the user's first Paperclip task when its description invokes /first-task. Interpret the opening answer, clarify their goal, propose a plan or a single task, and wait for approval before hiring agents or executing approved work.";
@@ -55,6 +56,11 @@ const abbreviations = new Set(['ID']);
 export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [] } = {}) {
   const value = candidate.value;
   if (candidate.context === 'assistant-client-name' && assistantClientNames.includes(value)) return 'seeded-assistant-client-name';
+  if (['mcp.connection_authorized', 'mcp.connection_revoked'].includes(value)
+      && /^\/[^/]+\/activity\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN'
+      && /(?:^|\s)font-mono(?:\s|$)/.test(candidate.className || '')
+      && /(?:^|\s)opacity-70(?:\s|$)/.test(candidate.className || '')
+      && !candidate.attribute) return 'audit-event-code';
   if (/[\u0400-\u04ff]/.test(value)) {
     // A translated sentence may contain a brand or a filename, but arbitrary
     // English fragments in the same sentence must still fail the audit.
@@ -69,9 +75,13 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
       // sentence: an identifier label, the package manager name and the
       // adapter contract symbol.
       'ID', 'npm', 'createAdapter', 'default', 'SSH', 'Rust', 'Runner', 'app-server', 'PAP-1009', 'paperclip_connection',
+      'Postgres', 'SQL', 'LAN', 'VPN', 'HEX', 'slug',
       'Drive', 'Calendar', 'Chat', 'Authorization', 'Pro',
       'Cmd/Ctrl', 'project', 'workspaces-overview', 'project-workspace', 'reflection-coach', 'summarize-status'];
-    for (const token of allowed.sort((a, b) => b.length - a.length)) remainder = remainder.split(token).join('');
+    for (const token of allowed.sort((a, b) => b.length - a.length)) {
+      const escaped = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      remainder = remainder.replace(new RegExp(`(?<![A-Za-z0-9_])${escaped}(?![A-Za-z0-9_])`, 'g'), '');
+    }
     for (const prefix of companyPrefixes) remainder = remainder.replace(new RegExp(`\\b${prefix}(?:-(?:D-)?\\d+)?\\b`, 'g'), '');
     // Hex colour codes are values, not words.
     remainder = remainder.replace(/#[0-9a-fA-F]{3,8}\b/g, '');
@@ -104,7 +114,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   if (fieldKeyLists.has(value)) return 'machine-field-key-list';
   // "Paperclip v" is the brand followed by the version in a sibling node.
   if (value === 'Paperclip v') return 'product-name-and-version';
-  if (candidate.attribute === 'placeholder' && ['claude', 'codex', '/absolute/path/to/AGENTS.md', 'https://github.com/owner/repo/tree/main/company', 'npx -y @acme/mcp-tool', '@paperclipai/plugin-example', 'my-paperclip-adapter'].includes(value)) return 'command-or-path-example';
+  if (candidate.attribute === 'placeholder' && ['claude', 'codex', '/absolute/path/to/AGENTS.md', 'https://github.com/owner/repo/tree/main/company', 'https://example.com/actions', 'npx -y @acme/mcp-tool', '@paperclipai/plugin-example', 'my-paperclip-adapter'].includes(value)) return 'command-or-path-example';
   if (candidate.attribute === 'placeholder' && value === '{\n  "mcpServers": {\n    "github": {\n      "command": "npx -y @modelcontextprotocol/server-github",\n      "env": { "GITHUB_TOKEN": "ghp_..." }\n    }\n  }\n}') return 'literal-mcp-configuration-example';
   if (/^local@paperclip\.local$/.test(value)) return 'built-in-local-account';
   // The avatar tooltip is an account display name. Preserve it just like an

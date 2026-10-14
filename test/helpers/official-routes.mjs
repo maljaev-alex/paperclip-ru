@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-function stableAtLeast(version, minimum) {
+export function stableAtLeast(version, minimum) {
   if (!/^\d+\.\d+\.\d+$/.test(version)) return false;
   const actual = version.split('.').map(Number);
   const required = minimum.split('.').map(Number);

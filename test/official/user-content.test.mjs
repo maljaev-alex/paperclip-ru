@@ -1,13 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 import { chromium } from 'playwright';
 import { officialApi, seedOfficial } from '../helpers/official-seed.mjs';
 import { officialBrowserOptions } from '../helpers/official-auth.mjs';
+import { stableAtLeast } from '../helpers/official-routes.mjs';
 
 test('official user names equal to dictionary keys stay unchanged', async () => {
   const baseUrl = process.env.PAPERCLIP_TEST_BASE_URL;
-  assert.ok(baseUrl, 'An explicit disposable official server is required');
+  const serverDir = process.env.PAPERCLIP_SERVER_DIR;
+  assert.ok(baseUrl && serverDir, 'An explicit disposable official server is required');
+  const version = JSON.parse(fs.readFileSync(path.join(serverDir, 'package.json'), 'utf8')).version;
   const api = officialApi(baseUrl);
   const seed = process.env.PAPERCLIP_TEST_SEED ? JSON.parse(fs.readFileSync(process.env.PAPERCLIP_TEST_SEED)) : await seedOfficial(baseUrl);
   const issue = seed.issues[0];
@@ -20,7 +24,14 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     const page = await browser.newPage(officialBrowserOptions());
     const prefix = seed.company.issuePrefix;
     await page.goto(`${baseUrl}/${prefix}/issues`, { waitUntil: 'networkidle' });
-    assert.ok((await page.locator('.line-clamp-2.text-sm').allTextContents()).includes('Dashboard'), 'Issue list user title');
+    // React can commit the list after networkidle; wait for its title leaves,
+    // then assert their exact values without waiting for a translated string.
+    const issueTitles = page.locator(stableAtLeast(version, '2026.1005.0')
+      ? `[data-issue-row-id="${issue.id}"] .line-clamp-2.text-sm` : '.line-clamp-2.text-sm');
+    await issueTitles.first().waitFor({ state: 'visible', timeout: 15000 });
+    const renderedTitles = await issueTitles.allTextContents();
+    if (stableAtLeast(version, '2026.1005.0')) assert.equal(await issueTitles.first().innerText(), 'Dashboard', 'Specific issue list user title');
+    else assert.ok(renderedTitles.includes('Dashboard'), `Issue list user title: ${JSON.stringify(renderedTitles)}`);
     const sidebarAgents = page.locator(`a[href*="/${prefix}/agents/"] .truncate`);
     if (await sidebarAgents.count()) assert.ok((await sidebarAgents.allTextContents()).includes('Settings'), 'Agent sidebar user name');
     assert.match(await page.locator(`a[href="/${prefix}/dashboard"]`).innerText(), /Обзор/, 'Navigation chrome still translates');

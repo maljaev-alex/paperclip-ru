@@ -11373,7 +11373,7 @@
       "id": "52a660af30b38480ff2e116f54b6a414d9c3f5b0084b98ec119fae6021e3ef2f",
       "code": "short-key",
       "en": "Shared",
-      "reason": "Reviewed ownership label; excluded from static rewriting. Source-shaped pool account name and checkbox guards preserve Shared, Dashboard, Settings and Save while adjacent ownership and actions translate. Independent browser regressions passed on 2026-10-14. Source: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx"
+      "reason": "Reviewed ownership label; excluded from static rewriting. Source-shaped pool, legacy connection choice, reused connection and remote account guards preserve API names in visible text and accessibility labels while adjacent ownership and actions translate. Independent browser regressions passed on 2026-10-14. Sources: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx and legacy connection callers."
     }
   ]
 }

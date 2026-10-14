@@ -102,7 +102,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     const auditCandidates = (state, route, viewport) => {
       const values = [...state.candidates, { value: state.title, attribute: 'document-title' }].filter(c => /[A-Za-z]{2}/.test(c.value));
       for (const candidate of values) {
-        const reason = classifyEnglish(candidate, { companyPrefixes, userValues, assistantClientNames });
+        const reason = classifyEnglish({ ...candidate, route }, { companyPrefixes, userValues, assistantClientNames });
         if (reason) allowedEnglish.push({ route, viewport, ...candidate, reason });
         else runtimeLeaks.push({ route, viewport, reason: 'unclassified-English', ...candidate });
       }
@@ -194,7 +194,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
         // Escape can close a route-backed dialog (for example Sources/new).
         // Each responsive reload must still audit that intended route.
         if (page.url() !== resolvedUrl) await page.goto(resolvedUrl, { waitUntil: 'networkidle', timeout: 45000 });
-        await page.reload({ waitUntil: 'networkidle' });
+        await page.reload({ waitUntil: 'networkidle', timeout: 45000 });
         await waitForRouteContent(page, { requireRouteTitle: !synthetic });
         auditCandidates(await readState(), route, viewport);
         if (board && await page.locator('main [role="button"].cursor-grab').count() === 0) runtimeLeaks.push({ route, reason: 'board-not-rendered', viewport });
