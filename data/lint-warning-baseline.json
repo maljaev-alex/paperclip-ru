@@ -3,12 +3,18 @@
   "sourceVersion": "1.0.1",
   "sourceCommit": "07cc692062c0bd844fcdd69c7113bea2acdc2bce",
   "migratedAt": "2026-09-29",
+  "lastReview": {
+    "toolVersion": "1.0.4",
+    "date": "2026-10-14",
+    "addedExactFindings": 145,
+    "scope": "Source and semantic review of October UI additions; targeted user-data browser regressions. Existing exact records are preserved."
+  },
   "note": "Exact migration of the previously accepted baseline. Raw findings remain available in lint --json; all new or changed diagnostics fail the gate.",
   "byCode": {
-    "glossary": 90,
-    "latin": 774,
+    "glossary": 104,
+    "latin": 951,
     "suspicious": 2,
-    "short-key": 775
+    "short-key": 836
   },
   "accepted": [
     {
@@ -10498,6 +10504,876 @@
       "code": "latin",
       "en": "Turning this off hides setup for these connectors. Existing MCP connections keep running.",
       "reason": "Reviewed for Paperclip 2026.1001.0: preserves literal provider names, protocol identifiers, URLs and external product setting names."
+    },
+    {
+      "id": "a60420c4da4bd12ed10d62a74c8a49d82b7bb59eaf14ad94ad93306e91c47545",
+      "code": "latin",
+      "en": "Honcho workspace",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/HonchoWorkspaceSettings.tsx"
+    },
+    {
+      "id": "804d6668b18f7a7d9463295ae3fb0d9635f5fc41a865575734f97c30670beeed",
+      "code": "short-key",
+      "en": "Sources",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/SkillsContextualSidebar.tsx; ui/src/pages/CompanySkills.production.tsx; ui/src/pages/SkillSources.tsx"
+    },
+    {
+      "id": "e1deff7610b6938e168969eac432724ec22146b859fd3c8b89f8effae83fc7a9",
+      "code": "latin",
+      "en": "CSV could not be loaded. Try again or download the file.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/artifact-card-data.ts"
+    },
+    {
+      "id": "cc59e952a895a0b31d1e01b2f83e263cd97a3578d1081ee9a9b51307e9df5734",
+      "code": "latin",
+      "en": "CSV could not be previewed. Download the file to view it.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/artifact-card-data.ts"
+    },
+    {
+      "id": "881c6f4d4c679ea4a11a29ec6779dccf3702171eb6f1ac3ed681c6670a0be8c6",
+      "code": "short-key",
+      "en": "Invite",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/SidebarAccountMenu.production.tsx; ui/src/components/SidebarAccountMenu.tsx"
+    },
+    {
+      "id": "544035f86891ad15b1b8c455d7a280ee16577b231ffc1886ac51b2632a1a19ce",
+      "code": "short-key",
+      "en": "Line",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/FileViewerSheet.tsx"
+    },
+    {
+      "id": "ff242ab9766bac8c63786584e50c32e13345bfd092eadd3f9f0e85d5b85ca56a",
+      "code": "latin",
+      "en": "New API key",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/ApiKeyCredentialField.tsx; ui/src/pages/apps/chat/EmailEndpointSetup.tsx"
+    },
+    {
+      "id": "ff71420cbc1b505dabe9916c01bc62d3d6ec70af9d205ab79b0e86de2ce44749",
+      "code": "short-key",
+      "en": "Rendered",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-side-panel/TaskAttachmentPanel.tsx"
+    },
+    {
+      "id": "040d60bcb6bd307644aa0208849b01dc3039ac04a4276ab1662a681c2d3ef1e6",
+      "code": "short-key",
+      "en": "Resource",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/apps/app-detail/ActionTestDialog.tsx"
+    },
+    {
+      "id": "990ab70c17a7fce2f51901f0041656f0216516c3627b18a39b6493ada5babe6e",
+      "code": "latin",
+      "en": ". Find Client ID and Client Secret under Basic Information.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/SlackToolSettings.tsx"
+    },
+    {
+      "id": "0ab73fb630a96051802feeb75fc5917aee966c45bf73264acc21a848fd705e88",
+      "code": "latin",
+      "en": "Accept a bearer token or an HMAC-SHA256 signature over the exact request body in X-Hub-Signature or X-Hub-Signature-256.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-sections/editable-sections.production.tsx"
+    },
+    {
+      "id": "e81f9251ba12d81659ae1529abeb609dae328dcaefbe2a8e530bfc625b0dbb31",
+      "code": "latin",
+      "en": "API key saved. Finish creating the inbox.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/AgentMailIntentSetup.tsx"
+    },
+    {
+      "id": "980dc97af5dd7f0045e6ed6d9cd1e454433fc51d9b811cf65cad49d9112911ba",
+      "code": "latin",
+      "en": "Arcade user ID",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/ArcadeDiscoverySetup.tsx"
+    },
+    {
+      "id": "31ebeb53d52f13e5d7d84f6d15688168b3bda2cc8360e5d4460720842bb11e41",
+      "code": "latin",
+      "en": "Assistant connections need an authenticated instance with a public HTTPS URL. Ask your instance administrator to configure the public URL, then try again.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/AssistantConnection.tsx"
+    },
+    {
+      "id": "b90884742515f21f9c20f90ddd17bb5be91df37948aee23f227db3150efb626a",
+      "code": "glossary",
+      "en": "Automatic workspace export retries stopped. Inspect the export failure, restore provider or destination availability, and preserve the saved files in the retained sandbox. Retry export here when the cause is resolved.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/WorkspaceExportRecovery.tsx"
+    },
+    {
+      "id": "63a259fe894220fe10f234b8e35803cf2f5e679d7e7906610629fcec10613ac6",
+      "code": "short-key",
+      "en": "Browsing",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-side-panel/TaskBrowserFooter.tsx"
+    },
+    {
+      "id": "09c58674a7a1b84f91f02b1d9b3e2915fed74aae75cec16a6f01f806a593a817",
+      "code": "latin",
+      "en": "Change API key",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/AgentMailIntentSetup.tsx"
+    },
+    {
+      "id": "4c594d64d0a348ed3c41967b05e518045d41800a4079cc1caa343a8da5cd76a0",
+      "code": "latin",
+      "en": "Checking saved API key…",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/ApiKeyCredentialField.tsx"
+    },
+    {
+      "id": "cda905295a03283585a9343aabefd6449e8a2a9caa5274fc47a5d1015b2a83b5",
+      "code": "latin",
+      "en": "Configure a public HTTPS URL first.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/SlackToolSettings.tsx"
+    },
+    {
+      "id": "7182f1b4ef1c88ac6c9ebf93da8ad2d36fa12da119944e5ae343ec6334b0a44c",
+      "code": "latin",
+      "en": "Connect Mem0, Zep, Supermemory, Cognee, and Honcho for long-term memory and context.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/InstanceExperimentalSettings.tsx"
+    },
+    {
+      "id": "d693cfc10665716a9ef139fbd417bc9fcbfa62b245ed220d84bdea3feb83e9fb",
+      "code": "glossary",
+      "en": "Connecting to GitHub and resolving the branch…",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/pages/skills/SkillImportProgress.tsx"
+    },
+    {
+      "id": "bb0e147969c2fc7f50d0896b24576346efb62b8fba539d8bb2613311e759b9df",
+      "code": "latin",
+      "en": "Cursor, GitHub Copilot, and Pi are awaiting local and Daytona qualification.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/adapters/codex-local/config-fields.tsx"
+    },
+    {
+      "id": "e9417fd6687e92c33bb97f40ec35c37afab598f700aab8cb96030f88c77fcc8b",
+      "code": "latin",
+      "en": "Custom IDs: openrouter/provider/model. Provider access is checked when the run starts.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-chat/ComposerRunSettingsPicker.tsx"
+    },
+    {
+      "id": "d3feba3f926655a9c19f42c7b440b2f82965f4d34dff82cd7469bed5ca715894",
+      "code": "short-key",
+      "en": "Desktop",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/shared/src/browser-use.ts"
+    },
+    {
+      "id": "7ce6faf5f8777e598423c7e1680a4c670e4fbaeb67088585845f6c03e4e2dd52",
+      "code": "short-key",
+      "en": "Effort",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/ComposerRunSettingsPicker.tsx"
+    },
+    {
+      "id": "d9488c43c5460f252566eede8bcc0605ed4d3ff6377ce6a0041fca85bf0f6a7d",
+      "code": "latin",
+      "en": "Enable Codex Fast mode. This burns credits/tokens much faster and is supported on GPT-6, GPT-5.6, GPT-5.5, GPT-5.4, and manual Codex model IDs.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/agent-config-primitives.tsx"
+    },
+    {
+      "id": "62ea6eb7d4bf6caf90de9d5fe56f99b2711584bb6129376b6102abdaf2fe2cf9",
+      "code": "latin",
+      "en": "Enter a workspace to include Honcho instructions. Existing tools remain available.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/HonchoWorkspaceSettings.tsx"
+    },
+    {
+      "id": "9d8baa138a3fe5e8ca85524d3966b26ce3bcda0934a12e987397313f839c9669",
+      "code": "latin",
+      "en": "Enter an HTTPS console URL without credentials.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/ExecutorManagementSetup.tsx"
+    },
+    {
+      "id": "1398d3055e56342e19b9e7d3090dd74a24081caee91749fa15d4e62663453b35",
+      "code": "latin",
+      "en": "Executor console",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/ExecutorManagementSetup.tsx"
+    },
+    {
+      "id": "8fdb4c09272d41b96b2e11224706224928e7cbdb61d785e2560bda15e6b8d2c3",
+      "code": "latin",
+      "en": "Executor console URL",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx"
+    },
+    {
+      "id": "48287adc9476f6d6b147228917bbaa4c847a8df405aae712e53b2057720324c4",
+      "code": "short-key",
+      "en": "Included",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/skills/SkillSourceTree.tsx"
+    },
+    {
+      "id": "604ce6b4cbbea991a3498985220426d7a0bfcb3b6816bc1a5c02bec4399a8564",
+      "code": "short-key",
+      "en": "Laptop",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/shared/src/browser-use.ts"
+    },
+    {
+      "id": "d47235288aba687b3aabd8f9bf766aeeaabdecfe9442f42b09375f1e643e8f78",
+      "code": "latin",
+      "en": "Live Browser Use browser",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-side-panel/TaskBrowserPanel.tsx"
+    },
+    {
+      "id": "e16cf314f3234a017d812cef7597df84c64ae2c2a56557cedba0358a87aae41c",
+      "code": "latin",
+      "en": "Manage Postgres projects, branches, and queries.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/app-gallery-copy.ts"
+    },
+    {
+      "id": "4d799c9a34b98e8730b2670224cf760233b0e1b686c11ca5ef642a92bd7c3aae",
+      "code": "short-key",
+      "en": "Mixed",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/apps/app-detail/PermissionsPanel.tsx"
+    },
+    {
+      "id": "e587956ad31dc4519bc8fcf674649c0faa976d3ed97a84a6853f9640bfadb874",
+      "code": "short-key",
+      "en": "Models",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/ComposerRunSettingsPicker.tsx"
+    },
+    {
+      "id": "c463512a29c9468f3f0801397fb0c7b0a8ac363f6f6a99f4f7043a57c79df180",
+      "code": "short-key",
+      "en": "Order",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx"
+    },
+    {
+      "id": "64795b0bf5f97d5f2a095192685355b19f96194b1ec9cb4dd245366a4b7a439c",
+      "code": "short-key",
+      "en": "Overage",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/ai-connections/AiConnectionUsagePanel.tsx"
+    },
+    {
+      "id": "ee8cc75b3b05313066235dc200da6469228cec3945c4b6a3022e4913d9b72743",
+      "code": "short-key",
+      "en": "Phone",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/shared/src/browser-use.ts"
+    },
+    {
+      "id": "f60dc3577bee70d0f04451496edceb1491a830561ff0b4e29e79798fbbc7e9af",
+      "code": "latin",
+      "en": "Project API key",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/ArcadeDiscoverySetup.tsx"
+    },
+    {
+      "id": "6fee105768712b5f1999d1ec48c31864606d2bc1b891eead0349ebc260f77634",
+      "code": "latin",
+      "en": "Public services need a publicly reachable HTTPS webhook URL.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "52336f01c3603da3a846494588b09c2b0aa50518fceac43500130226dd14548c",
+      "code": "latin",
+      "en": "Replace the API key or change how this inbox receives email. The email address and task history stay the same.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/EmailEndpointSetup.tsx"
+    },
+    {
+      "id": "125d6ffd4bfae8b71a2121bc5248af5d7a84f0bceb121f8a76d22d16867e039c",
+      "code": "glossary",
+      "en": "Resolve the task’s blockers before retrying.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/DispositionRecoveryNotice.tsx"
+    },
+    {
+      "id": "445289e66b5946306ed7bdaf8ce2e417c9691caaaa59e42bbd0cb805c0529fd2",
+      "code": "latin",
+      "en": "Searching every folder for SKILL.md…",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/skills/SkillImportProgress.tsx"
+    },
+    {
+      "id": "c0a9874161082ab545bca25cd018335df137f48a946d1509dfcec1b092fae395",
+      "code": "short-key",
+      "en": "Selector",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/tools/ProfilesTab.tsx"
+    },
+    {
+      "id": "6f5f93718492bcd39c785209397bd676b87d01270fcf613b86d986f6a96776ae",
+      "code": "latin",
+      "en": "Show experimental Mem0, Zep, Supermemory, Cognee, and Honcho setup. Existing connections keep running when hidden.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/feature-catalog.ts"
+    },
+    {
+      "id": "3941b3724b413f6c1b666332bf2447d1f9932591172d4fcf597ca097d56ccfc8",
+      "code": "latin",
+      "en": "Sign in with Neon. Project pinning and read-only mode are optional.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/app-gallery-copy.ts"
+    },
+    {
+      "id": "d2e9b608eff4d9a1cfcf03e6eed2fb3e2f2288e463ddb53e084ce0322796a559",
+      "code": "short-key",
+      "en": "Step",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/plugins/examples/plugin-kitchen-sink-example/src/ui/index.tsx; ui/src/components/onboarding/Stepper.tsx; ui/src/components/task-chat/TaskChatTurnStatusIsland.tsx"
+    },
+    {
+      "id": "398340df775b9932e57f9b590ee45b18821edb6d249f54e2cd27c98fb380de08",
+      "code": "latin",
+      "en": "Subscribe only to the events that should start this routine. Public services need a publicly reachable HTTPS URL.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "5b6874d49e59370cdab3cbe9a4edc0e6bf76ead4f6e538b24cd9b390be5482b0",
+      "code": "latin",
+      "en": "Sync Arcade accounts",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/ArcadeDiscoverySetup.tsx"
+    },
+    {
+      "id": "7bc0c21e8ca9ff674f2454ad9c4f2aa0c379133d96bdf2db4d8a8dcb6a85d4d0",
+      "code": "short-key",
+      "en": "Tablet",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/shared/src/browser-use.ts"
+    },
+    {
+      "id": "49141b096caa06737b077625c9d37a1f9ac7e71ff5ad28214d5273ad24800bf4",
+      "code": "glossary",
+      "en": "The current instructions changed after this draft was loaded. Refresh the current revision, compare the instructions, and save your resolved draft again.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/pages/AgentDetail.tsx"
+    },
+    {
+      "id": "98ac54d00f7a7d1d7c5089d64ebc4a6acc1cd09ae22d18e987303d8f62ff2582",
+      "code": "latin",
+      "en": "The URL of your Executor organization’s integrations page. Used to open and manage imported accounts.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx"
+    },
+    {
+      "id": "f164ab5ca6a3ceea8bee27e0b1089e12c4d466498e1f6989d29a6def04a51367",
+      "code": "latin",
+      "en": "This agent calls an HTTP endpoint. The destination service chooses its model.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-chat/ComposerRunSettingsPicker.tsx"
+    },
+    {
+      "id": "b0d4750005f25291156a8b99cdc69439022a687495ed6cee32938cb818125381",
+      "code": "latin",
+      "en": "Use an HTTPS console URL without credentials.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/features/connections/remote-mcp/RemoteMcpProductionSetup.tsx"
+    },
+    {
+      "id": "70c462d1819e061b7b8dedcb9e4c92ae4eeadb8e2098eed001ada05defc45d88",
+      "code": "latin",
+      "en": "Use openrouter/provider/model with no spaces.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-chat/ComposerRunSettingsPicker.tsx"
+    },
+    {
+      "id": "7c327153f0068c049bbb239a4843152974dd627105664bc2c3eab60600292366",
+      "code": "latin",
+      "en": "Waiting for Browser Use to confirm shutdown.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-side-panel/TaskBrowserPanel.tsx"
+    },
+    {
+      "id": "4b2884154f3c426437f0a7fc06553ca9fbfee9c5cb1f62e0c2d2b548af65bd76",
+      "code": "latin",
+      "en": "Works with Codex, ChatGPT, Claude, and more.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/AgentSetupPrompt.tsx"
+    },
+    {
+      "id": "7ad5989b423e948163d504e9f7b0059e82fe2c6dc82c64d31210e1a73015ca46",
+      "code": "short-key",
+      "en": "Browser",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/TaskChatThread.tsx; ui/src/components/task-side-panel/TaskBrowserActivity.tsx; ui/src/components/task-side-panel/TaskSidePanel.tsx"
+    },
+    {
+      "id": "5ebc00aa1e94e3713b18627b37a126e24692fe6b17167e9c9d9016b6539f8591",
+      "code": "short-key",
+      "en": "Replay",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/paperclip-runner/devtools/issue-thread/src/App.tsx; packages/paperclip-runner/devtools/issue-thread/src/IssueHeader.tsx; ui/src/pages/TaskChatLab.tsx"
+    },
+    {
+      "id": "662a3de036fe39bf5d8a4519c32eb87f6fd502b4a52e2ad7c1a11c98a38482a8",
+      "code": "short-key",
+      "en": "Diff",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/paperclip-runner/devtools/issue-thread/src/DevtoolsInspector.tsx; ui/src/components/CaseRevisionRail.tsx; ui/src/components/task-chat/task-chat-states.ts"
+    },
+    {
+      "id": "d3ac59b141fb4fd523dd3cea6c2b40c840367c0d5a01b7fe5388dd25874ae4ae",
+      "code": "short-key",
+      "en": "Research",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/paperclip-runner/src/issue-thread/fixtures.ts; server/src/services/native-runtime/runner-api-reference.ts; ui/src/adapters/paperclip-runner/index.ts"
+    },
+    {
+      "id": "c8583e008aec789f7f02bad9842aa847bf6b5b693e48fddcb7f7c640027acfe5",
+      "code": "latin",
+      "en": "ChatGPT / Claude web",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "a6c5db58aaed1242f649195ed3bcbcbf9501f20586dabe07f3c04748631716ee",
+      "code": "short-key",
+      "en": "Headless",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "e11a81f8b54b255c0ddcc1ff2bdc5986893027971c4dbc8f1a77ee7bcbef6de6",
+      "code": "short-key",
+      "en": "Waited",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/completed-activity-summary.ts; ui/src/components/task-chat/transcript-adapter.ts"
+    },
+    {
+      "id": "10626f46835f2bf70f29de734fa8c01ca6e46597b76aeea2460dc1f41eb8dcc8",
+      "code": "short-key",
+      "en": "Info",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/apps/chat/GitHubBotConfiguration.tsx"
+    },
+    {
+      "id": "1c5854c9b0324ba14125e28bcc1772001cbf408ba63c6ba391dd3b9ed96c7309",
+      "code": "latin",
+      "en": "Choose a saved API key or enter a new one",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/OnboardingWizard.tsx; ui/src/components/new-agent/AgentProviderConnection.tsx"
+    },
+    {
+      "id": "70c2a6e71f328c19a228d12e7d7e7b03ea79f95e3cd1db54acbf1ebec4a1420d",
+      "code": "short-key",
+      "en": "Deleted",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: server/src/services/company-skills.ts; ui/src/components/RunnerInspector.tsx"
+    },
+    {
+      "id": "8b8bf8b5d2ced46b7848a7b6a0b4d8d4ba516822ea23a09d466b62955be2646e",
+      "code": "short-key",
+      "en": "Down",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/RichWorkProductCard.tsx"
+    },
+    {
+      "id": "828a791ca5f75a7d2718faf62ad793467b08ab55d444bc1d9891e0abc49f9c77",
+      "code": "latin",
+      "en": "Find, read, and create files in Drive.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/app-gallery-copy.ts"
+    },
+    {
+      "id": "141224adb06468b14e93b58043ad94bf7750d01865fda3e0e21b2c992b3ef4c7",
+      "code": "glossary",
+      "en": "Resolve the blocker to continue.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/adapters/paperclip-runner/index.ts; ui/src/components/transcript/native-run-events.ts"
+    },
+    {
+      "id": "e7ff42d3addc0b0657895773760876882dd25d5ba4d4ad62c26be66f206d623d",
+      "code": "latin",
+      "en": "Search across your Google workspace.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/app-gallery-copy.ts"
+    },
+    {
+      "id": "0c5077acfee8751c3f180e685e3cfca49c6df6334d7511e956215901716de945",
+      "code": "short-key",
+      "en": "Starting",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/RunnerGoalWidget.tsx"
+    },
+    {
+      "id": "741f29224a7cf724eb2c25b7cf661ce77ed066ca9d797d764b67b8bf2e27bc63",
+      "code": "short-key",
+      "en": "Ultra",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/composer-run-settings.ts; ui/src/lib/codex-reasoning-effort.ts"
+    },
+    {
+      "id": "e3d83b18e17f9a233e0a7cc74d5881eca5842d9d9522b45a8d90fc5cfa01a3ac",
+      "code": "latin",
+      "en": "Absolute path to a markdown file (e.g. AGENTS.md) that defines this agent's behavior. Prepended to the Kimi prompt at runtime.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/adapters/kimi-local/config-fields.tsx"
+    },
+    {
+      "id": "d6397e2ef2bd131ac7a06376fdfa06f9035d4ce5fc9cba785f2f5713e05d5ac8",
+      "code": "latin",
+      "en": "Base git ref used when creating a worktree branch. Leave blank to use the resolved workspace ref or HEAD.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/agent-config-primitives.tsx"
+    },
+    {
+      "id": "88baa7f313db7dec5acf1844ce7cb0f7d2cbf3602169a5c290d916159ae92ed7",
+      "code": "glossary",
+      "en": "Base git ref used when creating a worktree branch. Leave blank to use the resolved workspace ref or HEAD.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/agent-config-primitives.tsx"
+    },
+    {
+      "id": "172bf2f8f6eb5a80614c89dfe982962bdbd617c6a4a6de01dddd2ac00c645ed1",
+      "code": "latin",
+      "en": "Bot OAuth Token",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointSetup.tsx"
+    },
+    {
+      "id": "f9954c79292ee09b1dbf9aab5dfe2a6591a0054428b24e051ad92a492e308839",
+      "code": "latin",
+      "en": "ChatGPT subscription",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/ai-connections/model.ts"
+    },
+    {
+      "id": "89634c9dd4c355b4b9b0f816841f0bd483b3018edb456413b74760323e9e5874",
+      "code": "latin",
+      "en": "Choose or enter a model in provider/model format.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/new-agent/NewAgentSetup.tsx"
+    },
+    {
+      "id": "878600e02dd77cfcba2c72f06d5662ef6a206a2b0f9a8eea496f2a75767ab909",
+      "code": "short-key",
+      "en": "Clearing",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/RunnerGoalWidget.tsx"
+    },
+    {
+      "id": "9404dff90cea2302dae64bb487e49db8baf9aa9db0279d24a28c56be70beb206",
+      "code": "glossary",
+      "en": "Could not resolve the environment.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/new-agent/NewAgentSetup.tsx"
+    },
+    {
+      "id": "942ea5994cfdb5c0ec68793f76307e3ba09738e3919bf2b84ea6e08eb2cf85ef",
+      "code": "glossary",
+      "en": "Could not resolve the sign-in environment.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/ai-connections/AiConnectionCredentialStep.tsx"
+    },
+    {
+      "id": "e1e63d4f39f8d2c11b54a31eec1eff656234190286e7643edf34b3195ffe72fa",
+      "code": "latin",
+      "en": "Could not store the API key.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/OnboardingWizard.tsx"
+    },
+    {
+      "id": "d7bb8241d74a4f529b5ab60372b22c2676cd8fdbbd1ddfdce5ff6c7fc2ed38df",
+      "code": "latin",
+      "en": "Enter a Cursor API key.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/new-agent/NewAgentSetup.tsx"
+    },
+    {
+      "id": "b5270351ea5a5a75d7a32741cc9726260b5036d039ab1490924148488284f9af",
+      "code": "latin",
+      "en": "Enter the Hermes API base URL.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/new-agent/NewAgentSetup.tsx"
+    },
+    {
+      "id": "8f0041b41f94365b74ed53f33c9486a5f34d81c20c7b17d113d90bedb3f3079b",
+      "code": "latin",
+      "en": "Grok Build uses its CLI sign-in. Run grok login on the selected environment's host, then test the connection here.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "e7a4550e96e9a6901b52f8535cc185a8da3cd05548a972953710986ca1b59b9a",
+      "code": "short-key",
+      "en": "Hook",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/paperclip-runner/src/issue-thread/fixtures.ts; ui/src/adapters/paperclip-runner/index.ts"
+    },
+    {
+      "id": "3270801c2ec4fe86c2d273630a719889c8d32676aa87795bc5784ba67697139d",
+      "code": "latin",
+      "en": "How Paperclip should realize an execution workspace for this agent. Keep project_primary for normal cwd execution, or use git_worktree for issue-scoped isolated checkouts.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/agent-config-primitives.tsx"
+    },
+    {
+      "id": "620cac45b1aaa736fa78dc4a6110919afa45703eea59cb112da3ae6640785c54",
+      "code": "latin",
+      "en": "In GitHub, open your repository → Settings → Webhooks → Add webhook.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "1a260b3885f1e9e15330336818d0d15eb8dbcf842339320250ec117efb3a9f15",
+      "code": "latin",
+      "en": "In the sending app, add a webhook using this URL, POST method, JSON body, and headers, then save it.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "55b80fbd4ff1659b3a8a8b3cf60a816605078d9a7fb7f8053326169dd7a8c347",
+      "code": "latin",
+      "en": "In your Photon project, enroll your sender in Users and find its assigned number in Get started. Send a fresh message to that number from Apple Messages.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointSetup.tsx"
+    },
+    {
+      "id": "fe4b71f5cb0c58a0168ee767dd1681d5fc0c11c1fb183971d24603d79d67e813",
+      "code": "latin",
+      "en": "Kimi Code CLI harness",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/adapters/adapter-display-registry.ts"
+    },
+    {
+      "id": "b3f5ad4301e533eec5f348df4cf63fa1d8e5ae798a0560d5f120cf32e8804f1d",
+      "code": "latin",
+      "en": "Paperclip archives the endpoint, stops its Paperclip Gateway connection, and retires its saved bot token. It does not uninstall the bot: the bot remains in the Discord server, and the application remains in the Developer Portal, until you remove them there.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointDetail.tsx"
+    },
+    {
+      "id": "5a1d57b53d5005cba3f366f1e70275e9f2b86aec5cd44eefdf7dd1ad0198b860",
+      "code": "latin",
+      "en": "Paperclip archives the endpoint, stops new ingress, and retires its saved client secret. It does not uninstall the Teams app: the Entra app registration, Azure Bot, custom Teams app, and Teams installations remain until you remove them in Microsoft.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointDetail.tsx"
+    },
+    {
+      "id": "7ab08e953ef8f2978d501206f9d553c72ea54e51e4e9223454b49c1dec037461",
+      "code": "latin",
+      "en": "Paste this value into GitHub’s Secret field. GitHub signs requests with X-Hub-Signature-256; do not use Bearer authentication.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "c42144cf9ed38da612f853ee7c35a11fe4c39f51e5c57168c9e17dc986764d8a",
+      "code": "short-key",
+      "en": "Relink",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/CompanyEnvironments.tsx"
+    },
+    {
+      "id": "7da9b06947772ef6d1c7c98f5128ea9eb81fe8a4d3451749a7e5d3c263e9b4cb",
+      "code": "latin",
+      "en": "Remove attachments before using /goal.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-chat/TaskChatComposer.tsx"
+    },
+    {
+      "id": "bf78b3d678e58362efca2f3faf6b40ce3a011b4dd22a0605af2295bb8e5c44e3",
+      "code": "short-key",
+      "en": "Resuming",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/RunnerGoalWidget.tsx"
+    },
+    {
+      "id": "b034edd63f04dd7e505887809265492e966d915e571156a629c9b1a9acd6d645",
+      "code": "short-key",
+      "en": "Searched",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/task-chat/transcript-adapter.ts"
+    },
+    {
+      "id": "759f2a707af70fb75e7f004fa7d1a33bf2ecbee1d03f89c0762196e32444ba84",
+      "code": "latin",
+      "en": "Select an agent to use /goal.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/task-chat/RunnerGoalWidget.tsx"
+    },
+    {
+      "id": "cc3065a4671b7009fe7679ca989cab23aec397881ae7754decb36ec9921fd2e2",
+      "code": "latin",
+      "en": "Send a unique Idempotency-Key header for each event and reuse it on retries, so retrying a setup test after activation cannot start the routine.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "67c573815e74fc11dbe819c3fe28508e502ac38596a7c9a53b723e9ec9e98ecc",
+      "code": "latin",
+      "en": "Send an HTTP POST request with a JSON object as the body (not an array or string).",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "9bf2dcd6a51f7e5654fa02c8d3e5282844575254aec4aeef60bab0e67c78f618",
+      "code": "short-key",
+      "en": "Sent",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/EmailMessageCard.tsx"
+    },
+    {
+      "id": "213ef07a3ae320610e422fbf212435a2829f9f4479262ebfe10cc48e21a0ce62",
+      "code": "short-key",
+      "en": "Sequence",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/components/RunnerInspector.tsx"
+    },
+    {
+      "id": "def307e6a0c4a17d7d4bc44ea42c5e5ca5e5e74301b5c58b0bbad2bb7b803d82",
+      "code": "latin",
+      "en": "Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/AppDetail.tsx"
+    },
+    {
+      "id": "5a500569f049a8b70f6015954a71bf22f9b0ed1cd084c9e5abb9204caf088e92",
+      "code": "latin",
+      "en": "Sign in with PostHog. Project pinning and access controls are optional.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/app-gallery-copy.ts"
+    },
+    {
+      "id": "bd9996fd64298c9af06fad610e014d911e9ffaa29b58fccba87017e1b6270f0b",
+      "code": "short-key",
+      "en": "Submit",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: packages/paperclip-runner/src/drivers/codex/codex-question-adapter.ts; server/src/services/chat-question-forms.ts; ui/src/components/AgentConfigForm.tsx"
+    },
+    {
+      "id": "68e7c18cd1ccc36814dbdcea5f4d092c7a321b7cf0b1c050ec716deb6965c704",
+      "code": "latin",
+      "en": "Tap Start.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointSetup.tsx"
+    },
+    {
+      "id": "5fe868965cf5f8498dc7f59e52cb17a6f2e471411bb4687454ece6f25250e3d9",
+      "code": "latin",
+      "en": "The file may already exist in OneDrive. Cancelling stops this Paperclip transfer; it does not delete remote bytes. Uploads cannot be marked delivered or retried from this uncertain state.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/pages/apps/chat/ChatEndpointDetail.tsx"
+    },
+    {
+      "id": "0a8131dc74730d46fd9bfb469adc3ccf7aa740d9fdfcc16e9fdf7af25b8bca3c",
+      "code": "glossary",
+      "en": "The runtime request could not be resolved.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/task-chat/TaskChatProtocolCard.tsx"
+    },
+    {
+      "id": "32a9ef79b93b7d1bdda952676459ef4bc74e6e89c18d0467a8e8157063efbde1",
+      "code": "glossary",
+      "en": "This environment will be permanently deleted and future runs stop resolving to it.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/pages/CompanyEnvironments.tsx"
+    },
+    {
+      "id": "03f3b4118cd319233b79e0616f85135aece74b43390478d6146c611fc33f5672",
+      "code": "glossary",
+      "en": "This runtime request is missing the provider turn identity needed to resolve it.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/components/TaskChatThread.tsx"
+    },
+    {
+      "id": "986cc65efc7f94da15ebd449230e64f86a8534a3e54682de3b040655f915fd10",
+      "code": "latin",
+      "en": "To check the connection, open Recent Deliveries and redeliver an event.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "70b43f8c502e7ed411c7be69b131cdd5123f31d7545c89525ebf1c4467f81d64",
+      "code": "latin",
+      "en": "Use a Cursor API key, or run agent login on the selected environment's host.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "e8575cf398ed8e091320b0a45d4975f16fcd93c0da7925f573030b3ad9d2c4dc",
+      "code": "glossary",
+      "en": "Use a Cursor API key, or run agent login on the selected environment's host.",
+      "reason": "agent login is the literal Cursor CLI command and must not be translated. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "43175052b9e3ecf6cf5a825ed3f1948697e8c19ec360b919be3f2c38064b2070",
+      "code": "latin",
+      "en": "Use a Gemini API key, or an existing supported Gemini CLI login on the selected environment's host.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "187cb78fa4aea32c877ebae5d7f2a9c0f982c87ad23e53fb9faaf327807302bd",
+      "code": "latin",
+      "en": "Use a Kimi API key and model settings below, or run kimi login on the selected environment's host.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "876c833dbacd12a8650c74c1f4d83b078484ac12a408143f003c2ac473defb85",
+      "code": "latin",
+      "en": "Use a provider API key, or the existing Hermes provider configuration on the selected environment's host.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/lib/agent-setup-fields.ts"
+    },
+    {
+      "id": "a7e1824ad6c5a5a29853201953aa4a4b522fb17f1704041d20b2450b0c9ff514",
+      "code": "latin",
+      "en": "Use API key instead",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/onboarding/CredentialModeLink.tsx"
+    },
+    {
+      "id": "ed4432ab3bf81e5f06a635072e3c63c9c1e4d568537e2977f9bc8f2f3428589f",
+      "code": "latin",
+      "en": "Use saved API key",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/new-agent/AgentProviderConnection.tsx"
+    },
+    {
+      "id": "a0d2997d491c8a9907c0ea880f641b330348b07c62d38c98d0bf947ad8669faf",
+      "code": "latin",
+      "en": "Use the webhook URL above as Payload URL and select application/json as Content type.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: ui/src/components/routine-triggers/TriggerWizard.tsx"
+    },
+    {
+      "id": "42324913c42b0bc0e559940218f71222126d5c10c2f1be3059628f864fd42d59",
+      "code": "short-key",
+      "en": "Worktree",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: server/src/services/workspace-runtime.ts; ui/src/components/WorktreeBanner.tsx"
+    },
+    {
+      "id": "e04100493eaa6366e64dac706e98d653c0973d798486939174e2671600f138bb",
+      "code": "glossary",
+      "en": "You are not in this card's resolver audience.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: ui/src/lib/interaction-resolution-error.ts"
+    },
+    {
+      "id": "69cba74c94f8592a85eac01cf59493cfaeaac89ff7cdedeffe5f5e08b724edf9",
+      "code": "latin",
+      "en": "Manage Postgres projects and branches, run SQL, and inspect schemas in Neon.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "fa4928ba53736ead52fb1515cca024f98dc876cbf0c1707956159166e45490f8",
+      "code": "short-key",
+      "en": "imported",
+      "reason": "Reviewed display label; excluded from static rewriting in no-static.json. Runtime data/identity/code guards remain required. Source: ui/src/pages/skills/ImportSkillsFromProjectDialog.tsx"
+    },
+    {
+      "id": "d1333a6df94b809720026667dd2adcd8a64ea13622a22313cec3b0e86a9b1451",
+      "code": "latin",
+      "en": "Connect Asana in the browser. Paperclip registers its own OAuth client with Asana's MCP server, so a local Paperclip needs no developer-console setup. Asana only accepts localhost callbacks, so a hosted deployment falls back to entering your own OAuth app.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "1909ae1fbbe90ece11dec281d1ffc382490d3be03c07b9446abb63d24c5e88ff",
+      "code": "latin",
+      "en": "Create peers/sessions and save memory under the API key project. Create a key with read and write permissions for these actions; Paperclip cannot increase an existing key’s permissions.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "fb98cc11cf9f6c568625a6be07e0827d618bd8d1ce7d15d646e77d7b294ada09",
+      "code": "latin",
+      "en": "Sign in with Asana. Paperclip registers its own OAuth client automatically.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "56a49687c101c4426094d04d59e0d95af7704974cff28609e9e574af05821ae9",
+      "code": "latin",
+      "en": "Guide the user's first Paperclip task when its description invokes /first-task. Interpret the opening answer, clarify their goal, propose a plan or a single task, and wait for approval before hiring agents or executing approved work.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "3d3d9eb603165171bac1033216c59ba615867411098b3bb660fe02ffa215443d",
+      "code": "glossary",
+      "en": "Write or revise a useful Paperclip plan with a clear outcome and verification. Use when a plan is requested or uncertainty needs resolving before execution.",
+      "reason": "Contextual meaning of resolve/resolver is determine, handle, fix or authorized respondent, not completion of an issue. Reviewed the cited source context. Source: official-1005 ui-dist or installed skill catalog frontmatter"
+    },
+    {
+      "id": "6db6dccea516a6bfbe95375c91bc0d6d2af1ada1068f4115ede33b7551a2e20b",
+      "code": "latin",
+      "en": "Add a remote HTTP MCP server at this URL, then choose OAuth / browser sign-in.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "df30d207eeae0a7203c30788a1decbe3094cf2b62d82ea719457a4600428e52f",
+      "code": "latin",
+      "en": "After approval, configure a local stdio MCP server running the command below. Credentials stay in the CLI's private credential store. Do not copy tokens or device codes into chat or project configuration.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "ae0d980308becd23a0828db9106b348b4dd474baade1b65863706b9885677322",
+      "code": "latin",
+      "en": "Check `opencode --version` and existing configuration. For OpenCode 1.x, merge this entry into opencode.json without replacing other settings. OpenCode 2.x uses mcp.servers; use that version's documented format instead.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "72ded035ed22ba418b7b0b47c82f17d45765d7e060fd4fd01561fd933bf3a2e7",
+      "code": "latin",
+      "en": "Check existing servers and reuse a matching instance. Add the remote server using Claude Code.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "ddbe9a04458c8f616bd25813948694228b71c8d8426971dda2b3c86c3b0e8726",
+      "code": "latin",
+      "en": "Check for an existing Paperclip server first. Reuse it only if its URL matches this instance. Add the remote server with the Codex CLI.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "64012603b679e6bee23c9c088f5dbda60b36f9bf3dc2b88eaedac7fd139f4d49",
+      "code": "latin",
+      "en": "If OpenCode was already running, restart it to load the connection. For the browser app, use this command. Verify the tools with paperclip_connection.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "7f43f5014bf1ca726b2a8c3f9fc36219d082bb3f820cb6ec13aef73febb8aebc",
+      "code": "latin",
+      "en": "If the client cannot install MCP servers from chat, use its connection settings. If it cannot receive a browser callback, use the Headless instructions. After approval, verify the account and organization with paperclip_connection.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "b53b52d1c5efc4c67e4c65db3678ac9207982b24f93675eb4b561dd0941a2b1a",
+      "code": "latin",
+      "en": "If the current conversation does not reload its MCP tools, start a new conversation or restart the client. Verify the connection with paperclip_connection before claiming success.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "bb010e5bafd150885a04d49a6167d872bad51acea7473c061af34161585828c8",
+      "code": "latin",
+      "en": "In Claude Code, run /mcp, select paperclip, and choose Authenticate. Versions that offer `claude mcp login --help` can also start authorization with `claude mcp login paperclip`. Give the user the approval link.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "5afe7f4615f6fdd6e9ba8ad2233a945aef94e0768ecea2e239064624c94019ec",
+      "code": "latin",
+      "en": "Open your assistant's Apps / Connectors settings and add a custom remote MCP connection using this URL. Availability depends on the account and workspace policy. Reading this page in chat does not install a connector.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "fdf2e518f52229665f620f1d45e28cda89841cd85b1a02e3ce40326bb72a58b0",
+      "code": "latin",
+      "en": "Reconnect through /mcp, or start a new session if needed. Verify the account and organization with paperclip_connection.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "2b682783e89d1cb99717fb534d55e57aebf51e3808dade49bfeb999f63603602",
+      "code": "latin",
+      "en": "The user code is for the human to verify the request. The private device code remains inside the CLI. After connecting, call paperclip_connection to verify the account and organization.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "89ffd3ad34b30325a7fef064d8e0ffb287dca8c2be59c3e0c4f1e334cfe186a3",
+      "code": "latin",
+      "en": "Use a Paperclip CLI version with `mcp login --device` support. This needs no callback listener; it prints a verification URL and user code, then waits for human approval.",
+      "reason": "Preserves literal product/provider names, API/CLI identifiers, protocol fields, commands, file names or external-console labels from the source. Tokenizer may include adjacent punctuation or a hyphen. Source: packages/shared/src/mcp-setup.ts"
+    },
+    {
+      "id": "52a660af30b38480ff2e116f54b6a414d9c3f5b0084b98ec119fae6021e3ef2f",
+      "code": "short-key",
+      "en": "Shared",
+      "reason": "Reviewed ownership label; excluded from static rewriting. Source-shaped pool, legacy connection choice, reused connection and remote account guards preserve API names in visible text and accessibility labels while adjacent ownership and actions translate. Independent browser regressions passed on 2026-10-14. Sources: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx and legacy connection callers."
     }
   ]
 }

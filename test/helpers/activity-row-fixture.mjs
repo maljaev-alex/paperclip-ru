@@ -1,0 +1,2 @@
+// Source-shaped ActivityRow name expression and its adjacent name/verb leaf.
+export const activityRowSource = 'var t={jsx:(tag,props)=>({tag,...props})};window.qaActor=function(e,f,g){var b=f?.name??(e.actorType==="system"?"System":g?.label??(e.actorType==="user"?"Board":e.actorId||"Unknown")),l="created";return {name:b,span:{className:"max-w-1/2 shrink-0 truncate",title:`${b} ${l}`,children:[(0,t.jsx)("span",{children:b})," ",(0,t.jsx)("span",{className:"text-muted-foreground",children:l})]}};};';

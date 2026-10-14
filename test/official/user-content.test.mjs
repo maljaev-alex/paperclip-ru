@@ -1,12 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 import { chromium } from 'playwright';
 import { officialApi, seedOfficial } from '../helpers/official-seed.mjs';
+import { officialBrowserOptions } from '../helpers/official-auth.mjs';
+import { stableAtLeast } from '../helpers/official-routes.mjs';
 
 test('official user names equal to dictionary keys stay unchanged', async () => {
   const baseUrl = process.env.PAPERCLIP_TEST_BASE_URL;
-  assert.ok(baseUrl, 'An explicit disposable official server is required');
+  const serverDir = process.env.PAPERCLIP_SERVER_DIR;
+  assert.ok(baseUrl && serverDir, 'An explicit disposable official server is required');
+  const version = JSON.parse(fs.readFileSync(path.join(serverDir, 'package.json'), 'utf8')).version;
   const api = officialApi(baseUrl);
   const seed = process.env.PAPERCLIP_TEST_SEED ? JSON.parse(fs.readFileSync(process.env.PAPERCLIP_TEST_SEED)) : await seedOfficial(baseUrl);
   const issue = seed.issues[0];
@@ -16,10 +21,17 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     await api(`/agents/${seed.agent.id}`, 'PATCH', { name: 'Settings' });
     await api(`/companies/${seed.company.id}`, 'PATCH', { name: 'Dashboard' });
     await api(`/projects/${seed.project.id}`, 'PATCH', { name: 'Settings' });
-    const page = await browser.newPage();
+    const page = await browser.newPage(officialBrowserOptions());
     const prefix = seed.company.issuePrefix;
     await page.goto(`${baseUrl}/${prefix}/issues`, { waitUntil: 'networkidle' });
-    assert.ok((await page.locator('.line-clamp-2.text-sm').allTextContents()).includes('Dashboard'), 'Issue list user title');
+    // React can commit the list after networkidle; wait for its title leaves,
+    // then assert their exact values without waiting for a translated string.
+    const issueTitles = page.locator(stableAtLeast(version, '2026.1005.0')
+      ? `[data-issue-row-id="${issue.id}"] .line-clamp-2.text-sm` : '.line-clamp-2.text-sm');
+    await issueTitles.first().waitFor({ state: 'visible', timeout: 15000 });
+    const renderedTitles = await issueTitles.allTextContents();
+    if (stableAtLeast(version, '2026.1005.0')) assert.equal(await issueTitles.first().innerText(), 'Dashboard', 'Specific issue list user title');
+    else assert.ok(renderedTitles.includes('Dashboard'), `Issue list user title: ${JSON.stringify(renderedTitles)}`);
     const sidebarAgents = page.locator(`a[href*="/${prefix}/agents/"] .truncate`);
     if (await sidebarAgents.count()) assert.ok((await sidebarAgents.allTextContents()).includes('Settings'), 'Agent sidebar user name');
     assert.match(await page.locator(`a[href="/${prefix}/dashboard"]`).innerText(), /Обзор/, 'Navigation chrome still translates');
@@ -58,9 +70,23 @@ test('official user names equal to dictionary keys stay unchanged', async () => 
     else assert.ok((await page.locator('main').innerText()).includes('Dashboard'), 'Issue detail user title');
     const issueBreadcrumb = page.locator('[data-slot="breadcrumb-page"] .truncate');
     if (await issueBreadcrumb.count()) assert.ok((await issueBreadcrumb.allTextContents()).every(text => text.trim() === 'Dashboard'), 'Every responsive issue breadcrumb keeps its user title');
-    const composerAssignee = page.locator('[data-testid="task-chat-composer-assignee"] .truncate');
-    if (await composerAssignee.count()) assert.equal(await composerAssignee.innerText(), 'Settings');
-    else assert.ok((await page.locator('main').innerText()).includes('Settings'), 'Issue detail assignee name');
+    const composerPicker = page.locator('[data-testid="task-chat-composer-assignee"]');
+    if (stableAtLeast(version, '2026.1005.0')) await composerPicker.waitFor({ state: 'visible', timeout: 15000 });
+    if (await composerPicker.count()) {
+      const combinedPicker = stableAtLeast(version, '2026.1005.0') && !stableAtLeast(version, '2026.1012.0');
+      // 1005 renders the selected name and the model hint as separate direct
+      // spans; 1012 gives the name its own test ID. Never select by its value.
+      const composerAssignee = composerPicker.locator(stableAtLeast(version, '2026.1012.0')
+        ? '[data-testid="task-chat-composer-assignee-label"]'
+        : combinedPicker ? ':scope > span.max-w-24.truncate' : '.truncate');
+      assert.equal(await composerAssignee.count(), 1, 'Exactly one selected agent name slot');
+      assert.equal(await composerAssignee.innerText(), 'Settings', 'Composer keeps the selected agent name');
+      if (combinedPicker) {
+        const modelHint = composerPicker.locator(':scope > span.min-w-0.truncate.text-muted-foreground');
+        assert.equal(await modelHint.count(), 1, 'Exactly one model hint next to the selected agent');
+        assert.equal(await modelHint.innerText(), 'По настройкам оболочки', 'Composer model hint still translates');
+      }
+    } else assert.ok((await page.locator('main').innerText()).includes('Settings'), 'Issue detail assignee name');
     await page.goto(`${baseUrl}/${prefix}/agents/${seed.agent.id}/dashboard`, { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1,h2').allTextContents()).includes('Settings'), 'Agent heading user name');
     if (new URL(page.url()).pathname.endsWith('/overview')) {

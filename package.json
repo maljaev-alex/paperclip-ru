@@ -1,6 +1,6 @@
 {
   "name": "paperclip-ru",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "Русская локализация операторского UI официальных npm-сборок Paperclip (неофициальный слой, не форк)",
   "type": "module",
@@ -64,11 +64,11 @@
     "ui"
   ],
   "dependencies": {
-    "acorn": "^8.14.0",
+    "acorn": "^8.19.0",
     "saxes": "6.0.0"
   },
   "devDependencies": {
-    "playwright": "1.63.0",
+    "playwright": "1.64.0",
     "typescript": "^5.9.3"
   }
 }

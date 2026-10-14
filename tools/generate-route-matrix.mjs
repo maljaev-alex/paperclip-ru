@@ -10,6 +10,7 @@ import { makeTempServer, runTool, assertInsideTmp } from "../test/helpers/copy-f
 import { verifyInstall } from "./lib/apply.mjs";
 import { hashFile } from "./lib/fs-atomic.mjs";
 import { classifyEnglish } from '../test/helpers/route-allowlist.mjs';
+import { officialBrowserOptions, officialAuthenticated } from '../test/helpers/official-auth.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const sha = (value) => createHash("sha256").update(value).digest("hex");
@@ -32,7 +33,46 @@ export async function waitForRouteContent(page, { timeout = 15000, requireRouteT
   }, requireRouteTitle, { timeout });
 }
 
-export async function generateRouteMatrix({ output, serverDir, baseUrl, companyPrefix = "CMP", extraRoutes = [], screenshotsDir, userValues = [], companyPrefixes = [companyPrefix], viewports = [{ width: 1440, height: 900 }, { width: 390, height: 844 }] } = {}) {
+// Runs in the browser; exported so the audit's DOM boundaries are regression-tested.
+export function readRouteAuditState() {
+  const visible = (el) => el && el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
+  const actorContext = (el, attribute) => {
+    if (!/^\/[^/]+\/dashboard\/?$/.test(window.location.pathname)) return {};
+    const summary = attribute === 'title' ? el : el.parentElement;
+    if (!summary?.matches('span.shrink-0.truncate[title]') || !summary.classList.contains('max-w-1/2')
+        || !summary.closest('.dashboard-list-row') || summary.children.length !== 2
+        || !summary.firstElementChild.matches('span:not([class])')
+        || !summary.lastElementChild.matches('span.text-muted-foreground')) return {};
+    if (!attribute && el === summary.firstElementChild) return { context: 'activity-actor-name' };
+    if (attribute === 'title') return { context: 'activity-actor-title', actorName: summary.firstElementChild.textContent.trim() };
+    return {};
+  };
+  const text = [];
+  const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walk.nextNode())) {
+    const el = n.parentElement;
+    if (!visible(el) || el.closest("textarea,input,pre,code,kbd,samp,script,style,[contenteditable='true'],.prose,.paperclip-markdown,.cm-content")) continue;
+    const value = n.nodeValue.trim();
+    if (/[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, ...actorContext(el),
+      ...(/^\/[^/]+\/apps\/assistant-connection\/?$/.test(window.location.pathname)
+        && el.matches('section[aria-labelledby="connected-assistants"] p.font-medium') ? { context: 'assistant-client-name' } : {}) });
+  }
+  for (const el of document.querySelectorAll('[placeholder],[aria-label],[title]')) {
+    if (!visible(el) || el.closest('pre,code,.prose,[contenteditable="true"],.cm-content')) continue;
+    for (const attribute of ['placeholder', 'aria-label', 'title']) {
+      const value = el.getAttribute(attribute)?.trim();
+      if (value && /[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, attribute, ...actorContext(el, attribute) });
+    }
+  }
+  return { lang: document.documentElement.lang, title: document.title,
+    heading: Array.from(document.querySelectorAll('h1,h2')).filter(visible).map(e => e.textContent),
+    body: document.body.innerText, candidates: text,
+    hookFailures: window.__paperclipRu.diagnostics.hookFailures,
+    placeholder: document.querySelector('textarea.composer-placeholder')?.getAttribute('placeholder') ?? null };
+}
+
+export async function generateRouteMatrix({ output, serverDir, baseUrl, companyPrefix = "CMP", extraRoutes = [], screenshotsDir, userValues = [], assistantClientNames = [], activityActors = [], companyPrefixes = [companyPrefix], viewports = [{ width: 1440, height: 900 }, { width: 390, height: 844 }], onRoute } = {}) {
   if (serverDir && !baseUrl) throw new Error("Official route coverage requires --base-url of a running Paperclip server");
   if (baseUrl && !serverDir) throw new Error("--base-url requires --server-dir to verify the served bundle");
   if (!/^[A-Z0-9]+$/.test(companyPrefix)) throw new Error("Invalid company prefix");
@@ -59,7 +99,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     if (!served.ok || sha(Buffer.from(await served.arrayBuffer())) !== hashFile(path.join(ui, "assets/paperclip-ru-overlay.js"))) throw new Error("Running server does not serve the selected patched bundle");
     const version = JSON.parse(fs.readFileSync(path.join(server, "package.json"), "utf8")).version;
     browser = await chromium.launch({ headless: true, channel: "chromium" });
-    const page = await browser.newPage();
+    const page = await browser.newPage(synthetic ? {} : officialBrowserOptions());
     page.setDefaultTimeout(10000);
     const errors = [], visited = [], runtimeLeaks = [], candidates = [], allowedEnglish = [], dynamicOrUnverifiable = [], surfaceProbes = [];
     let currentRoute = null;
@@ -72,34 +112,11 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     const cdp = await page.context().newCDPSession(page);
     await cdp.send('Network.enable');
     await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
-    const readState = () => page.evaluate(() => {
-        const visible = (el) => el && el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
-        const text = [];
-        const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-        let n;
-        while ((n = walk.nextNode())) {
-          const el = n.parentElement;
-          if (!visible(el) || el.closest("textarea,input,pre,code,kbd,samp,script,style,[contenteditable='true'],.prose,.paperclip-markdown,.cm-content")) continue;
-          const value = n.nodeValue.trim();
-          if (/[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className });
-        }
-        for (const el of document.querySelectorAll('[placeholder],[aria-label],[title]')) {
-          if (!visible(el) || el.closest('pre,code,.prose,[contenteditable="true"],.cm-content')) continue;
-          for (const attribute of ['placeholder', 'aria-label', 'title']) {
-            const value = el.getAttribute(attribute)?.trim();
-            if (value && /[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, attribute });
-          }
-        }
-        return { lang: document.documentElement.lang, title: document.title,
-          heading: Array.from(document.querySelectorAll('h1,h2')).filter(visible).map(e => e.textContent),
-          body: document.body.innerText, candidates: text,
-          hookFailures: window.__paperclipRu.diagnostics.hookFailures,
-          placeholder: document.querySelector('textarea.composer-placeholder')?.getAttribute('placeholder') ?? null };
-      });
+    const readState = () => page.evaluate(readRouteAuditState);
     const auditCandidates = (state, route, viewport) => {
       const values = [...state.candidates, { value: state.title, attribute: 'document-title' }].filter(c => /[A-Za-z]{2}/.test(c.value));
       for (const candidate of values) {
-        const reason = classifyEnglish(candidate, { companyPrefixes, userValues });
+        const reason = classifyEnglish({ ...candidate, route }, { companyPrefixes, userValues, assistantClientNames, activityActors });
         if (reason) allowedEnglish.push({ route, viewport, ...candidate, reason });
         else runtimeLeaks.push({ route, viewport, reason: 'unclassified-English', ...candidate });
       }
@@ -165,6 +182,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     };
     for (const route of routes) {
       currentRoute = route;
+      onRoute?.(route);
       await page.setViewportSize(viewports[0]);
       await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle", timeout: 45000 });
       await waitForRouteContent(page, { requireRouteTitle: !synthetic });
@@ -178,7 +196,8 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
       if (synthetic && (!state.heading.includes('Обзор') || !/агенту/.test(state.placeholder || ''))) runtimeLeaks.push({ route, reason: 'fixture-heading-placeholder' });
       if (!synthetic && /Page not found|Страница не найдена/.test(state.body)) runtimeLeaks.push({ route, reason: 'unresolved-route' });
       if (!synthetic && !/[\u0400-\u04ff]/.test(state.title)) runtimeLeaks.push({ route, reason: 'document-title', value: state.title });
-      const resolved = new URL(page.url()).pathname;
+      const resolvedUrl = page.url();
+      const resolved = new URL(resolvedUrl).pathname;
       if (resolved !== route.split('?')[0]) dynamicOrUnverifiable.push({ route, finalPath: resolved, reason: 'official-router-redirect-or-disabled-feature' });
       auditCandidates(state, route, viewports[0]);
       candidates.push(...state.candidates.map((c) => ({ route, ...c })));
@@ -186,7 +205,10 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
       const renders = [];
       for (const viewport of viewports) {
         await page.setViewportSize(viewport);
-        await page.reload({ waitUntil: 'networkidle' });
+        // Escape can close a route-backed dialog (for example Sources/new).
+        // Each responsive reload must still audit that intended route.
+        if (page.url() !== resolvedUrl) await page.goto(resolvedUrl, { waitUntil: 'networkidle', timeout: 45000 });
+        await page.reload({ waitUntil: 'networkidle', timeout: 45000 });
         await waitForRouteContent(page, { requireRouteTitle: !synthetic });
         auditCandidates(await readState(), route, viewport);
         if (board && await page.locator('main [role="button"].cursor-grab').count() === 0) runtimeLeaks.push({ route, reason: 'board-not-rendered', viewport });
@@ -203,7 +225,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
       const surfacesSampled = surfaceProbes.filter((p) => p.route === route).reduce((sum, p) => sum + p.surfacesSampled, 0);
       visited.push({ route, finalPath: resolved, lang: state.lang, title: state.title, heading: state.heading, visibleTextSha256: sha(state.body), renders, surfacesSampled });
     }
-    const matrix = { schema: "paperclip-ru-route-matrix/v1", provenance: { generator: "tools/generate-route-matrix.mjs", seed: "tools/routes.json", fixture: synthetic ? "single-dashboard-fixture" : "official-running-server", synthetic, browser: browser.version(), transientSurfaces: "selects, menus, popovers and tooltips are opened and sampled per route" }, timestamp: new Date().toISOString(), paperclipVersion: version, routes: visited, errors, runtimeLeaks, candidates,
+    const matrix = { schema: "paperclip-ru-route-matrix/v1", provenance: { generator: "tools/generate-route-matrix.mjs", seed: "tools/routes.json", fixture: synthetic ? "single-dashboard-fixture" : "official-running-server", synthetic, deploymentMode: officialAuthenticated() ? 'authenticated' : 'local_trusted', activityActors, browser: browser.version(), transientSurfaces: "selects, menus, popovers and tooltips are opened and sampled per route" }, timestamp: new Date().toISOString(), paperclipVersion: version, routes: visited, errors, runtimeLeaks, candidates,
       allowedEnglish, dynamicOrUnverifiable: synthetic ? [{ reason: "The remaining routes require the official running application" }] : dynamicOrUnverifiable, surfaceProbes };
     const dest = path.resolve(output || path.join(os.tmpdir(), "paperclip-ru-route-matrix.json"));
     fs.mkdirSync(path.dirname(dest), { recursive: true });

@@ -177,15 +177,67 @@ function overlaySource() {
     return out;
   }
 
+  // These three official sentences have a count, modifier, noun and ending
+  // in separate React text nodes. Match their complete, known shape before
+  // agreeing any fragment; never join a heading or inspect nested user data.
+  var COUNT_SENTENCES = [
+    { kind: "sources-warning", parts: [{ sources: ["selected"], key: "\u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439" }, { sources: ["skill has","skills have"], key: "\u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442" }, { sources: ["validation errors and will be skipped."], key: "\u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b." }] },
+    { kind: "sources-new", parts: [{ sources: ["new"], key: "\u043d\u043e\u0432\u044b\u0439" }, { sources: ["skill","skills"], key: "\u043d\u0430\u0432\u044b\u043a" }, { sources: ["available"], key: "\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d" }] },
+    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] }
+  ];
+
+  function countSentencePart(value, part) {
+    var text = value.trim().toLowerCase();
+    if (part.sources.some(function (source) {
+      var mapped = lookup(source);
+      return text === source.toLowerCase() || (mapped !== null && text === mapped.trim().toLowerCase());
+    })) return true;
+    return (PLURALS[part.key] || []).some(function (form) { return text === form.toLowerCase(); });
+  }
+
+  function agreeCountSentence(node, value) {
+    var parent = node.parentElement;
+    if (!parent || !nativeNodeValue) return null;
+    var sourcesRoute = /^\/[^/]+\/skills\/sources(?:\/[^/]+)?\/?$/.test(window.location.pathname);
+    var kind = sourcesRoute && parent.matches('p.text-sm.text-muted-foreground') ? 'sources-warning'
+      : sourcesRoute && parent.matches('a.text-xs.underline') ? 'sources-new'
+      : parent.matches('.execution-blocker-notice p') ? 'saved-messages' : null;
+    if (!kind) return null;
+    var children = Array.prototype.slice.call(parent.childNodes);
+    if (children.some(function (child) { return child.nodeType !== 3 && child.nodeType !== 8; })) return null;
+    var nodes = children.filter(function (child) { return child.nodeType === 3; });
+    if (nodes.length !== 4 || nodes.indexOf(node) === -1) return null;
+    var text = nodes.map(function (child) { return child === node ? value : child.nodeValue; });
+    var count = text[0].trim();
+    if (!/^\d+$/.test(count)) return null;
+    var sentence = COUNT_SENTENCES.find(function (candidate) { return candidate.kind === kind; });
+    if (!sentence || !sentence.parts.every(function (part, index) {
+      return PLURALS[part.key] && countSentencePart(text[index + 1], part);
+    })) return null;
+    var result = value;
+    sentence.parts.forEach(function (part, index) {
+      var target = nodes[index + 1];
+      var current = text[index + 1];
+      var forms = PLURALS[part.key];
+      var next = current.match(/^\s*/)[0] + plural(count, forms[0], forms[1], forms[2]) + current.match(/\s*$/)[0];
+      if (target === node) result = next;
+      else if (target.nodeValue !== next) nativeNodeValue.call(target, next);
+    });
+    return result;
+  }
+
   // "26 files" reaches the DOM as the nodes "26" and " file" + "s": the number
   // and the noun never meet in one string, so the {plural:N:...} rule syntax
   // cannot reach them. Once the noun node sits in the tree its previous sibling
   // holds the count, which is enough to pick the right Russian form.
   function agree(node, value) {
     if (!node || typeof value !== "string") return value;
+    var sentence = agreeCountSentence(node, value);
+    if (sentence !== null) return sentence;
     var forms = PLURALS[value.replace(/^\s+|\s+$/g, "")];
     if (!forms) return value;
     var prev = node.previousSibling;
+    while (prev && prev.nodeType === 8) prev = prev.previousSibling;
     var count = prev && prev.nodeType === 3 ? String(prev.nodeValue).replace(/[\s\u00a0\u202f]/g, "") : "";
     if (!/^\d+$/.test(count)) return value;
     var lead = value.match(/^\s*/)[0];
@@ -206,10 +258,119 @@ function overlaySource() {
     return el.matches('span.shrink-0.truncate[title]') && el.classList.contains('max-w-1/2');
   }
 
+  function activityActorSummary(el) {
+    return META.activityActorNamesPatched && activitySummary(el) && el.closest('.dashboard-list-row')
+      && el.children.length === 2 && el.firstElementChild.matches('span:not([class])')
+      && el.lastElementChild.matches('span.text-muted-foreground');
+  }
+
+  function translateAttribute(el, name, value) {
+    if (name === 'title' && activityActorSummary(el)) {
+      var prefix = el.firstElementChild.textContent + ' ';
+      if (value.indexOf(prefix) !== 0) return value;
+      var mapped = translate(value, 'attr');
+      if (mapped !== value && mapped.indexOf(prefix) === 0) return mapped;
+      return prefix + translate(value.slice(prefix.length), 'text');
+    }
+    return translate(value, 'attr');
+  }
+
+  function mcpConsentRoute() {
+    return /^\/(?:mcp-connect\/[^/]+|mcp-device)\/?$/.test(window.location.pathname);
+  }
+
+  function poolAccountRoute() {
+    return /^\/[^/]+\/apps\/(?:connect|[^/]+\/[^/]+)\/?$/.test(window.location.pathname);
+  }
+
+  function poolOrderList(el) {
+    if (!el || el.tagName !== 'OL') return false;
+    var label = el.getAttribute('aria-label');
+    return label === 'Connection order' || label === translate('Connection order', 'attr');
+  }
+
+  function poolPickerLabel(el) {
+    if (!poolAccountRoute()) return null;
+    var label = el.closest('div.max-h-80.overflow-y-auto > label.flex.cursor-pointer');
+    return label && label.querySelector(':scope > [role="checkbox"][data-slot="checkbox"]')
+      && label.querySelector(':scope > span.min-w-0.flex-1 > span.block.truncate.text-sm.font-medium') ? label : null;
+  }
+
+  function aiAgentBindingRoute() {
+    return /^\/[^/]+\/agents\/(?:new|[^/]+\/(?:configuration|runtime))\/?$/.test(window.location.pathname);
+  }
+
+  function connectionChoiceButton(el) {
+    var current = window.location.pathname;
+    var setup = /^\/[^/]+\/apps\/connect\/?$/.test(current);
+    var agent = aiAgentBindingRoute();
+    var existing = el.closest('[data-testid="connection-existing-choice"]');
+    var dialog = el.closest('[data-slot="dialog-content"]');
+    if (!setup && !agent && !existing && !dialog) return null;
+    var button = el.closest('div.space-y-2 > button[type="button"][aria-label].flex.w-full.justify-between.gap-4.rounded-lg.border.border-border.bg-card.p-4.text-left');
+    if (!button || !button.querySelector(':scope > span.min-w-0 > span.block.font-medium.text-foreground')) return null;
+    var description = button.querySelector(':scope > span.min-w-0 > span.mt-1.block.text-xs.text-muted-foreground');
+    if (!description) return null;
+    if (setup || existing) return button;
+    if (agent) {
+      var section = button.closest('section[aria-label]');
+      var label = section && section.getAttribute('aria-label');
+      if (label === 'AI connection' || label === translate('AI connection', 'attr')) return button;
+    }
+    // Connection intents also host RemoteMcpAccountChoice in an issue/chat
+    // dialog. Its stable provider caption identifies the data-only choice slot.
+    if (dialog && button.matches('div.space-y-5 > div.space-y-2 > button')) {
+      var caption = description.textContent.replace(/\s+/g, ' ').trim();
+      if (caption === 'Provider account available' || caption === translate('Provider account available')) return button;
+    }
+    return null;
+  }
+
+  function aiAdoptionName(el) {
+    if (!aiAgentBindingRoute() || !el.matches('[data-slot="dialog-content"] > [data-slot="dialog-header"] + p.text-sm')) return false;
+    var caption = el.nextElementSibling;
+    if (!caption || !caption.matches('p.text-xs.text-muted-foreground')) return false;
+    var safety = 'After adoption, missing credentials block execution. Previous authentication will not be used as a fallback.';
+    var text = caption.textContent.replace(/\s+/g, ' ').trim();
+    return text === safety || text === translate(safety);
+  }
+
+  function connectionDetailName(el) {
+    if (!/^\/[^/]+\/apps\/[^/]+\/[^/]+\/?$/.test(window.location.pathname)
+        || !el.matches('header > div.flex.items-center.gap-3 > div.min-w-0 > div.flex.items-center[class~="gap-1.5"] > h1.truncate.text-xl.font-bold')) return false;
+    var rename = el.nextElementSibling;
+    if (!rename || rename.tagName !== 'BUTTON') return false;
+    var label = rename.getAttribute('aria-label');
+    return label === 'Rename app' || label === translate('Rename app', 'attr');
+  }
+
+  function textAfterLabel(node, selector, label) {
+    if (!node || node.nodeType !== 3 || !node.parentElement || !node.parentElement.matches(selector)) return false;
+    var previous = node.previousSibling;
+    while (previous && previous.nodeType === 8) previous = previous.previousSibling;
+    if (!previous || previous.nodeType !== 3) return false;
+    var value = previous.nodeValue.trim();
+    return value === label || value === translate(label).trim();
+  }
+
+  function userTextNode(node) {
+    var current = window.location.pathname;
+    if (aiAgentBindingRoute() && node && node.parentElement && connectionChoiceButton(node.parentElement)
+        && textAfterLabel(node, 'span.mt-1.block.text-xs.text-muted-foreground > span.block', 'For you:')) return true;
+    if (/^\/assistant-connections\/?$/.test(current)) {
+      return textAfterLabel(node, '[data-slot="card"] > p.text-sm.text-muted-foreground', 'Organization:');
+    }
+    if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current)) {
+      return textAfterLabel(node, 'section[aria-labelledby="connected-assistants"] > p.text-sm.text-muted-foreground', 'No assistants connected to');
+    }
+    return false;
+  }
+
   function userTextElement(el) {
     if (!el || el.nodeType !== 1) return false;
     if (el.closest('svg,[role="img"],.sr-only,[data-slot="badge"]')) return false;
     if (el.closest('[translate="no"], [data-testid="issue-detail-header"] h2, [data-testid="task-chat-composer-assignee"]')) return true;
+    if (el.matches('span:first-child:not([class])') && el.parentElement && activityActorSummary(el.parentElement)) return true;
     if (el.matches('span.inline-flex[title]') && el.querySelector('[data-slot="avatar"]') && el.querySelector('.truncate')) return true;
     if (activitySummary(el)) return false;
     // Official issue rows/cards render the user title separately from status
@@ -227,6 +388,30 @@ function overlaySource() {
     if (link === el && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
+    // The official MCP consent/setup surfaces display client and organization
+    // names without the usual entity links. Keep only those exact data leaves
+    // untouched; adjacent headings, permissions and actions still translate.
+    if (mcpConsentRoute()) {
+      if (el.closest('h1 bdi')) return true;
+      if (el.closest('[data-slot="card"]') && el.matches('p.break-words.text-lg.font-semibold, label > span.break-words.font-medium')) return true;
+    }
+    if (/^\/assistant-connections\/?$/.test(current) && el.matches('[data-slot="card"] h2.font-medium')) return true;
+    if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current) && el.matches('div.space-y-1 > p.font-medium, details section > p.text-sm > strong:first-of-type')) return true;
+    if (/^\/[^/]+\/apps\/?$/.test(current) && el.matches('[data-app-slug="assistant-connection"] .border-t > span:not([class])')) return true;
+    // ConnectionChoiceList is shared by legacy setup and agent bindings. Its
+    // name is API data; the responsible-user UI option is translated statically.
+    if (el.matches('button > span.min-w-0 > span.block.font-medium.text-foreground') && connectionChoiceButton(el)) return true;
+    // This paragraph is either an account name or a statically translated
+    // template whose interpolation is that name; runtime translation is unsafe.
+    if (aiAdoptionName(el)) return true;
+    if (connectionDetailName(el)) return true;
+    if (poolAccountRoute()) {
+      if (poolPickerLabel(el) && el.matches('label > span.min-w-0.flex-1 > span.block.truncate.text-sm.font-medium')) return true;
+      if (poolOrderList(el.closest('ol[aria-label]')) && el.matches('ol > li > div.min-w-0.flex-1 > p.truncate.text-sm.font-medium')) return true;
+      var details = el.closest('details');
+      if (details && details.parentElement && el.matches('details > fieldset > div.space-y-2 > p.text-sm.font-medium')
+          && poolOrderList(details.parentElement.querySelector(':scope > ol[aria-label]'))) return true;
+    }
     if (entity.test(current)) {
       if (/^H[12]$/.test(el.tagName) && /(?:text-2xl|text-3xl)/.test(el.className || '')) return true;
       if (/\/projects\//.test(current) && el.matches('h2.text-xl.cursor-pointer')) return true;
@@ -265,6 +450,7 @@ function overlaySource() {
 
   function allowed(node) {
     if (!node) return true;
+    if (userTextNode(node)) return false;
     var el = node.nodeType === 1 ? node : node.parentElement;
     if (!el) return true;
     // Copy/wrap controls belong to the renderer, even inside protected prose.
@@ -384,6 +570,9 @@ function overlaySource() {
 
   function attributeAllowed(el, name) {
     if (name === "title" && el.matches('.truncate') && !activitySummary(el)) return false;
+    if (name === "aria-label" && mcpConsentRoute() && el.matches('[data-slot="card"] input[type="radio"][name="company"]')) return false;
+    if (name === "aria-label" && el.matches('[role="checkbox"][data-slot="checkbox"]') && poolPickerLabel(el)) return false;
+    if (name === "aria-label" && el.tagName === 'BUTTON' && connectionChoiceButton(el) === el) return false;
     if ((el.tagName === "INPUT" || el.tagName === "TEXTAREA") && /^(placeholder|aria-label|aria-description|aria-placeholder)$/.test(name)) return allowed(el.parentElement);
     return allowed(el);
   }
@@ -393,7 +582,7 @@ function overlaySource() {
     // React sets attributes before attaching an element and its ancestors.
     // Wait for that context, just as for text nodes, to protect user titles.
     if (this.isConnected && typeof value === "string" && typeof name === "string" && ATTRS[name.toLowerCase()] === 1 && attributeAllowed(this, name.toLowerCase())) {
-      value = translate(value, "attr");
+      value = translateAttribute(this, name.toLowerCase(), value);
     }
     return nativeSetAttribute.call(this, name, value);
   };
@@ -402,7 +591,7 @@ function overlaySource() {
     for (var a in ATTRS) {
       if (!node.hasAttribute(a) || !attributeAllowed(node, a)) continue;
       var cur = node.getAttribute(a);
-      var upd = translate(cur, "attr");
+      var upd = translateAttribute(node, a, cur);
       if (upd !== cur) nativeSetAttribute.call(node, a, upd);
     }
   }
@@ -587,6 +776,60 @@ export function patchSkillOverviewNavigation(code) {
   const skillId = navM[3];
   const patchedFn = `function ${ctName}(${tabArg}){${setSearch}(${searchArg}=>{const ${paramsName}=new URLSearchParams(${searchArg});return ${tabArg}==="overview"?${paramsName}.delete("tab"):${paramsName}.set("tab",${tabArg}),${paramsName}}),${tabArg}==="overview"&&${nn}.hasExplicitFilePath&&${skillId}&&${navigate}(${toSkill}(${skillId}))}`;
   return { code: `${code.slice(0, m.index)}${patchedFn}${code.slice(m.index + full.length)}`, patched: true };
+}
+
+/** Keep the known BYO page out of the upstream connection-detail sidebar. */
+export function patchByoAppSidebar(code) {
+  const unchanged = { code, patched: false, replacements: 0 };
+  if ((code.match(/path:"apps\/byo"/g) || []).length !== 1) return unchanged;
+  const legacy = '["browse","connections","connect","chat","review","attention","gateways","advanced","app"]';
+  const modern = new Set([
+    '["browse","connections","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
+    '["browse","connections","assistant-connection","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
+  ]);
+  const sets = [...code.matchAll(/var ([\w$]+)=new Set\((\["browse","connections",[^;\r\n]{0,200}?\])\)/g)];
+  if (sets.length !== 2) return unchanged;
+  const kinds = [];
+  for (const match of sets) {
+    let entries;
+    try { entries = JSON.parse(match[2]); } catch { return unchanged; }
+    const original = entries.filter(entry => entry !== 'byo');
+    if (entries.length - original.length > 1) return unchanged;
+    const signature = JSON.stringify(original);
+    kinds.push(signature === legacy ? 'legacy' : modern.has(signature) ? 'modern' : null);
+    if (!kinds.at(-1)) return unchanged;
+    const escapedName = match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const branch = new RegExp(`([\\w$]+)=([\\w$]+)\\[0\\]\\?\\.toLowerCase\\(\\)==="apps",[\\w$]+=\\1&&\\2\\[1\\]&&!${escapedName}\\.has\\(\\2\\[1\\]\\.toLowerCase\\(\\)\\)\\?\\2\\[1\\]:null`);
+    if (!branch.test(code.slice(match.index + match[0].length, match.index + 2000))) return unchanged;
+  }
+  if (kinds.filter(kind => kind === 'legacy').length !== 1 || kinds.filter(kind => kind === 'modern').length !== 1) return unchanged;
+  let replacements = 0;
+  for (const match of sets.reverse()) {
+    const entries = JSON.parse(match[2]);
+    if (entries.includes('byo')) continue;
+    entries.splice(2, 0, 'byo');
+    const replacement = match[0].replace(match[2], JSON.stringify(entries));
+    code = code.slice(0, match.index) + replacement + code.slice(match.index + match[0].length);
+    replacements += 1;
+  }
+  return { code, patched: true, replacements };
+}
+
+/** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */
+export function patchActivityActorFallbacks(code, dictionary) {
+  const unchanged = { code, patched: false };
+  if (!['System', 'Board', 'Unknown'].every(key => typeof dictionary?.get(key) === 'string')) return unchanged;
+  const literal = key => `(?:${[key, dictionary.get(key)].map(value => JSON.stringify(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`;
+  const pattern = new RegExp('([\\w$]+)=([\\w$]+)\\?\\.name\\?\\?\\(([\\w$]+)\\.actorType==="system"\\?' + literal('System') + ':([\\w$]+)\\?\\.label\\?\\?\\(\\3\\.actorType==="user"\\?' + literal('Board') + ':\\3\\.actorId\\|\\|' + literal('Unknown') + '\\)\\)', 'g');
+  const matches = [...code.matchAll(pattern)];
+  if (matches.length !== 1) return unchanged;
+  const match = matches[0];
+  const name = match[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const leaf = new RegExp('className:"max-w-1/2 shrink-0 truncate",title:`\\$\\{' + name + '\\} \\$\\{([\\w$]+)\\}`,children:\\[\\(0,[\\w$]+\\.jsx\\)\\("span",\\{children:' + name + '\\}\\)," ",\\(0,[\\w$]+\\.jsx\\)\\("span",\\{className:"text-muted-foreground",children:\\1\\}\\)\\]');
+  if (!leaf.test(code.slice(match.index + match[0].length, match.index + 2000))) return unchanged;
+  let replacement = match[0];
+  for (const key of ['System', 'Board', 'Unknown']) replacement = replacement.replace(JSON.stringify(key), JSON.stringify(dictionary.get(key)));
+  return { code: code.slice(0, match.index) + replacement + code.slice(match.index + match[0].length), patched: true };
 }
 
 export function patchIndexHtml(html, stamp) {
