@@ -1,6 +1,6 @@
 // Exact product names and technical identifiers observed in the official UI.
 // Operator sentences and unknown human-facing labels remain audit failures.
-const brands = new Set(['Paperclip', 'Codex', 'Claude Code', 'Cursor', 'Cursor Cloud', 'Gemini CLI', 'Grok Build', 'Hermes Gateway', 'Hermes', 'HTTP', 'Kimi Code', 'OpenClaw Gateway', 'OpenCode', 'Pi', 'Smoke Lab', 'JSON', 'Markdown', 'API', 'CLI', 'MCP', 'URL', 'USD', 'UTC', 'GitHub', 'OpenAI', 'Anthropic', 'Google', 'OAuth', 'ACP', 'ACPX', 'Docker', 'Node.js']);
+const brands = new Set(['Paperclip', 'Codex', 'ChatGPT', 'Claude', 'Claude Code', 'Cursor', 'Cursor Cloud', 'Gemini CLI', 'Grok Build', 'Hermes Gateway', 'Hermes', 'HTTP', 'Kimi Code', 'OpenClaw Gateway', 'OpenCode', 'Pi', 'Smoke Lab', 'JSON', 'Markdown', 'API', 'CLI', 'MCP', 'URL', 'USD', 'UTC', 'GitHub', 'OpenAI', 'Anthropic', 'Google', 'OAuth', 'ACP', 'ACPX', 'Docker', 'Node.js']);
 const ids = new Set(['acpx_local', 'claude_local', 'codex_local', 'cursor', 'cursor_cloud', 'gemini_local', 'grok_local', 'hermes_gateway', 'hermes_local', 'http', 'kimi_local', 'openclaw_gateway', 'opencode_local', 'pi_local']);
 const files = new Set(['AGENTS.md', '.paperclip.yaml', 'COMPANY.md', 'README.md', 'org-chart.png']);
 const searches = new Set(['status:todo', 'status:blocked', 'assignee:me', 'is:open', 'is:closed', 'project:"Paperclip App"']);

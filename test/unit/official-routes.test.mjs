@@ -58,3 +58,9 @@ test('persisted QA assistant names are accepted only in the identified client-na
   assert.equal(classifyEnglish({ value: 'Dashboard', tag: 'H1' }, options), null);
   assert.equal(classifyEnglish({ value: 'Settings', tag: 'P', context: 'assistant-client-name' }, options), null);
 });
+
+test('assistant product names do not exempt untranslated instructions from the audit', () => {
+  assert.equal(classifyEnglish({ value: 'ChatGPT / Claude \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435', tag: 'BUTTON' }), 'translated-text-with-known-name');
+  assert.equal(classifyEnglish({ value: 'Connect ChatGPT', tag: 'BUTTON' }), null);
+  assert.equal(classifyEnglish({ value: '\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c ChatGPT and enable access', tag: 'BUTTON' }), null);
+});

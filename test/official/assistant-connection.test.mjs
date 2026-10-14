@@ -186,8 +186,15 @@ test('official assistant setup and consent preserve upstream behavior and user c
         assert.equal(grant.companyId, seed.company.id);
         assert.ok(grant.scopes.includes('paperclip:read') && !grant.scopes.includes('paperclip:write'));
         await page.goto(`${baseUrl}/assistant-connections`, { waitUntil: 'networkidle' });
+        // A revoked grant has another muted paragraph for its status. Only
+        // the paragraph immediately after the client heading contains the
+        // organization name; baseline grants remain visible on the next pass.
+        const organizationRows = page.locator('[data-slot="card"] > h2 + p.text-sm.text-muted-foreground');
+        await organizationRows.first().waitFor({ state: 'visible' });
         assert.ok((await page.locator('h2').allTextContents()).includes('Dashboard'), 'Connection names must preserve dictionary-key user values');
-        assert.ok((await page.locator('[data-slot="card"] > p.text-sm.text-muted-foreground').allTextContents()).every(text => text.split(':').slice(1).join(':').trim() === 'Dashboard'), 'Management rows preserve organization names after the translated label');
+        const organizationLabels = await organizationRows.allTextContents();
+        assert.ok(organizationLabels.length > 0, 'The actual grant rows must be rendered');
+        assert.ok(organizationLabels.every(text => text.split(':').slice(1).join(':').trim() === 'Dashboard'), 'Management rows preserve organization names after the translated label');
         await check('assistant-connections');
         await page.setViewportSize({ width: 390, height: 844 });
         await check('assistant-connections-mobile');
