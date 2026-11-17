@@ -6,15 +6,15 @@
   "lastReview": {
     "toolVersion": "1.0.5",
     "date": "2026-11-18",
-    "addedExactFindings": 207,
-    "scope": "Source and bundle review of UI additions for Paperclip 2026.1023.0 and 2026.1106.0. Existing exact records are preserved."
+    "addedExactFindings": 397,
+    "scope": "Source and bundle review of UI additions, provider catalog descriptions and operator notices for Paperclip 2026.1023.0 and 2026.1106.0. Existing exact records are preserved."
   },
   "note": "Exact migration of the previously accepted baseline. Raw findings remain available in lint --json; all new or changed diagnostics fail the gate.",
   "byCode": {
-    "glossary": 113,
-    "latin": 1137,
+    "glossary": 119,
+    "latin": 1317,
     "suspicious": 2,
-    "short-key": 848
+    "short-key": 852
   },
   "accepted": [
     {
@@ -12616,6 +12616,1146 @@
       "code": "short-key",
       "en": "Harness",
       "reason": "Label of the adapter selector and agent roster column. Kept in no-static because the same token is the external avatar brand label."
+    },
+    {
+      "id": "7ea7e5bb86e31f12408f984ecfd667164f003b6d1e931eb1695c5196c35dbe08",
+      "code": "latin",
+      "en": "Use Claude through Amazon Bedrock with a Bedrock API key and AWS region.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e5d60b8e9f2adb9c5ea5ac4eed0a946fe27191a3d6f646cc608370546ddcf7bc",
+      "code": "latin",
+      "en": "Connect Bitly's provider-hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "be2ffd1e3920ab7f42747075f035ae46f4b39423dc0fdb712ecfaa442c6f5391",
+      "code": "latin",
+      "en": "Explore AI traces, manage evaluation datasets and scorers, and run Braintrust evaluations.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6e15a3dc248834f83d838cdd6d5fbc2fa7dbffb0bb982a177ddf6ef863789647",
+      "code": "latin",
+      "en": "Review Calendly event types and availability, and use supported scheduling actions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "091067239223848f64ae7770995777a9931e3429f967febf865c2cbc1540ddfc",
+      "code": "latin",
+      "en": "Connect any compatible harness to a Chat Completions-compatible provider or gateway.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "76d159ceaf5550f8531b90bdec741162fa3044564f06cabb88599b28d411f0c7",
+      "code": "latin",
+      "en": "Search the public web and read source pages with Exa.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4b0a6cf29ced6bb585a6a633f4d82c3677ef12de0d395d4c917385a0f5485d66",
+      "code": "latin",
+      "en": "Search, scrape, and parse public web pages with Firecrawl.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cb422e8d156de936210d9a94ed6daf93f88f883f17a65687c16e6814b21aaea",
+      "code": "latin",
+      "en": "Connect GitHub repository access or authenticate GitHub Copilot agents.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d3c69b4cb9986e05e1550dd7b38ce7761cdc2183c87ef3920986e1fabaa95995",
+      "code": "latin",
+      "en": "Connect Gmail, Drive, Docs, Sheets, Slides, and Calendar with one Google account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "889409b101b43d457ef8cbd4fe652b4a6a5e9049f25b4d19114dd539d7dcb5ae",
+      "code": "latin",
+      "en": "Read Google Search Console, Bing Webmaster, and analytics data for connected properties.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1ad4668851ef897f980daa08a0cd4b7f74e466e450e4438ac6ec9ab72b855c94",
+      "code": "latin",
+      "en": "Connect Make's provider-hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cf4686747c6f645f0aef63c03b3e098cb79e669df03083f0ab23675f3d6c7fd3",
+      "code": "latin",
+      "en": "Search the public web and extract source pages with Parallel.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f65920ef2150e58403ead90c22993604d52ce41760b16e5cda58fd1d47131026",
+      "code": "short-key",
+      "en": "Phase",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "1d57d80ee24ff5fb5d391c8dba47d289a88d1c79ce9755c107c5fc1364e70614",
+      "code": "latin",
+      "en": "Create an Airtable personal access token with the scopes and base resources required for the actions you intend to allow. MCP calls inherit your Airtable role and base permissions; organization allowlisting may still apply.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d764d2a1c0be21dee608e04a4589000cacc286774efd6032855e9d567b09c05c",
+      "code": "latin",
+      "en": "Use a disposable or development base for initial write qualification. Enterprise admins may need to allowlist MCP access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2511b04538b3e91f58ec7a8641d042aaa1202cdae90f3d5f620ace9b7f3b9044",
+      "code": "latin",
+      "en": "Amazon Bedrock API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f6e76c1115470226f3a8b9f74299de4338aac39d21ef3ea8287230083a648daa",
+      "code": "latin",
+      "en": "The mcp.all scope covers Bitly's broad MCP catalog, including link and QR management, analytics, groups, custom domains, and Bitly Sites.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "743b9842ea6d861a99684cd67174a052347b53922c0f0024f0a7a10e94219b55",
+      "code": "latin",
+      "en": "Generate a Bitly API token under Settings → API. The token may authorize the MCP's full catalog under your Bitly account; Paperclip cannot narrow the token. Review discovered actions and keep writes and destructive operations disabled until explicitly needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "94028212dc35bf8854eb0e7bc9d90b345c90a3f816253cafd558a8ac15f9f056",
+      "code": "latin",
+      "en": "This API token is not documented as a restricted MCP token. It may authorize Bitly's broad MCP catalog, including link creation/update/deletion, QR codes, Sites publishing/deletion, and custom-domain operations.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e89c5a21e396f4e866bc85da71ee936f40a761c9807f9ce93ef6d53d2b720ce3",
+      "code": "latin",
+      "en": "Sign in with Calendly",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "47a6c210dccdb00178bf5c6394e6778aa8bee167e4c8793bf38f853e4e1b9d45",
+      "code": "latin",
+      "en": "Connect the provider-hosted Calendly MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2fba90410fe45216ef756487d0c2f5e17172ef38baab496e0b24669fce968467",
+      "code": "glossary",
+      "en": "Check the connected account, event type, timezone, availability, and attendee details before using a scheduling write. Use a test scheduling artifact only when the discovered tool explicitly supports it.",
+      "reason": "Scheduling artifact means a test event in Calendly; the localized text names the concrete event."
+    },
+    {
+      "id": "1d043b7612bc7e8e43ba54b4541ec0059939d3aec3d3ae49d760e963f7f9cb5a",
+      "code": "latin",
+      "en": "Calendly MCP requires DCR and OAuth 2.1 authorization-code with PKCE S256. It does not support personal access tokens or manually provisioned static OAuth clients.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0588f65f68d9fc07951d6b2169562766fcffb07e9fa380294962bea0270ef299",
+      "code": "latin",
+      "en": "Chat Completions API API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f93bfa5195731a0c50fff9a6ddc92d32e70fd119d2e6efe790ccead92356fb2e",
+      "code": "latin",
+      "en": "Search ClickUp workspaces and manage tasks, docs, and conversations through the official MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "414f4be7efc68190f14b8937b96735255f8566704ea88d392bbff2222f96f6fe",
+      "code": "latin",
+      "en": "Sign in with ClickUp",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3dd48de14046af5b25de2827ba21e2173eb57c211edaae3be9a3b3ce7446a634",
+      "code": "latin",
+      "en": "Connect the provider-hosted ClickUp MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "532607f382a1d95677a89c6e97ffdb542343099b981609e813dc230700bb4058",
+      "code": "latin",
+      "en": "Choose only the ClickUp workspace needed. Confirm the target list and task before changing content, starting a timer, posting a chat message, or deleting anything.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "11ca7693d6200948e37cfde066e1dc3c18ce70a3dc70599d3f97b8496985f423",
+      "code": "latin",
+      "en": "ClickUp's MCP may expose task, document, and chat writes, time tracking, and task deletion under the signed-in user's permissions. Review the catalog and keep write and destructive actions disabled until explicitly needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cc826c697c7a1d223649a2a50bc9320d1da4744fe1370bdb94e2744275b00dc",
+      "code": "latin",
+      "en": "Use the public hosted MCP server for read-only library documentation lookups.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "bf9ccd78e51216ba0aa563bbcd68a2454fceac9baecb278484a0f731c9fe6396",
+      "code": "latin",
+      "en": "Recommended. Use an organization auth token from Settings → Enterpret MCP. This is the primary, store-ready connection method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e844e51b3fafd90c68ff10d70d6df0c679dd11634cd5ffe0d4dd5638f6cccbbe",
+      "code": "latin",
+      "en": "Generate an auth token in Enterpret under Settings, Enterpret MCP, then paste it below. One token belongs to one Enterpret organization. This is the recommended connection method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b6b16da165a44553c89026f96769cb7edd7a23c63127defb5f7c9e5663816241",
+      "code": "latin",
+      "en": "Enterpret auth token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "dbb7dc5f9bbc3dd5963ddc42ca7a93215cc1a5eef334f5a29ad6cc3de2aa02ed",
+      "code": "latin",
+      "en": "Paste the token from Settings, Enterpret MCP",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "791db068b2c0ea4f8a51cbfb0ac2df68630a3e9805befd2c6246627582c629d6",
+      "code": "latin",
+      "en": "Check your auth token's expiry in Enterpret Settings > Enterpret MCP and replace it before it lapses.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "78382f447a5ccd33de0e0431b1ae86820787b13588c829a5325a5c7696ab49be",
+      "code": "latin",
+      "en": "run_graph_query starts as Ask first. Cypher is not established as read-only even when Enterpret advertises readOnlyHint.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c7d85bc5d6f8eb80340a008fc536449c820aaf79ee551394fdbe2c76b97ce365",
+      "code": "latin",
+      "en": "Use browser sign-in when each person should query feedback under their own Enterpret account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b9bbcaada1b7c6d7d6742c2293d306b355afc069be5f711eff96b3b158cded04",
+      "code": "latin",
+      "en": "Sign in to Enterpret in the browser to query the official read-only MCP. Each person connects with their own Enterpret account, and Enterpret attributes their queries individually.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "abeefb4e880482af93c3613164c42f16670fa1267221274d603ab2b629ac8e46",
+      "code": "latin",
+      "en": "Sign in with Enterpret",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "667f037d063fcc254b6ab2638b3bc286087abb08464e801813a2d3d7be1afda8",
+      "code": "latin",
+      "en": "The official Enterpret MCP is read-only. Enterpret previously reported broader OAuth scopes, including mcp:write and email, than Paperclip requested. Enterpret is correcting this scope reporting; it does not establish access to the separate beta Agent MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cbf59713710fa7fae5b6bfe1428c7d274b70088ff9fca08fd1ac1f08dd6895d",
+      "code": "glossary",
+      "en": "The official Enterpret MCP is read-only. Enterpret previously reported broader OAuth scopes, including mcp:write and email, than Paperclip requested. Enterpret is correcting this scope reporting; it does not establish access to the separate beta Agent MCP.",
+      "reason": "Agent is the official name of the separate provider tool or service, so its product name remains unchanged."
+    },
+    {
+      "id": "e4792fff2e954277970ab07b2693897ab1b0015babe2444a437d3c97033fa708",
+      "code": "latin",
+      "en": "After revocation, Enterpret may cache token validity for up to 24 hours. Disconnect this connection to stop Paperclip access immediately. Enterpret is reducing this delay.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cf120dfdfbb16b61a78ee38620762e1a36dc63368700c39a8b477a8d5048386f",
+      "code": "latin",
+      "en": "You need an Enterpret account with access to your organization's feedback.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f78dc42c2c346139daa8e396daa925660a6cd2800634449eb4f3e38b2cf45398",
+      "code": "latin",
+      "en": "Use public Exa search",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c592bf823ca2dd688f962c34f9ed72a778a00e0f60eb9f2398ffcfd5cc359393",
+      "code": "latin",
+      "en": "Use Exa’s public, keyless search MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1e9fb76bf2bc590cc748725bb13c4cc5abc3fd881cfb4d35fd3b9cc08ea2b787",
+      "code": "latin",
+      "en": "The public MCP route provides web search and page fetching. Keep citations with results. Account-authenticated Agent and advanced tools are not included in this method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "65ced2e72003ac6a4d97bc3344aea4bd2c064da1b48ef447a4c99493857a0e28",
+      "code": "glossary",
+      "en": "The public MCP route provides web search and page fetching. Keep citations with results. Account-authenticated Agent and advanced tools are not included in this method.",
+      "reason": "Agent is the official name of the separate provider tool or service, so its product name remains unchanged."
+    },
+    {
+      "id": "ddc1882ecd8c556cde51d1ead70969808a96c67206e34010df38bfdb7caef4d3",
+      "code": "latin",
+      "en": "Sign in with Firecrawl",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8b1ef6aebbc06642ccd2300a19f15e67cf65882726fdffc520f9f577be2afc52",
+      "code": "latin",
+      "en": "Use interactive Firecrawl account authorization for the full hosted MCP tool surface.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "91ca6a2b637f8f2876b908525e7442406bb1b4253eabe6eb3c5ff3cdae8bbd6c",
+      "code": "latin",
+      "en": "Sign in and choose the Firecrawl team whose usage should apply. This route exposes the account-authorized tool surface; review paid jobs and action policies before execution.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "132f427ff6fea484fa59d6b8d77740fbea4bc7df732596c29b0b43110996822c",
+      "code": "latin",
+      "en": "Account authorization exposes Firecrawl’s broader hosted MCP surface, including job-based research tools that may use account credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4e345d6883bfeb8d5217216735f2ec3e640c21f020e53c45a8aeea432a6cbc22",
+      "code": "latin",
+      "en": "Use a Firecrawl API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "50bd5c08f111e30bdcdab6c041c82ae5bc072ec3b44cbf7ffb20a54e508adf94",
+      "code": "latin",
+      "en": "Use a customer-created Firecrawl API key in a Bearer header for unattended or higher-limit access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "38dc44531ab55660da6897ae7c862e7fcf802236e0594a3d5fe43bc42552ed99",
+      "code": "latin",
+      "en": "Create a Firecrawl API key for the intended team, then connect it with a Bearer header. The authenticated server may expose additional job tools and spend team credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "72046242744c1672a8e9f74b7fa36bba174a88d99288743e9bc9acefc7dec230",
+      "code": "latin",
+      "en": "Use the rate-limited keyless public web-search route without a Firecrawl credential.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0537e66515c476790f09fce2db3334662195faefff07c9123f782f2c2403e724",
+      "code": "latin",
+      "en": "The keyless route currently exposes Search, Scrape, and Parse. Keep requests bounded; these calls can consume the provider’s keyless allowance.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aa71bdde75691cc080c36e06b5b1949fe5c753247345ca3d051b93ddb7c1de35",
+      "code": "latin",
+      "en": "Connect Gauge in the browser and choose the organization this connection may use. Write tools start enabled and remain governed by Paperclip's action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ed175ba0fd11048d22a3f1c853192edb62b60a00c5a61d4a3688e3bf6cae9d40",
+      "code": "latin",
+      "en": "Sign in with Gauge",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9f14610d277f7785ca79f4a0fb829ec96292282ee3f2940904ca7c179b443c01",
+      "code": "latin",
+      "en": "A Gauge account. Each connection reaches one Gauge organization: sign-in uses the organization chosen during consent, and an API key uses the organization that created it.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "632e6a6e265cfb565dd730b58962cf7dd935bf1dabea72e486cc08b84434fe9e",
+      "code": "latin",
+      "en": "Gauge content tools can publish to your connected CMS, including live. Set publish actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "923cbe7957687c0e0542ba4f7f923c4a13d3ef67a8e4dfc5c2b64412e470c621",
+      "code": "latin",
+      "en": "Read AI visibility, SEO and traffic data, and run content workflows. Gauge content tools can publish to your connected CMS, including live. Set publish actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "21f4c170a2e3a9431bcf5af61aba8994f928a2aab79283b2333f48b56d97fa51",
+      "code": "latin",
+      "en": "Use a Gauge organization API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "85df64761696cc9e5bd6cbd939c9b8b27290f5c1a91e55bf4cd710ef1810abe9",
+      "code": "latin",
+      "en": "In Gauge, open Settings → Integrations → API Keys, generate a key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "382224fcd72a0128bf662a37f55932a8bb1543a98e5bd03f27593803955b0351",
+      "code": "latin",
+      "en": "Gauge API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "11920733d82cf77f920690a6085020f9641ea9f6df168a7f328685be2373e9e6",
+      "code": "latin",
+      "en": "Paste your Gauge API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a21368d675d96070283bb581c2b767d8ced5fdcae60a611dcbf8d94f3bbdbc4f",
+      "code": "latin",
+      "en": "Generate the webhook secret in Paperclip, then create one private GitHub App with active SSL-verified webhooks and Issues and Pull requests read/write permission. Subscribe to issue_comment and pull_request_review_comment for comment mentions; add issues and pull_request for description mentions, and pull_request_review for review-summary mentions. The wizard selects all five. GitHub sends installation and installation_repositories automatically. Install the App only on repositories where people may mention the agent.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b49dd815aa33fdd7993cc4ed2535fb0f977330b2d6ca711a7fa0aae96ec1a30e",
+      "code": "latin",
+      "en": "Sign in with GSC Wizard",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ae5b1987bfe3144722301a7fd10fc3b30fef6deb801ab4f540d1bcf1cab96274",
+      "code": "latin",
+      "en": "Use remote OAuth authorization for the GSC Wizard MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "fcf5129656e49a182d21fff3b1d63efe2eb2faaac913eba3172a0332b86a75e2",
+      "code": "latin",
+      "en": "Connect the GSC Wizard account and its authorized properties. Check site identity and date bounds before querying; review any URL submission or property-changing action separately.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ebbdbe918b4fdb41b5e42533ea236f7af90c9306d0d0760b9c26ce7d1f7dc3d1",
+      "code": "latin",
+      "en": "GSC Wizard connects multiple search and analytics providers; confirm the authorized property and action policy for each tool.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7a50bb1ad09c5196790cc18bf3e63c88a93d8f9d2eca42f471010e4623cba259",
+      "code": "latin",
+      "en": "Use a GSC Wizard MCP key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4acad7a632fabd3534f323daf25009872111643a982b9e7e244c11f6e451bd06",
+      "code": "latin",
+      "en": "Use a customer-created GSC Wizard MCP key in a Bearer header.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de49b1e521848ac494d83c0c84673ad9f6c09da8005db7e26cbd2f8e3779f319",
+      "code": "latin",
+      "en": "Use the anonymous hosted MCP endpoint for public Hugging Face Hub lookups.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "45dcee1b7b9175747fc2364ac96ae948feb12aed86d60dc4b059712f22709f82",
+      "code": "latin",
+      "en": "This anonymous method exposes the public Hugging Face Hub read tools for repository search, public repository details, datasets, and documentation. It does not require an account or API key and is rate-limited. Keep queries to public information; do not include secrets, personal data, private repository names, or proprietary content.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c6a1e02dd04300abcba62c02c307f4d8b5acc067b3ed460c06e941f5255471c8",
+      "code": "latin",
+      "en": "Use public Hugging Face Hub",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "921437bb6dd1dbdab571338dd0c5e79531c20cfd863ba028e6709c9be5a5dbfa",
+      "code": "latin",
+      "en": "This method only advertises read tools for the public Hub; do not include secrets, personal data, private repository names, or proprietary content in queries.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "507f04058befd9a61006b08af86f1c301f3024c706e3795d0d1bbfc1463d9be4",
+      "code": "latin",
+      "en": "Review Klaviyo campaign performance and prepare campaign changes for review.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6bd8e6fb29ffe728502d0dc2c5b40269a1086c40ee163d5d4319902c9c740c1d",
+      "code": "latin",
+      "en": "Sign in with Klaviyo",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "36ffe021dbad28c74fd3e259cb42d0a2da6ab750e4debdf9058f40ccac33598d",
+      "code": "latin",
+      "en": "Connect to the provider-hosted Klaviyo MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "5601091740b108afb6ba6fc8693fa82dddd2c8ccdea5dcf73a655d57dd3fa44e",
+      "code": "latin",
+      "en": "Klaviyo's remote MCP requires an Owner, Admin, or Manager account role.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "84aeb6d39f8340fcfe83e49c52f0c7f4b918f88f5661bf9c6653b4afdcfe0f25",
+      "code": "latin",
+      "en": "The campaigns:write toolset may expose campaign sending and other writes. Keep write actions Off until reviewed; the provider's Advanced read-only mode is optional and does not replace Paperclip action permissions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "00a382e801ed9706d2212f78f34837f3affc3853fff89cdafbb0aa491447dd72",
+      "code": "latin",
+      "en": "Connect Linear for issues and projects. Paperclip registers its own OAuth client with Linear MCP; no developer-console setup is needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2a26c1dc2bab1d3d05bb8ae438008de2a351541081e7e9fd0c0858e37d5d3e24",
+      "code": "latin",
+      "en": "Sign in with Linear",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b7ae560524cb25a64488725c84db7310e26f7d1e3dec02e722c10c440b4d7fb5",
+      "code": "latin",
+      "en": "Use a Linear API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "eea66bba49cb463d5fa137604748e00ba5e868440f5a31f9d970e06eb87a725b",
+      "code": "latin",
+      "en": "Create a Linear API key with the permissions needed for the actions you intend to allow. A key restricted to Read is supported for read-only use; workspace and role access still apply.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aac098838fc720c897f9d85e35993f2b6b59fff343e3ff2be0ae836b3e7706e3",
+      "code": "latin",
+      "en": "Linear API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1846ce188f6fc322ed3e1bea1f56fbd0506af457ef791f3e86136cb8c346c1f7",
+      "code": "latin",
+      "en": "Paste your Linear API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d7f2eb159ebf3937c5fb27aab0383832b715cda5f2eeba8bf0cc8cea6daf0571",
+      "code": "latin",
+      "en": "Linear’s standard MCP endpoint exposes read and write tools; review the discovered catalog and Paperclip action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4c28928bd332b841a012be2389264bf055d422f7c87cbbcd0e9627f917c44114",
+      "code": "latin",
+      "en": "Create a Make API token with the mcp:use scope and any additional scopes required by the selected scenarios. Enter the zone host from your Make organization. The token is sent as a Bearer header and remains a secret.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c8a3d0aa4c3ef2a57cf99e1f343a508fad5e8166ae8881bc8fe7677abc8c2d40",
+      "code": "latin",
+      "en": "Read and manage boards and work items in monday.com.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "67a607f1e2415c4f90b37763a97479612d7b359c8f78d38e4ab462d4972e806b",
+      "code": "latin",
+      "en": "Sign in with monday.com",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d44176bc8423d35baabbde2a1bf66de0d514a54ce6242c961ba32e08cbdec200",
+      "code": "latin",
+      "en": "Connect the hosted monday.com MCP server using OAuth and dynamic client registration.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "89b7e49a8cb94566b2dbcaeb092c0298bc8ebce5ca18c396334e81e98c84e9ac",
+      "code": "latin",
+      "en": "Use the selected monday.com account only. Read the target board and its columns before acting, and verify the exact board and item before any change. Keep write and destructive actions Off unless the user explicitly asks for a specific change. Never send messages, publish, or trigger automations through a board action without separate authorization.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de9dc2f29d0cb9ff108c5bb18787b140db249f44bb63503aff3cfca0a3cfd1f0",
+      "code": "latin",
+      "en": "The hosted MCP server acts as the authorizing monday.com user and inherits that user's monday.com permissions. An account admin may also restrict MCP access to selected workspaces.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4c6770f2e1d3379b4a1b4a11a49f7f0dd148ac41d8370b1d9289e7a6f01d2d08",
+      "code": "latin",
+      "en": "An additional OAuth/DCR connection can require account-admin approval for Paperclip and its exact callback URL before user authorization completes. If approval is pending, reconnect after the account admin approves it.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b95a72f8d0875aa6050ccda2e7ce31cefa2fc036c7171ff57991ee6987c61c57",
+      "code": "latin",
+      "en": "monday.com personal API tokens are documented for personal use, prototyping, and testing, and the provider says they are not intended for integrations used by other people. This connector uses the OAuth/DCR route for additional MCP clients; account-level approval may be required.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "83c768a2826fb3878de11f042bcad5c48605ee5ff6b9de1fcd63f46a80c65104",
+      "code": "latin",
+      "en": "The tool catalog includes actions that can send notifications (optionally email), delete or activate automations, publish workflows, and create or run monday.com platform agents; a low-level tool can execute GraphQL mutations. Keep these actions Off unless separately authorized, and never run agents or change automations during qualification.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "790dd5ef186a65d8d03873207b50601b41afeb436a17c1cd04f8a5dabc17baa7",
+      "code": "latin",
+      "en": "MCP calls count toward the account's monday.com API call limits. Keep tests bounded and avoid repeated discovery or broad queries.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f55da05e3c3d3a79b58245e6686d74898138eb45cda573cfe7a4eb17c4fb0866",
+      "code": "latin",
+      "en": "Use public Parallel Search",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e79ea02d646e57470233bd705d94896a63ba167f38dfdec30c8edc9cacbed839",
+      "code": "latin",
+      "en": "Use Parallel Search’s public, keyless MCP route.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9fd8627ff37ebeb716e319461c5cd2c827a4a37139b9100d098ba13835cdb1c0",
+      "code": "latin",
+      "en": "The public route exposes web_search and web_fetch. Keep source URLs, excerpts, and retrieval context in the result; this is separate from Parallel Task MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "354a0198c9ce7c82915d24ae02048ccc3eacc05522c64ca24af426e8b9035a86",
+      "code": "latin",
+      "en": "Sign in to the intended Resend team. The full_access grant covers reading and managing account resources, including sending email and deletion. Review the discovered actions in Paperclip before using them.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0d537ef705e7c22e2d5d7e29f90f188b524a639b6d78973f6cb66838db3cfeb2",
+      "code": "latin",
+      "en": "Resend full_access grants broad account read/write/delete access; Paperclip action policies govern execution separately.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cbda2b151fbd9835cef2d470c993323cfdc7cc129ac9398c77936350073b25ce",
+      "code": "latin",
+      "en": "Connect any compatible harness to an OpenAI Responses-compatible provider or gateway, including Emissary.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "63391231aebc4cd05159dcaef0d5d6add7159800306d84f7f6322d413fd2e022",
+      "code": "latin",
+      "en": "Responses API API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "36e28d5e9600b030d58a57ed7ae687638e95c01b2c94f61d0eae1d96b0aff8d0",
+      "code": "latin",
+      "en": "Connect with a Superagent organization API key.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aa22bb49b247e12fe151679ae0bca1ca4ba670e5693a24652820f4a999e8b898",
+      "code": "latin",
+      "en": "Open Superagent Settings → API keys, create a separate key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "5c616e9eb999bccdac64cd0afb519e4cd5b895b6a245c0a4f5cc5bd8316e7d17",
+      "code": "latin",
+      "en": "Superagent API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "328e014011ec90e2502c6817d9d2ef7fe125c778e2594f5ea6cc43ce278a618a",
+      "code": "latin",
+      "en": "Superagent report and triage tools consume organization credits, and deleting a finding is permanent. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "eb90417f315bcc02cea87e02d11e32e088de6a44876ac3de2cea9bb075ebdf3f",
+      "code": "latin",
+      "en": "Search the public web and extract page content with Tavily’s hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2a5d7a1cd15a906b814efb450374f8bda42226311ec418dd2174f605d5eda309",
+      "code": "latin",
+      "en": "Sign in with Tavily",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3f45d5caa3efdd15521091374152c6db00291b2c2c5903a9595d874a3a475ac5",
+      "code": "latin",
+      "en": "Connect the provider-hosted Tavily MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b5fe59ecc0b02ad1969a50fee00861e209c4a65a42250f71ecae157a83f04299",
+      "code": "latin",
+      "en": "Browser sign-in requires a public HTTPS Paperclip callback; local HTTP callbacks are rejected by Tavily. Use Tavily for bounded public research. Set focused queries and relevant domains, cite the source URLs, and distinguish retrieved facts from inference. Research does not authorize contacting a company or submitting forms.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a615df546dc76ec0a793ef34e23d76bef10f91027741fd6d425eaaadb470a148",
+      "code": "latin",
+      "en": "Tavily OAuth selects the account’s `mcp_auth_default` key when configured; otherwise it may use the personal default or first available key. Review the chosen account and usage allowance.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cabcf1717e6925a36eceb63ba130bf9f4fa0a30ab03de8e76bb5b07410f1bf43",
+      "code": "latin",
+      "en": "Connect with a Telem API key.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "50b11d5f29569b44b1081a523d120a63d4aba6b563eb70ead7dc2f1401d9088d",
+      "code": "latin",
+      "en": "Create an API key in the Telem console at app.telem.ai. Paste the key below. Open Advanced to set auto routing, the tier, or the providers to include or exclude.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c884a8cfc74e737118d9d993cbd06bbfb8ddf0481ec773d321707a3f29bf3429",
+      "code": "latin",
+      "en": "Telem.AI API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8acc7fce4ffe8fcc586d2639d00ba17bb1ce2504ed44632e1c98295baa094155",
+      "code": "latin",
+      "en": "A Telem API key. Create one in the Telem console at app.telem.ai.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7851ad410f6113e90fb5237ed9c309720ca13168d5028cb6286e7e3a9831838f",
+      "code": "latin",
+      "en": "Query connected marketing, analytics, CRM, and warehouse data through Windsor.ai.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "dd89e3d99e9aa4c68916102f1ee9f51a2cabb09d8faf5e800190857494e55bdb",
+      "code": "latin",
+      "en": "Sign in with Windsor.ai",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7545fb50c854016a188042f902903daaf0e3f6c43ddfe8ea4b40bf5c75fa564e",
+      "code": "latin",
+      "en": "Use browser OAuth for Windsor.ai’s hosted data MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "17d8194e30d65283c0bb0c0628a760de76c39ed9b5e7af952aedba56aa3aa4e1",
+      "code": "latin",
+      "en": "Browser sign-in requires a public HTTPS Paperclip callback; local HTTP callbacks are rejected by Windsor.ai. Connect Windsor.ai, then verify which advertising, analytics, CRM, or warehouse sources are linked. Keep source account and metric definitions with results. Review any action that changes campaigns, budgets, posts, or listings.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2567ed60e4806b33d86a97c8970c88361737fff5d06fa585fa35d4ab6cd531de",
+      "code": "latin",
+      "en": "Windsor.ai requires the provider-level delete scope to establish the MCP session, including for read-only use. This scope may expose destructive actions; do not approve it unless those provider permissions are acceptable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "29275aeb650ce529f324befeae73f7fadff4a6cb2d82ec729b1380b9d055f054",
+      "code": "latin",
+      "en": "Use a Windsor.ai API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4000739afb5bb876b3fd0e5034b1f9821914732de18da81b3e8fa08cb4f9a316",
+      "code": "latin",
+      "en": "Use a customer-created Windsor.ai API key as a Bearer credential.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "86fa85ddb8e9ef04677d2c5d289429e6843faeeb4813ef94053a2b27774735d0",
+      "code": "latin",
+      "en": "Create a Windsor.ai key for the intended account. Verify connected source accounts and action availability before use; broad tool exposure may include advertising changes.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "86e9179e754353370d4472a8705035ac890dcc0af2bc1dbd07c1fa72df5d4cbd",
+      "code": "latin",
+      "en": "Sign in with Braintrust (US)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c3fb281116ce2b5a1b957eb555f3e818026b130071c1d204669ad473cada7285",
+      "code": "latin",
+      "en": "Inspect Braintrust data and run evaluations. Access follows your Braintrust account permissions. Evaluations and Topics processing can incur costs. Dataset edits can permanently delete rows; automation activation can enable retention or delivery.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7fccd9560d7d8b77850a67d45b623e8831aafcfde67bf6e1286f98887da14a97",
+      "code": "latin",
+      "en": "Use browser sign-in for a Braintrust organization hosted in the US.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "876351cf34d6e71e405334caab3308bcc05d70fc15128390c2f03ffcfd64bc5b",
+      "code": "latin",
+      "en": "Choose the US endpoint for the organization’s data plane region. Sign in with the Braintrust account whose data agents should access. No developer app registration is needed. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3c37e18fb4548f32f2df1cb0cfd370da4f176da300078bcb7c419c962e547672",
+      "code": "latin",
+      "en": "Access follows the signed-in Braintrust account or API key. Paperclip action policies do not narrow the provider credential or enforce a separate project boundary.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1b52637fdf25e5119bd1f46a6baf74e5825e33d8ddbeb5aad691c064a9a4bcd4",
+      "code": "latin",
+      "en": "Evaluations, evaluator tests, and Topics processing can consume Braintrust or model credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3da7f00512e967a90378568b67d6859378079977376a1e7719c81751c355a180",
+      "code": "latin",
+      "en": "Use a Braintrust API key (US)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c7303fbec5ecbbd971ddb62b4a5e20f897d0c10b4e0ac8a2cab062bc508d96d6",
+      "code": "latin",
+      "en": "Use an API key for a Braintrust organization hosted in the US.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2ffa59c0c05d761b9913520cdcd1d9400b76229c2417ea59be4c133c044cc0e1",
+      "code": "latin",
+      "en": "Choose the US endpoint for the organization’s data plane region. Create a key in Braintrust Settings → API keys. Paste the key for the account whose data agents should access. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e06009075561e5ffc92294ff8971174bc23c2982c8bb630650849de6954757ef",
+      "code": "latin",
+      "en": "Braintrust API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8f59c9605496b81dc00fa35ec8335c80f66e4dbe610162b87c56d206d9198796",
+      "code": "latin",
+      "en": "Paste your Braintrust API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6274ca48ccb1306f8d5d6a523456bfbcfb9fcb693b7c5cf76696bb911044f462",
+      "code": "latin",
+      "en": "Sign in with Braintrust (EU)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8c2e79fd213d596ba9b4b76ef2d864ecdf389c8bf9b80d840c48be3a862234cc",
+      "code": "latin",
+      "en": "Use browser sign-in for a Braintrust organization hosted in the EU.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "88086dc96a1cfd7aa62f033b275e5983f9c2f3b99cedca1e7a5e73bf7021bc6c",
+      "code": "latin",
+      "en": "Choose the EU endpoint for the organization’s data plane region. Sign in with the Braintrust account whose data agents should access. No developer app registration is needed. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0750859f62cb4414f8cf581432f3f1cd4c7ae9cda43c18df2307a8e155b96ae2",
+      "code": "latin",
+      "en": "Use a Braintrust API key (EU)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cb29b8fbcad64eff35cbc4d2ea3c64352a781a35230bb0cd80f41b111363f96d",
+      "code": "latin",
+      "en": "Use an API key for a Braintrust organization hosted in the EU.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a5dcc65d9b5b4999b9b2bdc8be6337348439a02828f6bfa17e8613d4998e9788",
+      "code": "latin",
+      "en": "Choose the EU endpoint for the organization’s data plane region. Create a key in Braintrust Settings → API keys. Paste the key for the account whose data agents should access. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2c6847781ea65011882d6ee160dfca4aa966d9bf63b31c74cd8fd1a96a0eacd9",
+      "code": "latin",
+      "en": "Manage resources and run tools in your Daytona account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9b5d751ba737875773e75b4b368a228b515758a3b7bd5fc3223569b7522130e0",
+      "code": "latin",
+      "en": "Connect a Daytona organization API key. All published HTTP API and Toolbox actions are available; the key's provider permissions and your action policies control access. Sandbox IDs come directly from Daytona.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a6352994aa4ec6b46d6e0bd95dc43cb4270f1a4dcaf6c56fa257a8a66205a717",
+      "code": "latin",
+      "en": "Connect Ditto in the browser. The connection acts as the Ditto user who signs in. Write tools start enabled and remain governed by Paperclip's action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "df9c21131e203e98ef019d24b91a50755a8e88304e1fb7a0929ef273ac9625ee",
+      "code": "latin",
+      "en": "Sign in with Ditto",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ed1f0c58db72d7033a7b90ff3c38017de0f8b1713bd994e9d666f4dd4631f83a",
+      "code": "latin",
+      "en": "A Ditto account in the workspace whose text and style guides agents should use. API keys require developer integrations on the Ditto plan.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de215aecf685bb21473e569258f5774a695ea15864024464af8e171b426024e9",
+      "code": "latin",
+      "en": "Ditto delete tools cannot be undone, and linking text to a library component replaces each text item's developer ID. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b1f66bd4d3e761853b0152d7e7b432db682635a98b1bd1a388e97d6d3536a2e8",
+      "code": "latin",
+      "en": "Read style guide rules and search product text, and create, edit and translate text, components, variants and style guides. Ditto delete tools cannot be undone, and linking text to a library component replaces each text item's developer ID. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b79df2ecb125db797e36ef0e34f06b88c9b0608b5389936061561b2e4a0572f0",
+      "code": "latin",
+      "en": "Use a Ditto workspace API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b33a9c52c1affac4f65ffd188f37a5802036e291cafd3b68335058e87c4b7fe1",
+      "code": "latin",
+      "en": "In Ditto, open Developers → API keys, create a key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "14b2e73c926c3cf30daa7672e99beefe14a09f26bd14f80fd54ea8b892409e5c",
+      "code": "latin",
+      "en": "Ditto API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3b3bbe443ec6d5f6f197f86294c0640f23a64ec09782fe95dfc9a55b75288e19",
+      "code": "latin",
+      "en": "Paste your Ditto API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "30550a74d5eeea9d9fd4cd1d449dff73c52e11691adf3db373b955a2572c6621",
+      "code": "latin",
+      "en": "GitHub Copilot personal access token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3dc1e7a7d8b2b3c669a2053f400bae3d3667f7822d8c4cf195e1c8eefb76bb32",
+      "code": "latin",
+      "en": "Authenticate the GitHub Copilot agent runtime with a personal or explicitly shared account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0b5d69eb7aa9f75638e67d13709134837b975ec9ab577f28c57573a902838f1b",
+      "code": "latin",
+      "en": "Create a personal fine-grained token with the Copilot Requests permission. Copilot authentication is separate from repository and MCP access. [GitHub authentication instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli).",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8dd6e88c66784aec437dc1f66aebde0e04ff4f7f668fa02e95a6ebb9cfe6033d",
+      "code": "glossary",
+      "en": "Google must register the Workspace email and the Cloud project that owns the OAuth client before these services can be used.",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "6772a9ed1a198f7fa210b65a122911bcd501d0fdfbeca160d507984220614d36",
+      "code": "latin",
+      "en": "Use one Paperclip-managed sign-in for your selected Google services.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a940bcdc8a619a54b17e1f41bff1b9238fbe78953bdaffe7fc157e1bde7dd8a0",
+      "code": "latin",
+      "en": "Use one customer-owned Google OAuth client for your selected Google services.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4cdb7d0c56de519bba2272d5769db60608e40449170e364280c6fb8e41ac5c67",
+      "code": "latin",
+      "en": "Enable the Google Workspace MCP APIs and register Paperclip's callback URI. Choose which permissions to grant on Google's consent screen; declined permissions disable only the corresponding actions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "79c54a1c91c43569bde32629ae2b2ef3c9c8fb9e586e3ce7ed28f4bd18251571",
+      "code": "glossary",
+      "en": "Enable the Google Workspace MCP APIs and register Paperclip's callback URI. Choose which permissions to grant on Google's consent screen; declined permissions disable only the corresponding actions.",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "00f3ae1007360dd66e16a3494f3244f0cace9504aa0e6af210179df9f82e44b4",
+      "code": "latin",
+      "en": "Sign in with Paperclip Cloud and let your assigned agents publish and manage your Notebook pages.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2fda26d508546a1752a0c2607c6c56f6827a3dd541885666183d4d01462a4a84",
+      "code": "latin",
+      "en": "Create a dedicated Speko voice persona and choose its voice. Paperclip registers signed session tools and keeps the selected Paperclip agent responsible for task work. Public HTTPS callbacks are required. Review provider recording settings; Speko charges are separate from agent costs. Phone calling is withheld pending live qualification.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9a748eec5a1556325b483563319558df48a06f99b81bc724bfcbc62c2a0382a5",
+      "code": "latin",
+      "en": "Manage Unikraft Cloud instances, services, volumes, images, certificates, autoscaling, and sandbox commands and files.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9cdeed8ca11e7de168aef1c2f0787574124422d3eb3bb111fb07f7f430c56392",
+      "code": "latin",
+      "en": "Connect Unikraft",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "57d3dcc915d532acb56fcf88412c36f8ef068e5aa7b54ab4d05f326dca6b45f4",
+      "code": "latin",
+      "en": "Manage resources and run sandbox commands in your Unikraft Cloud organization.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "19c9f990064b56f573ab23f62f21adb2db65aae266cb4ea27dc2754a044ff70a",
+      "code": "latin",
+      "en": "Connect a Unikraft Cloud API token. All published platform API and sandbox plugin actions are available; your action policies control which ones agents can use. Each action can target any Unikraft Cloud metro, and uses the default metro when it does not name one.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2dc7a3048191761d0073ce6dc636d29d72c0eb8ce0501320c95a33fa2c4c6ce6",
+      "code": "latin",
+      "en": "Unikraft API token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7f607d3e7f1fb777a065dfda7b374c321d42ae661638449cc862a40f18154b54",
+      "code": "latin",
+      "en": "Enter Unikraft API token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ead9ebeddba1d814cb7608abf5ae0249c7fa7e1c249cf300150d483356c4d443",
+      "code": "latin",
+      "en": "Dallas (dal)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "da2ba12bc47b395ca47553cf556f9b85384b15de2001953905cc9a56e55d1327",
+      "code": "latin",
+      "en": "Frankfurt (fra)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c4e83f4730c815c36e1dfa743150688c7d8ee37432b2a1255ff02cbbaf42fa3a",
+      "code": "latin",
+      "en": "San Francisco (sfo)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cc1d0778c14d37a8cdfe6e1052d43589ba938ae0b9d7e1a65d38be5f4dc0aa9",
+      "code": "latin",
+      "en": "Singapore (sin)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "da27e7b5ec7383e529dc8348d42f78967295eea4d12d93c83d99f53ca38c1f2c",
+      "code": "latin",
+      "en": "Washington, DC (was)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "69cd53aa591f56b5f137d32c2a6f5278cf09ffdb92254c4d63399f87b7bdc199",
+      "code": "latin",
+      "en": "This connection can run commands in sandboxes, read and write sandbox files, start and stop instances, and delete instances, volumes, and other resources. Select trusted agents and set action permissions before use. Your Unikraft API token stays in the vault.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7a45e0714eaa2f27ee54a06d837635f3b28a5847b34c67517b57704d401d8d67",
+      "code": "latin",
+      "en": "Allow Paperclip Notebook connections and publishing through an explicitly enabled instance rollout.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a4657d341281480caf70b0a12722ed738bb8dd8a323388d6bf04f0eb08366328",
+      "code": "latin",
+      "en": "Connect an existing Grok Bot as an experimental Paperclip agent. Requires Assistant connections (MCP), Paperclip Runner, and an authenticated public HTTPS instance. Provider spending is not reported.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8cffa1d005242e6bc55fcb06cc41116ce3489261ec7963f9d27a77a2de3d5eff",
+      "code": "latin",
+      "en": "Connect your personal Meta Muse through its managed background receiver and the external Paperclip Runner. Experimental; requires authenticated public HTTPS and Paperclip Runner.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7358b27d3b5c7d796d84514214f2279d1a335424f682aab8f1462fb98190d90f",
+      "code": "latin",
+      "en": "Enter an HTTP or HTTPS OTLP base URL without credentials, query, fragment, or signal path.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "23fa99f9dc12f8c5e0cfad326618b525ae9f3391ea887d75dbdbaaf9d2fb1ce5",
+      "code": "glossary",
+      "en": "Service selection requires Google Workspace",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "42bc01f976b2c3a1fe30e07c0d974ea94a50b592d6cca3d3fb8968b246620a59",
+      "code": "latin",
+      "en": "The selected plugin environment did not complete the Runner hello probe and confirmed cleanup. Check its runtime, account, and model access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c8d366cc93665cfbe4fcc3538f62db53b4ebac29c4767876b01525d3fef77874",
+      "code": "latin",
+      "en": "The verified Copilot runtime authenticated this account and accepted the selected model. No model prompt was sent.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7ddc2f227a648addefeaef290b2cb4f31b4b2e49de957f78d2447fc704a1b0b7",
+      "code": "latin",
+      "en": "Use an OpenRouter API model ID without the openrouter/ prefix",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e5fdf2efc3e7710b6b880da6ff3f3617496be579973923b39a791fd5efc9eef2",
+      "code": "short-key",
+      "en": "Accuracy",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "193f404545d2b542931a999d7753d41e193ae1afa396fb2677896b9b49a0a825",
+      "code": "latin",
+      "en": "Add OpenAI Dot as a standalone agent choice with its own experimental opt-in. Requires Assistant connections (MCP) and an authenticated instance with a public HTTPS URL.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c1ad802f27a22c8e2ab481e6135a36f3398af07cc821bc2c77ba1b804f975efc",
+      "code": "latin",
+      "en": "Dot external execution must be reconciled before a new assignment; Paperclip cannot confirm its external stop.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f2535b83a693c5e04d5f1975d341a6d560435dde189e11e62cb15b6cc4acae37",
+      "code": "latin",
+      "en": "Dot usage and provider cost are unavailable. Explicit externally billed provider acknowledgement is required.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d86261e7e4cc3339d7bfe1129932122a24b465fba15307b8bac549b01f75d062",
+      "code": "short-key",
+      "en": "Extended",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "3b462d1d280e63631b8d718f29818442419027e0723418290aa533b80a2b1828",
+      "code": "short-key",
+      "en": "Tier",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
     }
   ]
 }

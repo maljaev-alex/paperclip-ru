@@ -27,6 +27,13 @@ test("assistant connection consent captions translate without changing the displ
   assert.equal(translate("Connected as you · Read and write · Configure agents, projects and skills"), "Подключено от вашего имени · чтение и запись · настройка агентов, проектов и навыков");
 });
 
+test("budget and workspace captions retain literal amounts and provider names", () => {
+  const { translate } = createTranslator(loadDictionary());
+  assert.equal(translate("$1,200.15 of $3,000.00 this month"), "$1,200.15 из $3,000.00 за текущий месяц");
+  assert.equal(translate("Selected: Core / local"), "Выбрано: встроенное / локальное");
+  assert.equal(translate("Selected: Save  Dashboard"), "Выбрано: Save  Dashboard");
+});
+
 test("описания вариантов «Лимит» в управлении взаимодействиями переведены", () => {
   const dict = loadDictionary();
   const notCreator = "Even a card that asks for Anyone is narrowed to exclude its creator.";

@@ -303,6 +303,9 @@ function overlaySource() {
   }
 
   function translateAttribute(el, name, value) {
+    if (name === 'aria-label' && value.startsWith('Select ') && el.matches('tbody td button[role="checkbox"]')) {
+      return 'Выбрать ' + value.slice(7);
+    }
     if (name === 'title' && activityActorSummary(el)) {
       var prefix = el.firstElementChild.textContent + ' ';
       if (value.indexOf(prefix) !== 0) return value;
@@ -438,6 +441,8 @@ function overlaySource() {
     if (link === el && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
+    // AuditFeed renders a human-readable verb and the raw event key separately.
+    if (/^\/[^/]+\/activity\/?$/.test(current) && el.matches('li.px-4.py-3 span.font-mono.opacity-70')) return true;
     // The official MCP consent/setup surfaces display client and organization
     // names without the usual entity links. Keep only those exact data leaves
     // untouched; adjacent headings, permissions and actions still translate.
@@ -445,7 +450,11 @@ function overlaySource() {
       if (el.closest('h1 bdi')) return true;
       if (el.closest('[data-slot="card"]') && el.matches('p.break-words.text-lg.font-semibold, label > span.break-words.font-medium')) return true;
     }
-    if (/^\/assistant-connections\/?$/.test(current) && el.matches('[data-slot="card"] h2.font-medium')) return true;
+    if (/^\/assistant-connections\/?$/.test(current)) {
+      if (el.matches('[data-slot="card"] h2.font-medium')) return true;
+      if (el.matches('[data-slot="card"] > p.text-sm > a.underline[href]') &&
+          /^\/[^/]+\/agents\/[^/]+\/runtime$/.test(el.getAttribute('href'))) return true;
+    }
     if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current) && el.matches('div.space-y-1 > p.font-medium, details section > p.text-sm > strong:first-of-type')) return true;
     if (/^\/[^/]+\/apps\/?$/.test(current) && el.matches('[data-app-slug="assistant-connection"] .border-t > span:not([class])')) return true;
     // ConnectionChoiceList is shared by legacy setup and agent bindings. Its
@@ -951,6 +960,13 @@ export function patchAssistantConnectionName(code) {
   const display = '`Подключение «${' + clientName + '}»${' + connection + '.user?` (${' + owner + '})`:""}`';
   const localized = `function ${name}(${connection}){const ${clientName}=${connection}.clientName.trim();return ${display}}`;
   return code.slice(0, match.index) + localized + code.slice(match.index + match[0].length);
+}
+
+// The three captions are siblings of the values returned by formatTokens.
+// Keep the short word "out" scoped to this component in the official bundle.
+export function patchSubscriptionTokenLabels(code) {
+  const pattern = /children:\[([\w$]+)\(([\w$]+)\.inputTokens\+\2\.cachedInputTokens\)," in · ",\1\(\2\.outputTokens\)," out",\2\.cachedInputTokens>0&&\(0,[\w$]+\.jsxs\)\("span",\{className:"block",children:\[\1\(\2\.cachedInputTokens\)," input cached"\]\}\)\]\}\)\}[\w$]+\([\w$]+,"SubscriptionTokenUsage"\)/g;
+  return code.replace(pattern, match => match.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
 }
 
 /** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */

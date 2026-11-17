@@ -6,7 +6,7 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import { seedOfficial, officialApi, officialAssistantClientName } from '../helpers/official-seed.mjs';
 import { generateRouteMatrix } from '../../tools/generate-route-matrix.mjs';
-import { officialRoutePlan, assertOfficialRouteDestinations } from '../helpers/official-routes.mjs';
+import { officialRoutePlan, assertOfficialRouteDestinations, stableAtLeast } from '../helpers/official-routes.mjs';
 import { officialAuthenticated, officialBrowserOptions, useOriginalOfficialAssets } from '../helpers/official-auth.mjs';
 
 test('official operator routes, reloads, responsive layout and composer', async () => {
@@ -71,6 +71,17 @@ test('official operator routes, reloads, responsive layout and composer', async 
       await originalPage.goto(`${baseUrl}/${prefix}/issues/${seed.issues[0].identifier}`, { waitUntil: 'networkidle' });
       assert.deepEqual(translatedDraft, await draft(originalPage, false), 'The translated composer must preserve the exact draft behavior of this upstream build');
     } finally { await original.close(); }
+    if (stableAtLeast(version, '2026.1023.0')) {
+      const skills = await officialApi(baseUrl)(`/companies/${seed.company.id}/skills`);
+      const skill = skills.find(item => /^[a-z0-9-]+$/.test(item.slug) && skills.filter(other => other.slug === item.slug).length === 1);
+      assert.ok(skill, 'The official skill catalog must contain an installed skill with a unique slug');
+      const skillPath = `/${prefix}/skills/${encodeURIComponent(skill.slug)}`;
+      await page.goto(`${baseUrl}${skillPath}/files/SKILL.md`, { waitUntil: 'networkidle' });
+      await page.getByRole('tab', { name: 'Файлы', selected: true }).waitFor();
+      await page.getByRole('tab', { name: 'Обзор', exact: true }).click();
+      await page.waitForURL(url => url.pathname === skillPath);
+      await page.getByRole('tab', { name: 'Обзор', selected: true }).waitFor();
+    }
     if (!/^(1|true)$/i.test(process.env.PAPERCLIP_RU_PANEL_RESIZE || '')) {
       assert.equal(await page.locator('.pc-ru-resize-handle,[data-pc-ru-panel]').count(), 0, 'Panel resize must stay opt-in');
     }

@@ -6,6 +6,27 @@ import { buildOverlay, patchActivityActorFallbacks } from '../../tools/lib/overl
 import { applyDictionary, extractOccurrences } from '../../tools/lib/strings.mjs';
 import { activityRowSource } from '../helpers/activity-row-fixture.mjs';
 
+test('raw audit keys and accessible roster choices preserve their source values', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><body></body>' }));
+  await page.goto('http://127.0.0.1/QA/activity');
+  await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    document.body.innerHTML = '<ul><li class="px-4 py-3"><span id="verb">agent identity created</span><span class="font-mono opacity-70" id="raw">agent.identity.created</span></li></ul>';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#raw').textContent(), 'agent.identity.created');
+  assert.notEqual(await page.locator('#verb').textContent(), 'agent identity created');
+  await page.evaluate(() => {
+    history.replaceState({}, '', '/QA/agents/all');
+    document.body.innerHTML = '<table><tbody><tr><td><button role="checkbox"></button></td></tr></tbody></table>';
+    document.querySelector('button').setAttribute('aria-label', 'Select Агент  Save');
+  });
+  assert.equal(await page.getByRole('checkbox').getAttribute('aria-label'), 'Выбрать Агент  Save');
+});
+
 test('entity names stay intact while adjacent status, activity and accessibility chrome translate', async (t) => {
   const browser = await chromium.launch({ channel: 'chromium', headless: true });
   t.after(() => browser.close());
@@ -95,7 +116,7 @@ test('assistant client and organization names are protected only on their offici
   const cases = [
     { route: '/mcp-connect/qa-request', html: '<div data-slot="card"><h1><bdi id="name">Dashboard</bdi></h1><p id="company" class="break-words text-lg font-semibold">Settings</p><label><span id="radio-name" class="break-words font-medium">Dashboard</span></label><button id="chrome">Save</button></div><bdi id="other">Settings</bdi>', names: ['name', 'company', 'radio-name'] },
     { route: '/mcp-device', html: '<div data-slot="card"><h1><bdi id="name">Dashboard</bdi></h1><button id="chrome">Save</button></div><bdi id="other">Settings</bdi>', names: ['name'] },
-    { route: '/assistant-connections', html: '<div data-slot="card"><h2 id="name" class="font-medium">Dashboard</h2><button id="chrome">Save</button></div><h2 id="other" class="font-medium">Settings</h2>', names: ['name'] },
+    { route: '/assistant-connections', html: '<div data-slot="card"><h2 id="name" class="font-medium">Dashboard</h2><p class="text-sm">Works as <a id="agent" class="underline" href="/CMP/agents/qa/runtime">Dashboard</a></p><button id="chrome">Save</button></div><h2 id="other" class="font-medium">Settings</h2>', names: ['name', 'agent'] },
     { route: '/CMP/apps/assistant-connection', html: '<div class="space-y-1"><p id="name" class="text-sm font-medium">Dashboard</p></div><div class="space-y-1"><p id="company" class="font-medium">Settings</p></div><button id="chrome">Save</button><p id="other" class="font-medium">Settings</p>', names: ['name', 'company'] },
     { route: '/CMP/apps', html: '<div data-app-slug="assistant-connection"><div class="border-t"><span id="name">Dashboard</span><span id="chrome" class="text-xs">Save</span></div><h2 id="other" class="font-medium">Settings</h2></div>', names: ['name'] },
   ];

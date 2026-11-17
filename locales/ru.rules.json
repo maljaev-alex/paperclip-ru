@@ -1,4 +1,9 @@
 [
+  {"pattern":"^(-?\\$[\\d,]+\\.\\d{2}) of (-?\\$[\\d,]+\\.\\d{2}) this month$","replace":"$1 из $2 за текущий месяц","scope":"text"},
+  {"pattern":"^Selected: Core / local$","replace":"Выбрано: встроенное / локальное","scope":"text"},
+  {"pattern":"^Inherited default: Core / local$","replace":"Унаследовано по умолчанию: встроенное / локальное","scope":"text"},
+  {"pattern":"^Selected: (.{1,160})$","replace":"Выбрано: $1","scope":"text"},
+  {"pattern":"^Inherited default: (.{1,160})$","replace":"Унаследовано по умолчанию: $1","scope":"text"},
   {"pattern":"^mcp connection authorized$","replace":"авторизовал","scope":"text"},
   {"pattern":"^mcp connection revoked$","replace":"отозвал","scope":"text"},
   {"pattern":"^mcp_connection$","replace":"подключение MCP","scope":"text"},

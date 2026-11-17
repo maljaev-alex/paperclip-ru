@@ -1,6 +1,6 @@
 // Exact product names and technical identifiers observed in the official UI.
 // Operator sentences and unknown human-facing labels remain audit failures.
-const brands = new Set(['Paperclip', 'Codex', 'ChatGPT', 'Claude', 'Claude Code', 'Cursor', 'Cursor Cloud', 'Gemini CLI', 'Grok Build', 'Hermes Gateway', 'Hermes', 'HTTP', 'Kimi Code', 'OpenClaw Gateway', 'OpenCode', 'Pi', 'Smoke Lab', 'JSON', 'Markdown', 'API', 'CLI', 'MCP', 'URL', 'USD', 'UTC', 'GitHub', 'OpenAI', 'Anthropic', 'Google', 'OAuth', 'ACP', 'ACPX', 'Docker', 'Node.js']);
+const brands = new Set(['Paperclip', 'Codex', 'Codex CLI', 'ChatGPT', 'Claude', 'Claude Code', 'Cursor', 'Cursor Cloud', 'Gemini CLI', 'GitHub Copilot', 'Grok Build', 'Grok Bot', 'Hermes Gateway', 'Hermes', 'HTTP', 'HTTPS', 'Kimi Code', 'Muse', 'OpenAI Dot', 'OpenClaw Gateway', 'OpenCode', 'Pi', 'Smoke Lab', 'JSON', 'Markdown', 'API', 'CLI', 'MCP', 'URL', 'UUID', 'USD', 'UTC', 'GitHub', 'OpenAI', 'Anthropic', 'Google', 'OAuth', 'ACP', 'ACPX', 'Docker', 'Node.js']);
 const ids = new Set(['acpx_local', 'claude_local', 'codex_local', 'cursor', 'cursor_cloud', 'gemini_local', 'grok_local', 'hermes_gateway', 'hermes_local', 'http', 'kimi_local', 'openclaw_gateway', 'opencode_local', 'pi_local']);
 const files = new Set(['AGENTS.md', '.paperclip.yaml', 'COMPANY.md', 'README.md', 'org-chart.png']);
 const searches = new Set(['status:todo', 'status:blocked', 'assignee:me', 'is:open', 'is:closed', 'project:"Paperclip App"']);
@@ -13,11 +13,28 @@ const integrations = new Set(['Zapier', 'Slack', 'Notion', 'Linear', 'Google She
   'Postman', 'Resend', 'Sentry', 'Shopify', 'Stripe', 'Supabase', 'Todoist', 'Webflow', 'Wix',
   'AgentMail', 'Composio', 'Microsoft Teams', 'Telegram', 'Discord', 'Photon', 'Photon Cloud', 'iMessage Photon', 'Apple Messages', 'Vercel Connect', 'Honeycomb',
   'Railway', 'You.com', 'Arcade', 'Executor', 'Composio Connect',
-  'Browser Use Cloud', 'Fireflies', 'Neon', 'GitHub Code Review Bot', 'Zep', 'Supermemory', 'Cognee', 'Honcho']);
+  'Browser Use Cloud', 'Fireflies', 'Neon', 'GitHub Code Review Bot', 'Zep', 'Supermemory', 'Cognee', 'Honcho',
+  'Amazon Bedrock', 'Bitly', 'Braintrust', 'Calendly', 'Daytona', 'Enterpret', 'Exa', 'Firecrawl', 'Google Gemini', 'GSC Wizard']);
+// These official catalogue names include words that could be untranslated
+// operator text elsewhere. Check the actual list item before accepting them.
+const catalogTerms = new Map([
+  ['Amazon Bedrock', ['Amazon Bedrock', 'Bedrock']],
+  ['Chat Completions API', ['Chat Completions API']],
+  ['Messages API', ['Messages API']],
+  ['Ditto', ['Ditto']],
+  ['Gauge', ['Gauge']],
+  ['Google Workspace', ['Gmail', 'Drive', 'Docs', 'Sheets', 'Slides', 'Calendar']],
+  ['Make', ['Make']],
+  ['Parallel Search', ['Parallel Search', 'Parallel']],
+]);
 const upstreamSkills = new Set(['paperclip', 'paperclip-board', 'paperclip-converting-plans-to-tasks', 'paperclip-create-agent', 'para-memory-files', 'paperclipai/paperclip/paperclip', 'paperclipai', 'agentmail', 'first-task', 'slack']);
 // This is the shipped skill's description, consumed by agents as content.
 // Preserve its bytes and accept it only in the observed skill-card surfaces.
 const firstTaskDescription = "Guide the user's first Paperclip task when its description invokes /first-task. Interpret the opening answer, clarify their goal, propose a plan or a single task, and wait for approval before hiring agents or executing approved work.";
+const bundledSkillDescriptions = new Map([
+  ['complain', 'Autonomously yeet a brief, unstructured complaint about agent tooling or doing agent work. Preserve the raw voice. Submit proactively without permission, preview, or announcement, then continue the primary task.'],
+  ['suggestion-box', 'Quietly suggest a concrete improvement after observing material, generalizable friction in agent work. Submit proactively without permission, preview, or announcement, then continue the primary task.'],
+]);
 const upstreamContentNames = new Set(['Reflection Coach', 'Summarizer', 'Refresh stale summary slots',
   'Review recent agent trajectories for coaching proposals']);
 
@@ -55,6 +72,32 @@ const abbreviations = new Set(['ID']);
 
 export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [], activityActors = [] } = {}) {
   const value = candidate.value;
+  const route = candidate.route || '';
+  const classes = (typeof candidate.className === 'string' ? candidate.className : '').split(/\s+/);
+  const hasClasses = (...tokens) => tokens.every(token => classes.includes(token));
+  const companySkills = /^\/[^/]+\/skills(?:\/studio)?\/?$/.test(route);
+  const agentSkills = /^\/[^/]+\/agents\/[^/]+\/skills\/?$/.test(route);
+  const agentDashboard = /^\/[^/]+\/agents\/[^/]+\/dashboard\/?$/.test(route);
+  const catalog = /^\/[^/]+\/apps(?:\/connections)?\/?$/.test(route) && /^[a-z0-9][a-z0-9-]*$/.test(candidate.appSlug || '');
+  const appTerms = catalog ? catalogTerms.get(candidate.appName) : undefined;
+  if (appTerms && candidate.context === 'app-catalog-heading' && candidate.tag === 'H2' && !candidate.attribute
+      && value === candidate.appName) return 'catalog-product-name';
+  if (bundledSkillDescriptions.has(value)) {
+    if (candidate.attribute) return null;
+    if (companySkills && candidate.tag === 'DIV' && hasClasses('truncate', 'font-mono', 'font-medium', 'text-foreground')
+      || agentSkills && candidate.tag === 'SPAN' && hasClasses('truncate', 'font-medium', 'text-foreground')
+      || agentDashboard && candidate.context === 'assigned-skill-badge' && candidate.tag === 'SPAN' && hasClasses('rounded-full', 'bg-secondary', 'text-secondary-foreground')
+      || /^\/[^/]+\/skills\/studio\/new\/?$/.test(route) && candidate.context === 'skill-picker-identifier' && candidate.tag === 'SPAN' && hasClasses('truncate')) {
+      return 'upstream-skill-identifier';
+    }
+    return null;
+  }
+  if ((companySkills || agentSkills) && candidate.context === 'skill-summary' && candidate.tag === 'P' && !candidate.attribute
+    && bundledSkillDescriptions.get(candidate.skillId) === value) return 'upstream-skill-description';
+  if (agentSkills && candidate.tag === 'BUTTON' && candidate.attribute === 'aria-label' && hasClasses('rounded-full', 'border-2')
+    && /^(?:Включить|Отключить) (?:complain|suggestion-box)$/.test(value)) return 'translated-skill-toggle';
+  if (agentDashboard && candidate.context === 'agent-identity-key' && candidate.tag === 'SPAN' && !candidate.attribute
+    && hasClasses('font-mono', 'text-sm') && /^sha256:[A-Za-z0-9_-]{12}…?$/.test(value)) return 'public-key-fingerprint';
   if (candidate.context === 'assistant-client-name' && assistantClientNames.includes(value)) return 'seeded-assistant-client-name';
   if (candidate.context === 'activity-actor-name') {
     return /^\/[^/]+\/dashboard\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN' && !candidate.attribute
@@ -71,11 +114,12 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
     }
     return null;
   }
-  if (['mcp.connection_authorized', 'mcp.connection_revoked'].includes(value)
-      && /^\/[^/]+\/activity\/?$/.test(candidate.route || '') && candidate.tag === 'SPAN'
-      && /(?:^|\s)font-mono(?:\s|$)/.test(candidate.className || '')
-      && /(?:^|\s)opacity-70(?:\s|$)/.test(candidate.className || '')
-      && !candidate.attribute) return 'audit-event-code';
+  if (/^\/[^/]+\/activity\/?$/.test(route) && candidate.tag === 'SPAN' && !candidate.attribute) {
+    if (['mcp.connection_authorized', 'mcp.connection_revoked', 'agent.identity.created', 'primary_agent.initialized'].includes(value)
+      && hasClasses('font-mono', 'text-(length:--text-micro)', 'opacity-70')) return 'audit-event-code';
+    if (value === 'user_preference' && candidate.context === 'audit-entity-type'
+      && hasClasses('text-muted-foreground')) return 'audit-entity-type';
+  }
   if (/[\u0400-\u04ff]/.test(value)) {
     // A translated sentence may contain a brand or a filename, but arbitrary
     // English fragments in the same sentence must still fail the audit.
@@ -92,7 +136,10 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
       'ID', 'npm', 'createAdapter', 'default', 'SSH', 'Rust', 'Runner', 'app-server', 'PAP-1009', 'paperclip_connection',
       'Postgres', 'SQL', 'LAN', 'VPN', 'HEX', 'slug',
       'Drive', 'Calendar', 'Chat', 'Authorization', 'Pro',
+      'AWS', 'Copilot', 'Meta Muse', 'Git', 'Google Search Console', 'Bing Webmaster',
       'Cmd/Ctrl', 'project', 'workspaces-overview', 'project-workspace', 'reflection-coach', 'summarize-status'];
+    if (appTerms && candidate.context === 'app-catalog-chrome') allowed.push(...appTerms);
+    if (/^\/[^/]+\/company\/settings\/instance\/experimental\/?$/.test(route)) allowed.push('Dot');
     for (const token of allowed.sort((a, b) => b.length - a.length)) {
       const escaped = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       remainder = remainder.replace(new RegExp(`(?<![A-Za-z0-9_])${escaped}(?![A-Za-z0-9_])`, 'g'), '');

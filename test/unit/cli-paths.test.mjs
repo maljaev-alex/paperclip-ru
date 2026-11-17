@@ -5,7 +5,7 @@ import { EXIT, TOOL_VERSION } from "../../tools/lib/constants.mjs";
 import { ToolError } from "../../tools/lib/fs-atomic.mjs";
 import { candidateRoots } from "../../tools/lib/paths.mjs";
 import { buildManifest, normalizeManifest } from "../../tools/lib/manifest.mjs";
-import { patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, INDEX_MARKER, OVERLAY_FILE } from "../../tools/lib/overlay.mjs";
+import { patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchSubscriptionTokenLabels, INDEX_MARKER, OVERLAY_FILE } from "../../tools/lib/overlay.mjs";
 import { assertInside, sha256 } from "../../tools/lib/fs-atomic.mjs";
 import os from "node:os";
 import path from "node:path";
@@ -163,6 +163,15 @@ test("skill overview navigation: после файла уходит с /files/",
 test("skill overview navigation: неизвестная сигнатура", () => {
   const { patched } = patchSkillOverviewNavigation(`function Ct(Ie){return Ie}`);
   assert.equal(patched, false);
+});
+
+test("subscription token captions keep the upstream amounts and formatter", () => {
+  const source = 'function c({usage:e}){return(0,t.jsxs)("span",{className:"font-mono text-xs text-muted-foreground",children:[f(e.inputTokens+e.cachedInputTokens)," in · ",f(e.outputTokens)," out",e.cachedInputTokens>0&&(0,t.jsxs)("span",{className:"block",children:[f(e.cachedInputTokens)," input cached"]})]})}r(c,"SubscriptionTokenUsage")';
+  const result = patchSubscriptionTokenLabels(source);
+  assert.equal(result, source.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
+  assert.equal(patchSubscriptionTokenLabels(result), result);
+  const other = source.replace("SubscriptionTokenUsage", "UnrelatedUsage");
+  assert.equal(patchSubscriptionTokenLabels(other), other);
 });
 
 test("assertInside блокирует выход по .. и symlink-цель вне корня", () => {

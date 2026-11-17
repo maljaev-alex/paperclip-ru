@@ -33,7 +33,8 @@ const execute = (program, args, { cwd = project, env = process.env, label = 'com
   const outputFile = path.join(output, `${label}.log`);
   const out = fs.openSync(outputFile, 'w');
   const child = spawn(program, args, { cwd, env, windowsHide: true, stdio: ['ignore', out, out] });
-  const timeout = setTimeout(() => child.kill(), 20 * 60 * 1000);
+  // The authenticated route matrix reloads each page at both viewport sizes.
+  const timeout = setTimeout(() => child.kill(), (label === 'browser' ? 35 : 20) * 60 * 1000);
   child.on('error', reject);
   child.on('close', code => {
     clearTimeout(timeout);
