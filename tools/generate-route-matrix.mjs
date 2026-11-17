@@ -48,6 +48,11 @@ export function readRouteAuditState() {
     if (attribute === 'title') return { context: 'activity-actor-title', actorName: summary.firstElementChild.textContent.trim() };
     return {};
   };
+  const auditRow = 'ul.divide-y.divide-border:is([aria-label="Audit activity"],[aria-label="Активность аудита"])'
+    + ' > li.px-4.py-3.text-sm > div.flex.items-start.justify-between:has(> time) > div.min-w-0.space-y-1';
+  const auditAction = auditRow + ' > div.flex.flex-wrap.items-center.gap-2.text-xs.text-muted-foreground'
+    + ' > span.font-mono.opacity-70[class~="text-(length:--text-micro)"]:last-child';
+  const auditEntity = auditRow + ' > div.text-foreground > span.text-muted-foreground + span.text-muted-foreground:last-child';
   const dataContext = (el, attribute) => {
     const app = el.closest('[role="listitem"][data-app-slug]');
     if (app && (!attribute || attribute === 'aria-label')) {
@@ -64,8 +69,12 @@ export function readRouteAuditState() {
     if (!attribute && el.matches('section[aria-labelledby="agent-skills-heading"] [data-slot="badge"]')) {
       return { context: 'assigned-skill-badge' };
     }
-    if (!attribute && el.matches('li.text-sm div.text-foreground > span.text-muted-foreground + span.text-muted-foreground:last-child')
-      && el.closest('li').querySelector('span.font-mono.opacity-70')) return { context: 'audit-entity-type' };
+    if (!attribute && el.matches('section button.flex.w-full.items-center.gap-3.px-3[class~="py-2.5"]'
+      + ' > span.flex.min-w-0.flex-1.flex-col > span.truncate.text-sm.font-medium:first-child')) {
+      return { context: 'skill-studio-landing-name' };
+    }
+    if (!attribute && el.matches(auditAction)) return { context: 'audit-event-code' };
+    if (!attribute && el.matches(auditEntity)) return { context: 'audit-entity-type' };
     if (!attribute && el.matches('p.line-clamp-2.text-muted-foreground')) {
       const header = el.closest('[role="button"].group')?.querySelector('div.truncate.font-mono.font-medium.text-foreground');
       if (header) return { context: 'skill-summary', skillId: header.textContent.trim() };

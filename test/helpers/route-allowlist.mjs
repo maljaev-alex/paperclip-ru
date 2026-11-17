@@ -21,6 +21,7 @@ const catalogTerms = new Map([
   ['Amazon Bedrock', ['Amazon Bedrock', 'Bedrock']],
   ['Chat Completions API', ['Chat Completions API']],
   ['Messages API', ['Messages API']],
+  ['Responses API', ['Responses API', 'Emissary']],
   ['Ditto', ['Ditto']],
   ['Gauge', ['Gauge']],
   ['Google Workspace', ['Gmail', 'Drive', 'Docs', 'Sheets', 'Slides', 'Calendar']],
@@ -69,6 +70,13 @@ const fieldKeyLists = new Set(['status, id, updated']);
 
 // Latin abbreviations that stay latin in Russian operator text.
 const abbreviations = new Set(['ID']);
+// Raw actions observed in the AuditFeed on disposable official installations.
+// The operator-facing action next to the actor is audited independently.
+const auditEventCodes = new Set([
+  'mcp.connection_authorized', 'mcp.connection_revoked', 'agent.identity.created', 'primary_agent.initialized',
+  'issue.document_created', 'issue.created', 'issue.read_marked', 'issue.conversation_opened',
+  'company.updated', 'company.created', 'project.created', 'agent.paused', 'agent.created', 'budget.policy_upserted',
+]);
 
 export function classifyEnglish(candidate, { companyPrefixes = [], userValues = [], assistantClientNames = [], activityActors = [] } = {}) {
   const value = candidate.value;
@@ -76,6 +84,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   const classes = (typeof candidate.className === 'string' ? candidate.className : '').split(/\s+/);
   const hasClasses = (...tokens) => tokens.every(token => classes.includes(token));
   const companySkills = /^\/[^/]+\/skills(?:\/studio)?\/?$/.test(route);
+  const skillStudio = /^\/[^/]+\/skills\/studio\/?$/.test(route);
   const agentSkills = /^\/[^/]+\/agents\/[^/]+\/skills\/?$/.test(route);
   const agentDashboard = /^\/[^/]+\/agents\/[^/]+\/dashboard\/?$/.test(route);
   const catalog = /^\/[^/]+\/apps(?:\/connections)?\/?$/.test(route) && /^[a-z0-9][a-z0-9-]*$/.test(candidate.appSlug || '');
@@ -87,7 +96,8 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
     if (companySkills && candidate.tag === 'DIV' && hasClasses('truncate', 'font-mono', 'font-medium', 'text-foreground')
       || agentSkills && candidate.tag === 'SPAN' && hasClasses('truncate', 'font-medium', 'text-foreground')
       || agentDashboard && candidate.context === 'assigned-skill-badge' && candidate.tag === 'SPAN' && hasClasses('rounded-full', 'bg-secondary', 'text-secondary-foreground')
-      || /^\/[^/]+\/skills\/studio\/new\/?$/.test(route) && candidate.context === 'skill-picker-identifier' && candidate.tag === 'SPAN' && hasClasses('truncate')) {
+      || skillStudio && candidate.context === 'skill-studio-landing-name' && candidate.tag === 'SPAN' && hasClasses('truncate', 'text-sm', 'font-medium')
+      || /^\/[^/]+\/skills\/studio(?:\/new)?\/?$/.test(route) && candidate.context === 'skill-picker-identifier' && candidate.tag === 'SPAN' && hasClasses('truncate')) {
       return 'upstream-skill-identifier';
     }
     return null;
@@ -115,7 +125,7 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
     return null;
   }
   if (/^\/[^/]+\/activity\/?$/.test(route) && candidate.tag === 'SPAN' && !candidate.attribute) {
-    if (['mcp.connection_authorized', 'mcp.connection_revoked', 'agent.identity.created', 'primary_agent.initialized'].includes(value)
+    if (candidate.context === 'audit-event-code' && auditEventCodes.has(value)
       && hasClasses('font-mono', 'text-(length:--text-micro)', 'opacity-70')) return 'audit-event-code';
     if (value === 'user_preference' && candidate.context === 'audit-entity-type'
       && hasClasses('text-muted-foreground')) return 'audit-entity-type';

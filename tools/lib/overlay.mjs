@@ -303,6 +303,9 @@ function overlaySource() {
   }
 
   function translateAttribute(el, name, value) {
+    if (name === 'aria-label' && value === 'Подключить Local endpoint' && el.closest('[data-app-slug="local"]')) {
+      return translate('Connect Local endpoint', 'attr');
+    }
     if (name === 'aria-label' && value.startsWith('Select ') && el.matches('tbody td button[role="checkbox"]')) {
       return 'Выбрать ' + value.slice(7);
     }
@@ -442,7 +445,13 @@ function overlaySource() {
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
     // AuditFeed renders a human-readable verb and the raw event key separately.
-    if (/^\/[^/]+\/activity\/?$/.test(current) && el.matches('li.px-4.py-3 span.font-mono.opacity-70')) return true;
+    if (/^\/[^/]+\/activity\/?$/.test(current)) {
+      if (el.matches('li.px-4.py-3 span.font-mono.opacity-70')) return true;
+      var agentActor = el.closest('li.px-4.py-3 span.inline-flex.min-w-0.items-center[title]');
+      var agentName = agentActor && agentActor.querySelector(':scope > span.truncate.font-medium.text-foreground');
+      if (agentName && (el === agentActor || el === agentName)) return true;
+    }
+    if (el.matches('.pc-ru-audit-identity, .pc-ru-audit-identity > span.truncate')) return true;
     // The official MCP consent/setup surfaces display client and organization
     // names without the usual entity links. Keep only those exact data leaves
     // untouched; adjacent headings, permissions and actions still translate.
@@ -967,6 +976,18 @@ export function patchAssistantConnectionName(code) {
 export function patchSubscriptionTokenLabels(code) {
   const pattern = /children:\[([\w$]+)\(([\w$]+)\.inputTokens\+\2\.cachedInputTokens\)," in · ",\1\(\2\.outputTokens\)," out",\2\.cachedInputTokens>0&&\(0,[\w$]+\.jsxs\)\("span",\{className:"block",children:\[\1\(\2\.cachedInputTokens\)," input cached"\]\}\)\]\}\)\}[\w$]+\([\w$]+,"SubscriptionTokenUsage"\)/g;
   return code.replace(pattern, match => match.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
+}
+
+// AuditActor feeds Identity both API-defined user names and its own fallbacks.
+// Only the fallbacks belong in the dictionary. Mark those identity leaves so
+// the DOM pass preserves a real user with a name such as "System" or "Save".
+export function patchAuditActorLabels(code, exact) {
+  const keys = ["Plugin", "Agent", "User", "System"];
+  if (!keys.every(key => exact.has(key))) return code;
+  const pattern = /\(0,([\w$]+)\.jsx\)\(([\w$]+),\{name:([\w$]+)\?\.label\?\?"User",avatarUrl:\3\?\.image\?\?null,size:"sm",className:"font-medium text-foreground"\}\)\}const ([\w$]+)=([\w$]+)\.actorType==="plugin"\?"Plugin":\5\.actorType==="agent"\?"Agent":\5\.actorType==="user"\?"User":"System";return\(0,\1\.jsx\)\(\2,\{name:\4,size:"sm",className:"font-medium text-foreground"\}\)\}[\w$]+\([\w$]+,"AuditActor"\)/g;
+  return code.replace(pattern, match => match
+    .replace(/"(Plugin|Agent|User|System)"/g, (_, key) => JSON.stringify(exact.get(key)))
+    .replaceAll('className:"font-medium text-foreground"', 'className:"font-medium text-foreground pc-ru-audit-identity"'));
 }
 
 /** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */

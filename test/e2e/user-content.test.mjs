@@ -14,10 +14,12 @@ test('raw audit keys and accessible roster choices preserve their source values'
   await page.goto('http://127.0.0.1/QA/activity');
   await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
   await page.evaluate(() => {
-    document.body.innerHTML = '<ul><li class="px-4 py-3"><span id="verb">agent identity created</span><span class="font-mono opacity-70" id="raw">agent.identity.created</span></li></ul>';
+    document.body.innerHTML = '<ul><li class="px-4 py-3"><span class="pc-ru-audit-identity" title="System"><span class="truncate">System</span></span><span id="verb">agent identity created</span><span class="font-mono opacity-70" id="raw">agent.identity.created</span></li></ul>';
     window.__paperclipRu.resweep();
   });
   assert.equal(await page.locator('#raw').textContent(), 'agent.identity.created');
+  assert.equal(await page.locator('.pc-ru-audit-identity').textContent(), 'System');
+  assert.equal(await page.locator('.pc-ru-audit-identity').getAttribute('title'), 'System');
   assert.notEqual(await page.locator('#verb').textContent(), 'agent identity created');
   await page.evaluate(() => {
     history.replaceState({}, '', '/QA/agents/all');
@@ -25,6 +27,12 @@ test('raw audit keys and accessible roster choices preserve their source values'
     document.querySelector('button').setAttribute('aria-label', 'Select Агент  Save');
   });
   assert.equal(await page.getByRole('checkbox').getAttribute('aria-label'), 'Выбрать Агент  Save');
+  await page.evaluate(() => {
+    history.replaceState({}, '', '/QA/apps');
+    document.body.innerHTML = '<article data-app-slug="local"><button aria-label="Подключить Local endpoint"></button></article>';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.getByRole('button').getAttribute('aria-label'), 'Подключить локальную конечную точку');
 });
 
 test('entity names stay intact while adjacent status, activity and accessibility chrome translate', async (t) => {

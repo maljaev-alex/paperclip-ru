@@ -2,8 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { loadDictionary } from '../../tools/lib/dictionary.mjs';
-import { patchActivityActorFallbacks, patchAssistantConnectionName } from '../../tools/lib/overlay.mjs';
+import { patchActivityActorFallbacks, patchAssistantConnectionName, patchAuditActorLabels } from '../../tools/lib/overlay.mjs';
 import { activityRowSource } from '../helpers/activity-row-fixture.mjs';
+
+test('the audit identity localizes only the fallback for each actor type', () => {
+  const source = 'function A(e,p){if(p){const l=p;return(0,j.jsx)(I,{name:l?.label??"User",avatarUrl:l?.image??null,size:"sm",className:"font-medium text-foreground"})}const n=e.actorType==="plugin"?"Plugin":e.actorType==="agent"?"Agent":e.actorType==="user"?"User":"System";return(0,j.jsx)(I,{name:n,size:"sm",className:"font-medium text-foreground"})}r(A,"AuditActor")';
+  const exact = loadDictionary().exact;
+  const patched = patchAuditActorLabels(source, exact);
+  const context = { j: { jsx: (_, props) => props }, I: null, r() {} };
+  vm.runInNewContext(patched, context);
+  for (const [type, en] of [['system', 'System'], ['agent', 'Agent'], ['user', 'User'], ['plugin', 'Plugin']]) {
+    assert.equal(context.A({ actorType: type }).name, exact.get(en));
+  }
+  assert.equal(context.A({}, { label: 'System' }).name, 'System');
+  assert.match(context.A({}, { label: 'System' }).className, /pc-ru-audit-identity/);
+  assert.equal(patchAuditActorLabels(patched, exact), patched);
+});
 
 test('assistant connection labels keep the original client and owner names', () => {
   const source = 'function B(e){const r=e.clientName.trim();return`${e.user?`${m(o(e.user.name))} `:""}${r} connection`}t(B,"assistantConnectionDisplayName");';

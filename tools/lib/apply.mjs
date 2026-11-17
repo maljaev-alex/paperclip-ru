@@ -13,7 +13,7 @@ import { ToolError, assertInside, atomicWriteFile, copyFileAtomic, ensureDir, ha
 import { findServerPackage, listTargets, workPaths } from "./paths.mjs";
 import { loadDictionary, dictionaryStats } from "./dictionary.mjs";
 import { extractOccurrences, applyDictionary } from "./strings.mjs";
-import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, splitByoSidebarChanges, patchActivityActorFallbacks, patchAssistantConnectionName, patchSubscriptionTokenLabels } from "./overlay.mjs";
+import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, splitByoSidebarChanges, patchActivityActorFallbacks, patchAssistantConnectionName, patchSubscriptionTokenLabels, patchAuditActorLabels } from "./overlay.mjs";
 import { assessCompatibility, loadCompatibility } from "./compatibility.mjs";
 import { buildManifest, featureList, featuresEqual, inspectManifestFile, liveHash, overlayRel, proveLegacyV2Manifest } from "./manifest.mjs";
 import { classifyFail, classifyState, hasIndexMarker, overlayPathOf } from "./classify.mjs";
@@ -42,8 +42,9 @@ function patchUiBehavior(source, dict) {
   const overview = patchSkillOverviewNavigation(dirty.code);
   const byo = patchByoAppSidebar(overview.code);
   const actors = patchActivityActorFallbacks(byo.code, dict.exact);
+  const auditActors = patchAuditActorLabels(actors.code, dict.exact);
   return {
-    code: patchSubscriptionTokenLabels(patchAssistantConnectionName(actors.code)),
+    code: patchSubscriptionTokenLabels(patchAssistantConnectionName(auditActors)),
     dirtyPatched: dirty.patched,
     overviewTabPatched: overview.patched,
     activityActorNamesPatched: actors.patched,
