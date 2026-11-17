@@ -100,7 +100,12 @@ export function createTranslator({ exact, rules = [], plurals = {} }) {
         for (const rule of RULES) {
           if (rule.scope !== "any" && rule.scope !== scope) continue;
           rule.re.lastIndex = 0;
-          const m = rule.re.exec(collapsed);
+          let m = rule.re.exec(text);
+          if (!m && collapsed !== text) {
+            rule.re.lastIndex = 0;
+            const normalized = rule.re.exec(collapsed);
+            if (normalized && !normalized.slice(1).some((part) => /\s/.test(part || ""))) m = normalized;
+          }
           if (m) return format(rule.to, m);
         }
       } finally {

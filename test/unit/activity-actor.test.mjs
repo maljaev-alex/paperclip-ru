@@ -2,8 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { loadDictionary } from '../../tools/lib/dictionary.mjs';
-import { patchActivityActorFallbacks } from '../../tools/lib/overlay.mjs';
+import { patchActivityActorFallbacks, patchAssistantConnectionName } from '../../tools/lib/overlay.mjs';
 import { activityRowSource } from '../helpers/activity-row-fixture.mjs';
+
+test('assistant connection labels keep the original client and owner names', () => {
+  const source = 'function B(e){const r=e.clientName.trim();return`${e.user?`${m(o(e.user.name))} `:""}${r} connection`}t(B,"assistantConnectionDisplayName");';
+  const patched = patchAssistantConnectionName(source);
+  assert.notEqual(patched, source);
+  assert.equal(patchAssistantConnectionName(patched), patched);
+  const context = { t() {}, o: name => name.split(' ')[0] };
+  vm.runInNewContext(patched, context);
+  assert.equal(context.B({ clientName: ' Dashboard  tools ', user: { name: 'Save Owner' } }), 'Подключение «Dashboard  tools» (Save)');
+  assert.equal(context.B({ clientName: 'Save' }), 'Подключение «Save»');
+  for (const other of [source.replace('assistantConnectionDisplayName', 'customLabel'), source + source]) {
+    assert.equal(patchAssistantConnectionName(other), other);
+  }
+});
 
 test('ActivityRow fallback patch changes only source UI defaults and preserves every dynamic name source', () => {
   const dictionary = loadDictionary().exact;

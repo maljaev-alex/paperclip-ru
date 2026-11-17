@@ -4,17 +4,17 @@
   "sourceCommit": "07cc692062c0bd844fcdd69c7113bea2acdc2bce",
   "migratedAt": "2026-09-29",
   "lastReview": {
-    "toolVersion": "1.0.4",
-    "date": "2026-10-14",
-    "addedExactFindings": 145,
-    "scope": "Source and semantic review of October UI additions; targeted user-data browser regressions. Existing exact records are preserved."
+    "toolVersion": "1.0.5",
+    "date": "2026-11-18",
+    "addedExactFindings": 207,
+    "scope": "Source and bundle review of UI additions for Paperclip 2026.1023.0 and 2026.1106.0. Existing exact records are preserved."
   },
   "note": "Exact migration of the previously accepted baseline. Raw findings remain available in lint --json; all new or changed diagnostics fail the gate.",
   "byCode": {
-    "glossary": 104,
-    "latin": 951,
+    "glossary": 113,
+    "latin": 1137,
     "suspicious": 2,
-    "short-key": 836
+    "short-key": 848
   },
   "accepted": [
     {
@@ -11374,6 +11374,1248 @@
       "code": "short-key",
       "en": "Shared",
       "reason": "Reviewed ownership label; excluded from static rewriting. Source-shaped pool, legacy connection choice, reused connection and remote account guards preserve API names in visible text and accessibility labels while adjacent ownership and actions translate. Independent browser regressions passed on 2026-10-14. Sources: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx and legacy connection callers."
+    },
+    {
+      "id": "874c08a156c072cd783fb4f8b95dfa6f3119b22a1a9b26ad3633b9553857fe5b",
+      "code": "latin",
+      "en": "Copilot through Paperclip Runner",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Copilot."
+    },
+    {
+      "id": "3c452d9edf66439a39b4d4ba9e6270baf497fd57b387e84a7fc8f02cc5dcc0e8",
+      "code": "latin",
+      "en": "Muse — Personal agent",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Muse."
+    },
+    {
+      "id": "23af66ce525d7682bddf7fc002f6c9f4bff787fd32f2436c00c8249f817258e4",
+      "code": "latin",
+      "en": "Your Dot in ChatGPT",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Dot, ChatGPT."
+    },
+    {
+      "id": "1c6b656afb4bad30d3d4716d746454a7a82886b470822dfb485cdd477ff46539",
+      "code": "latin",
+      "en": "Your personal Muse at muse.ai",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Muse, muse.ai."
+    },
+    {
+      "id": "e381ec31a345223e27395b2e7717a4a60f081d6edd0fc9a5f2618e503fbba901",
+      "code": "latin",
+      "en": "Cursor uses Paperclip questions; per-run cost is unavailable. Pi accepts any provider/model ID. GitHub Copilot awaits qualification.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Pi, Copilot."
+    },
+    {
+      "id": "67e03abd2ba1af34cc6bbdbb4c1299b2084069f5d05752b70554aa7432fe0e87",
+      "code": "latin",
+      "en": "Dot connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot."
+    },
+    {
+      "id": "3dda972ea299c978dd7c038ded849ea78b31b0248583ec1025d9cf3dd929d131",
+      "code": "latin",
+      "en": "Dot does not report token usage or cost. Paperclip cannot enforce a provider spend ceiling; known company and agent budget limits still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot."
+    },
+    {
+      "id": "00ede1169c722304278ecf42b1d8a32fa873260a81524a62d5b78b2097d24209",
+      "code": "latin",
+      "en": "Let Dot read and write its assigned workspace and publish files. Requires a local Runner. Commands are available only on Linux with bubblewrap; they cannot read your home directory or use injected credentials.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot, bubblewrap.."
+    },
+    {
+      "id": "daaa97ebc6cd6b346e7d1cc932f212ecd908e1572df89af36a98648485bc60ac",
+      "code": "latin",
+      "en": "Let Dot read files attached to its current assigned task. File contents are sent to OpenAI. Does not require workspace command access; off by default.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot, OpenAI.."
+    },
+    {
+      "id": "d6d5e5bf4bda52602d450f3952b928d1b81c4caa224502a457c2b589cddae387",
+      "code": "latin",
+      "en": "Muse connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Muse."
+    },
+    {
+      "id": "1eb29586c29353fe448b66a32a2eb457996ebc5f50031c4ec6f0c4ea2b85d3da",
+      "code": "latin",
+      "en": "Muse does not report usage or cost. Paperclip cannot enforce a Muse spend ceiling; known company and agent budget limits still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Muse, Muse.."
+    },
+    {
+      "id": "e60ee3c463c51b5c54cbc33a92396c478cc899555a5dc55e7a0fd2daa7063db7",
+      "code": "latin",
+      "en": "Pi thinking level",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Pi."
+    },
+    {
+      "id": "c2cde161ae9c3092a80f047b47f7a8a591cd5800cff2d839dd1f497a2582a9bd",
+      "code": "latin",
+      "en": "Select Cursor's session mode. Permissions and company approval rules still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Cursor.."
+    },
+    {
+      "id": "f15e79a6dfe6ee8bf0b794b08c37e00d15f97aaf45f9ea8d97b91dd1ce74ea73",
+      "code": "latin",
+      "en": "Unsupported saved mode — select Agent, Plan, or Ask",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Agent, Plan, Ask."
+    },
+    {
+      "id": "263a82fe587b34464463cd86d515d5599ebe7d0d610c19a6197641c02f5abc67",
+      "code": "glossary",
+      "en": "Unsupported saved mode — select Agent, Plan, or Ask",
+      "reason": "Agent is the name of a provider mode, alongside Plan and Ask."
+    },
+    {
+      "id": "b1ae8673eaca2705d3cd8bee64d891566ee7b2ed1ef3f498872df63fac79372f",
+      "code": "latin",
+      "en": "Copilot execution environment",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiConnectionCredentialStep.tsx: Copilot."
+    },
+    {
+      "id": "aac2a33cb8b08ffb0f3fd5c511c0d35b3080bc18e457e9d509a3877a06ceeb93",
+      "code": "latin",
+      "en": "Use a personal fine-grained token with Copilot Requests permission.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiConnectionCredentialStep.tsx: Copilot, Requests.."
+    },
+    {
+      "id": "0eb015a69e8ffb084b679ba2d79885dd3a04d86a831817d4e34757d7c23ebc87",
+      "code": "latin",
+      "en": "API key · x-api-key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: x-api-key."
+    },
+    {
+      "id": "542ef92a978108d8191fb6d7ddbd18df25e2d63c7d9895395f10c4ccce75936c",
+      "code": "latin",
+      "en": "Bedrock API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Bedrock."
+    },
+    {
+      "id": "eb8a7b19b53db594f2f0225eaa4e58662f40162d8e3c4a634ea40417ba2b1284",
+      "code": "latin",
+      "en": "Bedrock API key and AWS region",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Bedrock."
+    },
+    {
+      "id": "13424cd209d7b7d348b43bb21e65d8dbba471eff304719acbcb2c65029b2db97",
+      "code": "latin",
+      "en": "ChatGPT subscription or API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: ChatGPT."
+    },
+    {
+      "id": "a3c66df35231fdb3a27337b1ce22021c354ef747abe8beb428a72484a70bd60f",
+      "code": "latin",
+      "en": "Emissary or another compatible endpoint",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Emissary."
+    },
+    {
+      "id": "6283df70bdd723b737e784308202a93a49e0036420ba98b818ba746b7947818b",
+      "code": "short-key",
+      "en": "Uploads",
+      "reason": "Artifact section label in components/artifacts/ArtifactUploadControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "3771d0b903d4fc6b1cedeba2aa1b477a5d9074c087ad2313fc967eb9fe043e43",
+      "code": "glossary",
+      "en": "Execution is paused for this project until the budget block is resolved.",
+      "reason": "The object is a budget block. The Russian term for lifting a block is idiomatic here."
+    },
+    {
+      "id": "2b697fd84d3f7f2a1a665130efdf138e9d1e555a79338b34b9a4ca40918b7f75",
+      "code": "glossary",
+      "en": "Heartbeats are paused for this scope until the budget block is resolved.",
+      "reason": "The object is a budget block. The Russian term for lifting a block is idiomatic here."
+    },
+    {
+      "id": "dc078668bf5dc6160a8f115610cb78ce4f1d3ae87abf5354548f7c8d5ddb6eb5",
+      "code": "short-key",
+      "en": "Handoffs",
+      "reason": "Case history section label in components/cases/CaseHandoffHistory.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "0ed5dcfdb0e6292b1404c89d08cd7d559f6c93e553f94f7a1d3f01ee965c783d",
+      "code": "latin",
+      "en": "Add a shared OpenAI or OpenRouter API connection to get started.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/decision-models/DecisionModelSettings.tsx: OpenRouter.."
+    },
+    {
+      "id": "14a1fe5e93321b2870b311062f99133229dd92364d740cc679ee28cc1690ff74",
+      "code": "latin",
+      "en": "Choose a supported OpenAI or OpenRouter API connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/decision-models/DecisionModelSettings.tsx: OpenRouter.."
+    },
+    {
+      "id": "e416d623444b51d138ffc355efc0419810d803a22a5abe77fdf0325c1124fa74",
+      "code": "latin",
+      "en": "Connect your Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "65f8996424ba2213513828441c021d6ccb2b175b8bcdcbc6e8a43acea3c3b0a5",
+      "code": "latin",
+      "en": "Dot has not reported useful activity for 15 minutes. Inspect the Dot before assigning replacement work; Paperclip cannot confirm its external stop.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot, Dot."
+    },
+    {
+      "id": "f885df47e383af7b14df995077fc818847583295be8a1fc2920850f537de1c15",
+      "code": "latin",
+      "en": "Dot manages its model and external tools. Paperclip supplies task coordination, people, assigned skills, and connected app tools. Dot can start a task directly from its conversation. Enable Read task attachments below to send assigned task file contents to OpenAI. Enable workspace files and commands for work in the assigned workspace. Provider usage and cost are unavailable; stopping a Paperclip run revokes access without confirming an external stop.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot, Dot."
+    },
+    {
+      "id": "caf99b658980420a91be613126e1c7b15d13118dfebe4fe83d43347d897a2de3",
+      "code": "latin",
+      "en": "Enable OpenAI Dot and Assistant connections (MCP) in experimental settings.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "6a3c8c426a3770d4670a8f4c92fdb5e527d5aebbcfce7889191199182fde568e",
+      "code": "latin",
+      "en": "Pair Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "664fbc880009c39743fd0eeac9e98ea9bd3f37b914d9635253a1be429decb193",
+      "code": "latin",
+      "en": "Paste into your Dot to connect this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "dc255a5c78719a5c999c6b52997437644168844789e370ce6483852f62a89465",
+      "code": "latin",
+      "en": "Save the agent, then return here to pair your Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot.."
+    },
+    {
+      "id": "18d710bdfaaf8e65fada7a57be161aea5119d177094d73eef5e2ee3a51bf6c86",
+      "code": "latin",
+      "en": "Set up with Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "150d141de50a8d2e6aa0332d3aa27503e7547fc775e07606973cc04632e11df4",
+      "code": "latin",
+      "en": "Waiting for Dot to read and confirm the harmless mailbox challenge.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "47bdda77a4251b8ed295c0c3b28e1d05c9457f1345bbaf4d76be8cda7bf75d80",
+      "code": "latin",
+      "en": "Ask the Bot for a Webhook URL navigation link if clicking its routine does nothing.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: URL.."
+    },
+    {
+      "id": "492141b1744f814faf29d7f8cba44f3c0087fc9e105855b7f0a34f089cd29585",
+      "code": "latin",
+      "en": "Enable Grok Bot, Assistant connections (MCP), and Paperclip Runner on an authenticated public HTTPS instance.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: HTTPS-."
+    },
+    {
+      "id": "de2651269925b8f039baca14f6546f110385778115b7892be1d9767dcc588bb9",
+      "code": "latin",
+      "en": "Revokes this session’s Paperclip authority and stops future dispatch. Remote execution may continue. Open Grok Bot to inspect it.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: Bot.."
+    },
+    {
+      "id": "74b0f9619b8ed82d0094f1af54060cf141af893ba73821dc644a6eeb8dfc209c",
+      "code": "latin",
+      "en": "Runs in Grok Bot. The Bot retains its apps and persistent context. Paperclip supplies task coordination and first-party tools. Usage and spending are not reported.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: Bot.."
+    },
+    {
+      "id": "4a6497b8b10768cd2c353af8953446ba31faaedd06ded51d627a3a6fba86abcc",
+      "code": "latin",
+      "en": "Shows Paperclip-reported activity. Open the Grok Bot desktop app to inspect the Bot’s complete activity.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotWorkSummary.tsx: Bot.."
+    },
+    {
+      "id": "75c10e1e77cb90aad2d48cd92969b2b85b8360cefea2392020208178cdefea38",
+      "code": "latin",
+      "en": "An authenticated instance with a public HTTPS URL is required to connect Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse, HTTPS-."
+    },
+    {
+      "id": "27eaf7e602047b7194ec1aca57757c8c4ccdc68265f87be4246e1d99f61f42d6",
+      "code": "latin",
+      "en": "Attest this Muse worker stopped",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "dcbc383c7a4a27d1454cae79e83d937fcf127f24f00c00193cca569182faddb6",
+      "code": "latin",
+      "en": "Connect Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "133ce8bba416272db2b5adf5f7397d389f776a1e5a0dde251807d42f15cf0222",
+      "code": "latin",
+      "en": "Connect your Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "34e92c61e20db48a829674b10979cf9697557bf1cb8c7ac3318f7dfefad9004a",
+      "code": "latin",
+      "en": "Detector removal observation SHA-256",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: SHA-256."
+    },
+    {
+      "id": "603090f03c13286de9572df2bca917a246ee4930b792a3b4e2f171bc9651dcfa",
+      "code": "latin",
+      "en": "Detector removal observed at (UTC)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: UTC."
+    },
+    {
+      "id": "4641b2a53d26b3172a030053e35050760933f69c736a4082fc3b0f0784c879af",
+      "code": "latin",
+      "en": "Detector removal, worker stopping, and sandbox cleanup are separate. Paperclip cannot verify every private Muse tool or stop all personal Muse conversations.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse, Muse.."
+    },
+    {
+      "id": "6296c561365bfacc730a27e439d59d43903dbec362de6b6cc9a5a40cd2f8bfde",
+      "code": "latin",
+      "en": "I have stopped this Muse worker for the named assignment and run. This does not certify independent private tools or unknown native effects.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "b97ce79a8a40b5b3665262a402bb9997d56ecd2320ac293f1a614edfe7ae212e",
+      "code": "latin",
+      "en": "Loading Muse connection…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "d3d6374f71e41f245a7025778772a3f8ada913aad6842acbe1184539e4b42964",
+      "code": "latin",
+      "en": "Muse is disabled in experimental settings. Connection cleanup and stop evidence remain available.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "81da4a26b2aab2f5172cec0bbb15ec7547792b2184a727dc111a6067cf6a69b7",
+      "code": "latin",
+      "en": "Muse reported that this assignment’s worker is quiescent. Independent private effects remain unconfirmed.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "867bcfdafa80b14edc9cc7eed25cfb1eeed1e5513bf44416c6bf6a0648ea3302",
+      "code": "latin",
+      "en": "Muse uses its own tools and permissions. Paperclip coordinates company tasks and questions. Provider usage and cost are unavailable.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "7d40ec412dac4b7bf6170477906edae3e5a215832dfc66cc06d3cee748109392",
+      "code": "glossary",
+      "en": "Native effect outcomes remain unknown and block replacement work. Worker attestation does not resolve or replay those effects.",
+      "reason": "Resolve refers to determining external operation outcomes, not closing a task."
+    },
+    {
+      "id": "51766347d8f8219cacd68fc7beb0977f2ffb0f450fe88a521af4e132cf5d8e9c",
+      "code": "latin",
+      "en": "Observation SHA-256",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: SHA-256."
+    },
+    {
+      "id": "b6a661cbdc3c97d9ebeab786e8c95d8291159155ee266a42944c3ada07011a71",
+      "code": "latin",
+      "en": "Observed at (UTC)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: UTC."
+    },
+    {
+      "id": "3eb5453d0a849d77447a5cd9a843dcb1d963803367485a7ec20cac88e237250a",
+      "code": "latin",
+      "en": "Open Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "1c51c63364ceb557564de04069f3eeb83b3e83eed7029e420622f4acf45ec244",
+      "code": "latin",
+      "en": "Paste into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve the Paperclip hostname.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse., Muse."
+    },
+    {
+      "id": "fa6b651706d8767c158c032993128d8917ca9bd177f52385e65666c06c952084",
+      "code": "latin",
+      "en": "Reconnect Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "17d228d87edf5a4dddd7356d9acc6856baf59613469f52884014a5b732603b7e",
+      "code": "latin",
+      "en": "Record exact Muse detector removal",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "6261641596e8aa5f89d4b95fa1d4b6c7fcbdebaef7bf09e572d408563fbdc018",
+      "code": "latin",
+      "en": "Registered Muse hook ID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "66670c295168e6a11ab0ec54d41b6efaabc7eb7811943a847b2694cbc78b3f31",
+      "code": "latin",
+      "en": "Save the agent, then connect your personal Muse here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "84aec540eb4a0c497889080d241fc8257b2563a520fcea06cf994cee9fb99f53",
+      "code": "latin",
+      "en": "Unable to confirm your account. Refresh to inspect this Muse connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse.."
+    },
+    {
+      "id": "45e2ef3a2ca0390fa96a84313ee884aa8d9ce07afd1e4be1fd1200b8c0084e23",
+      "code": "latin",
+      "en": "Unable to load the Muse connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse.."
+    },
+    {
+      "id": "ef809c7414abdf010065b3b032d671c2f20c4876acfa4f3943ab7c0aae0570bc",
+      "code": "latin",
+      "en": "You attested that this assignment’s Muse worker stopped.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "1989c56c653d0e64840bef83341c5d2691ade3a0dee679ca9bc629fd33ef58f4",
+      "code": "latin",
+      "en": "An organization admin needs to approve this agent before Dot can connect. This page will update after approval.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "18c57110c3fc665aab7511fcd54db74f899f6e036db9010f00fe96a413a07f49",
+      "code": "glossary",
+      "en": "Connection checks passed, but this agent cannot receive tasks. Resolve the agent’s setup blocker in Paperclip.",
+      "reason": "The object is a setup blocker. The Russian verb for removing a blocker is idiomatic here."
+    },
+    {
+      "id": "03be8f5fe3eefa8ffc1197b6372a6edbe89fc06099254197ddf4cb0439ae4cb3",
+      "code": "latin",
+      "en": "Copy the setup prompt and send it to your Dot in ChatGPT. Your Dot will connect itself; we’ll watch for it here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, ChatGPT., Dot."
+    },
+    {
+      "id": "5743ca8b8db646d43940bdf95738269c8d96b663aded226eb0579e176327664c",
+      "code": "latin",
+      "en": "Dot connection checks",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "9efd6cf90d894f0ed4e62558b6d5c4e5504c8560cc3c4881a1cfec1b501fb371",
+      "code": "latin",
+      "en": "Dot uses your OpenAI account. Provider usage and cost aren’t reported to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, OpenAI.."
+    },
+    {
+      "id": "fc6e8a688c018e08faaa3be06192a611bbde07b2f9f8e93c4c78ab053cb8f48f",
+      "code": "latin",
+      "en": "Invite your Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "44efc0563e0ec05e8f6317cfa6f430a22862a1a650bd472faa3c6999c18bc2a7",
+      "code": "latin",
+      "en": "Loading Muse invitation…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "2900d0ac8abc5ed994bc4df6f09998b724cb66159654e4ab60ace723521f4a36",
+      "code": "latin",
+      "en": "Loading Muse setup…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "52f5dd5feba15174395df1f51e4af79f36030cc6f940cf17b664647562825ab7",
+      "code": "latin",
+      "en": "Muse connection checks",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "e760e02a42f6948c48d8c98b0bf13ee1cb5ccc81800d96ac1c9fb9b77d376d9a",
+      "code": "latin",
+      "en": "Muse is connected",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "241a5b7d3367bfdbef62195da6404f879eb9400bf45910569ef187f3541a7a80",
+      "code": "latin",
+      "en": "Muse is disabled. These are the last observed connection checks; new work cannot start.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "f503e7ed77b66576e82d844ff43f4b47afed48e058f1cf82d10b803428831a56",
+      "code": "latin",
+      "en": "Muse is paired. Waiting for the first persisted receiver contact.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "8ee91be690741166bd391bd2423349028fc35d84ed7076403b65d93601a3313c",
+      "code": "latin",
+      "en": "Muse is ready for tasks. All connection checks and agent setup passed.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "349baf6dc7a2042dfb23ef37b05320f60b515b9fd7c9daffdd76209cbaab901d",
+      "code": "latin",
+      "en": "Muse replied to an independent background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "a99ea6c7fd0d7488d392b5436ff438abcbd76807deb5b1c83d58de4480dbab7e",
+      "code": "latin",
+      "en": "Muse requires an authenticated Paperclip instance with a public HTTPS URL and a company operator account.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse, HTTPS-."
+    },
+    {
+      "id": "4b9e84faff92c4bf17c48ea7d2b86f621776098b3a92b6cce09f5b59717fa1ae",
+      "code": "latin",
+      "en": "Muse uses its own approved tools. Provider usage and cost are unavailable to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "53157eadbaa6ed6e4f73cc10aa1c98b9cbd0062f0953ba3cd9dfd9e0274ea405",
+      "code": "latin",
+      "en": "No recent response. Open Muse to check the current conversation and hostname permission, then test again. Silence does not identify a permission problem.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "24b5650671278ae2af95c7d06d6853477eee5f9e4491d71fc34232bf19e27eff",
+      "code": "latin",
+      "en": "Paperclip authorized the scoped Muse agent connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "4fc4db0d9505e49724b8661829208982c8c52a7c218f9160ace8b68b989dc500",
+      "code": "latin",
+      "en": "Paperclip observed a public receiver check. Only an authenticated reply confirms Muse can work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "4b50688b468895db0fd0ab67516fb557bd6a18cd03b7b8b1188bb22b5c4d7c0d",
+      "code": "latin",
+      "en": "Paste the setup prompt into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve this Paperclip hostname. Muse keeps the connection credential in its secure vault. The hostname permission applies to future requests.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse., Muse, Muse."
+    },
+    {
+      "id": "5da59522c6da00ec2ed2f796aa98dc0e8ffcebfccb7150171c988665bf61831e",
+      "code": "latin",
+      "en": "Receiver detected. Waiting for Muse to reply to the background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "0811a99c3b3b83a7e895f8deeb6dc881dbf5994cebdc5f08122aae5f884cb1fd",
+      "code": "latin",
+      "en": "Send this whole prompt to your current Muse conversation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse.."
+    },
+    {
+      "id": "9b33a3ebe0e2acc358d8ccf6f2a24c06c2d20643682efbf96b3352147f226b44",
+      "code": "latin",
+      "en": "Send this whole prompt to your Dot in ChatGPT.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, ChatGPT.."
+    },
+    {
+      "id": "5653f9598308a51d6aafd8a94463894c2868dce412aee7cd782e1b2c6c123404",
+      "code": "latin",
+      "en": "This Muse connection expired. Reconnect Muse with a fresh setup prompt. Previous checks do not restore access.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse, Muse."
+    },
+    {
+      "id": "291c1fc56e05928a9f1de09744c58de4723de8d83cc2c42b4168bde2119753ef",
+      "code": "latin",
+      "en": "Waiting for Dot…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "a3962bcf051f6988fb50a49833824925e3e7ac3c190d18d91120567b46a1018b",
+      "code": "latin",
+      "en": "Waiting for Muse to reply to the current background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "42448f1e2effe96200869096c4fec70d2235a750932202505483fd3ccb7b7736",
+      "code": "latin",
+      "en": "Waiting for your Dot to confirm a test event. No task will be created.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot.."
+    },
+    {
+      "id": "a1e58077c679f66581d58a7a9a90dee2ac48215a7259fbcd84d04dd6d79256b1",
+      "code": "latin",
+      "en": "Watching for Muse to pair. Copy the setup prompt into your current Muse conversation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse., Muse.."
+    },
+    {
+      "id": "3d400a49bd3f0fb9f01615b246b7d454ae3d01c5e26dee66ab09cb6bdd8d8c63",
+      "code": "latin",
+      "en": "Watching for your Dot. Updates will appear here automatically.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot.."
+    },
+    {
+      "id": "105b0550d4406f58c745acbf462bb47826436fe507137ff01719e3382540fad7",
+      "code": "latin",
+      "en": "We’re checking whether this instance can prepare Muse setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "6b777f1951b4de7f1503f828ef50a910e405565793da36fe1ded04db60ff5b90",
+      "code": "latin",
+      "en": "Your Dot confirmed the test event. Paperclip is finishing agent setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "a932b7cc0740eecc7817b2133f52e1ce87e20007945f151e1ae000c319e65f66",
+      "code": "latin",
+      "en": "Your Dot connected, but hasn’t confirmed the test event. Ask it to check Paperclip, then retry.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "c7b38e93a9342a449d48a80103c09b35c32ea2caedfc45f892538142e4074810",
+      "code": "latin",
+      "en": "Your Dot connected. Waiting for it to enable task updates.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "4daf5bd54917da0fd0a44d6ccfb0720ff8e34ff46182b312d0d7bf81adc7642a",
+      "code": "latin",
+      "en": "Your Dot has connected and confirmed task updates. Paperclip is preparing it for assignments.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "ce905146f05061d445973b06092a866fc4c0a23ccb4af235068adf72587626cd",
+      "code": "latin",
+      "en": "Your Dot has connected to this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "5db231fd62340cab94fcf1df33ba02334d51269774d7e0707dd12730059d7fa0",
+      "code": "latin",
+      "en": "Your Dot has connected. We’re checking that task updates can travel both ways.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "eec1c66ac68f8559a271286bee18b04019b1ab17c33a4b8bd3112578d3aad6c5",
+      "code": "latin",
+      "en": "Your Dot is connected",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "24d598e170317a21e8463872ae181119da9b12281c179cd5d51746895ddda031",
+      "code": "latin",
+      "en": "Your Dot is connected. This agent must be available in Paperclip before it can receive assignments.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "f27fa9b01343a77a721c0018c4ddebe73807839972c949271f1717f6d2e933f0",
+      "code": "latin",
+      "en": "Your Dot is ready for tasks. Messages can travel both ways.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "8f8ccd88e8a43e1456a644daabf85e723fcf3fad8a24ecae5ad0025a96041f36",
+      "code": "latin",
+      "en": "Your Dot is subscribed to new assignments and messages.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "6aadab1df794229f2859de155795266fcb2d28dcfaeeb6f06ac6ecd1f348aad5",
+      "code": "latin",
+      "en": "Your Dot received our test and replied to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "6c335e6287628fa6ab699c661cd82352af6d5780978e2a56af4ab9815727def8",
+      "code": "latin",
+      "en": "Enable Muse and Paperclip Runner in experimental settings to connect your personal Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Muse, Muse.."
+    },
+    {
+      "id": "6c5086650288a2a08e43533e9bf21f07eeb51afbd8e358a5655d49c4e2127d75",
+      "code": "latin",
+      "en": "Resume this agent before connecting Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Dot.."
+    },
+    {
+      "id": "2f87e650f1a9cd1963700825d596a885dd44633ecfcab4a63ec27a7dc9efc856",
+      "code": "latin",
+      "en": "This agent was terminated. Invite another agent to connect Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Dot.."
+    },
+    {
+      "id": "ed18c5676e4e03a235623ea762874d8087862d34308e594a2706696fc1172f5d",
+      "code": "latin",
+      "en": "This instance has no public HTTPS URL for Muse. Ask your instance administrator to configure a stable public HTTPS address, then refresh setup. Muse cannot connect through a local-only address.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: HTTPS-, Muse., HTTPS-, Muse."
+    },
+    {
+      "id": "10ddb8a48c01cb56b29319cbe7ba5a33d1459241d5f70302be8bba0cd94ac39f",
+      "code": "latin",
+      "en": "Unable to confirm your account. Refresh to resume Muse setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Muse.."
+    },
+    {
+      "id": "dc6cc97b8f3d08e1f3c864b76a3b78a5dd46af5047003fb1f3f8df775958f1f9",
+      "code": "latin",
+      "en": "Use an authenticated Paperclip instance with a public HTTPS URL and a company operator account. Local trusted access alone cannot connect Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: HTTPS-, Muse."
+    },
+    {
+      "id": "defd4f21a311cae44a175104f689d02b2da51d494b5cebdeac831b980099dd8d",
+      "code": "latin",
+      "en": "Copy the connection instructions into your Bot’s chat. Add the custom MCP plugin and complete its browser authorization.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/GrokBotSetupContent.tsx: MCP-."
+    },
+    {
+      "id": "67aee72d6d5a7bf7cc58df7b220b1f1499e76bb9e4c2f4471ae5d80c9909e854",
+      "code": "latin",
+      "en": "Use the name shown in the Grok Bot desktop app. Bot web links may no longer work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/GrokBotSetupContent.tsx: Bot.."
+    },
+    {
+      "id": "b836297de3bf45339bd741a658d1181c5c1d8a0af8f7cd33af44447d2a61d4f4",
+      "code": "latin",
+      "en": "Acknowledge external provider billing before creating your Dot agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot.."
+    },
+    {
+      "id": "761700b2b1fc8121abbb879b8d4c0ebd24a1e18a4286bf76136be1a3b08c2d16",
+      "code": "latin",
+      "en": "Create this agent, then copy its pairing prompt to your Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot.."
+    },
+    {
+      "id": "e66508ae110ef6881bec9df47615955b1ee1ae05f842a50271cc4dac35d0d3a2",
+      "code": "latin",
+      "en": "Pair your Dot and test event delivery in configuration before assigning work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot."
+    },
+    {
+      "id": "255caa19ee88fae8fe70a3eb0203926d43e1a44172618fc8d55d4f865e12c510",
+      "code": "latin",
+      "en": "Refresh Copilot models and select an available model before creating this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Copilot."
+    },
+    {
+      "id": "8803af0e910f3d8472c8c475524a434a474d835692bb195e21c5e9eead1a65c1",
+      "code": "latin",
+      "en": "Your Dot agent has been created",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot."
+    },
+    {
+      "id": "e3660ac7489449ad034f7eb901b2ad8e018b6e338641c59cf53c7d2a2758b2ab",
+      "code": "latin",
+      "en": "Additional tool details (Claude Code)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Code."
+    },
+    {
+      "id": "86f7426cf0556e946a6e315db0ba79d2e05201fa8c908cd85d806f42bc343d23",
+      "code": "latin",
+      "en": "Braintrust project UUID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Braintrust."
+    },
+    {
+      "id": "0dd27e2745f0d85f14387ee66250340462a2f72de49e5528b925fb9fbd7974d4",
+      "code": "latin",
+      "en": "Custom OTLP",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: OTLP."
+    },
+    {
+      "id": "eb57c1db366dc1bc5ec15ec173dd5c2c99091dc3b153b4dd6967c5227864e1ab",
+      "code": "short-key",
+      "en": "Logs",
+      "reason": "Telemetry record type in components/observability/AgentObservabilitySettings.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "1b8ac3f5d32c15179426aed7dde3aab0e84bb5b94dd7e7f5bc79a771d6df9593",
+      "code": "latin",
+      "en": "OTLP base URL",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: OTLP."
+    },
+    {
+      "id": "bd9f7dc3dd3632a1fab47ca159e547ca73963ce9be8ee0af3607172ec6f3b2e5",
+      "code": "latin",
+      "en": "Send Codex and Claude Code logs and traces to your observability service.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Code."
+    },
+    {
+      "id": "b0c38251969ced15cfeb7768e56d0a11bbff5d857ee4e1b5829ff03e7a607681",
+      "code": "short-key",
+      "en": "Traces",
+      "reason": "Telemetry record type in components/observability/AgentObservabilitySettings.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "fde3b7a67cbdbbbad5232daa09cdb41f9a3231f30af5398750e8b13f711450c1",
+      "code": "latin",
+      "en": "Use the base URL without /v1/logs or /v1/traces. It must be reachable from each agent environment.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: v1, logs, v1, traces.."
+    },
+    {
+      "id": "4dacdf9fa34f1b9bc4c9a076d4884f3dbe24117c6705e5c322c857a1e5ede319",
+      "code": "latin",
+      "en": "Choose a GitHub Copilot token connection for this source.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "f2c5be1f89c94e08e11902c5dc0a4857cfb0387d5a22d82d48baef4f367ae5fe",
+      "code": "latin",
+      "en": "Connect GitHub Copilot and choose a model",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "fd20c315d1956e9c8cb6beee67121798862bc3b2167079d9ed1c66ce96ecbfec",
+      "code": "latin",
+      "en": "Connect GitHub Copilot and select an available model before creating this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "63533551a3d7c917f639e8d90c35f794b55b56f0f7bae6aa5841f811c1cf8bc0",
+      "code": "latin",
+      "en": "Copilot model",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "5e75a2996d7926990b6fbafc91771968ccbf0bc8b8759754577db70b687a5056",
+      "code": "latin",
+      "en": "Could not discover Copilot models.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot.."
+    },
+    {
+      "id": "0dd2d2bf8a2f53c065c0389cf17a9f73e5937068d2234ef2f7c753ffbfc919f6",
+      "code": "glossary",
+      "en": "Could not resolve the execution environment.",
+      "reason": "Resolve means determine the execution environment."
+    },
+    {
+      "id": "1ffc229616421dfb27ddf358532a5191c6cd36004063427366c459bdcd81a7be",
+      "code": "latin",
+      "en": "No available Copilot models were discovered. Check this account’s Copilot access.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot, Copilot."
+    },
+    {
+      "id": "9d092cdbcb95599fdc303f15c18bc086e29afb04ad5f98987d548e1f65c51ff0",
+      "code": "short-key",
+      "en": "Branches",
+      "reason": "Repository branch selector label in components/RepositoryBranchSelect.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "7cc2176154e1de7af90fe79b0c21f73fb9295c884f711453a79c1024b0d8dd82",
+      "code": "short-key",
+      "en": "Annually",
+      "reason": "Subscription billing frequency in components/SubscriptionCostCard.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "a0d8eee1531316e73ea52facb0452a31ec75e9c40703d39db5601f3410548e0e",
+      "code": "short-key",
+      "en": "Currency",
+      "reason": "Subscription currency field in components/SubscriptionCostCard.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "41b271d41248b7722575cdea6d6e03867a0ab2d345bf4743117a852ea7bdaad4",
+      "code": "latin",
+      "en": "Muse chooses its model and effort. Paperclip has no per-task override.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/task-chat/ComposerRunSettingsPicker.tsx: Muse."
+    },
+    {
+      "id": "ffe2376802c75f28d27591f2a034da0a7e3d3bbda7e01ecdcddfbab5e70413b3",
+      "code": "latin",
+      "en": "Speko handles the audio and may retain recordings according to your workspace settings. Paperclip keeps task history. Speko usage is billed separately from agent work. Calls are limited to ten minutes.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/NativeVoiceConversation.tsx: Speko, Speko."
+    },
+    {
+      "id": "f2fe2a3eb9e0d4bee2345b484cf388693cd12ee464bbc4d52df3bca626828340",
+      "code": "latin",
+      "en": "Agent costs are separate. Recordings remain in Speko.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko.."
+    },
+    {
+      "id": "105df64d5d3bd90a546b37b5001ea987ec978b45f8b9414e7b2cb73f395f94d9",
+      "code": "latin",
+      "en": "Confirming call cleanup with Speko.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko.."
+    },
+    {
+      "id": "871dba9d410da2fe6846319fdd0efd45c88be4e25b680e5f8a6bc1fc58eb3ddd",
+      "code": "latin",
+      "en": "Speko charge",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "79ca121479d27ee2be6bf6d1e32c4b118a705414f83d2edd4a14e6a2ab3c6a3a",
+      "code": "latin",
+      "en": "Speko did not provide a transcript for this call.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "33a245ef2f8f1783352fc61170027ba6013454b39e3bd301d3e28f84b0cf7a1a",
+      "code": "latin",
+      "en": "The transcript is unavailable. Paperclip will retry while Speko finishes the report.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "bae31a5f936709a30a72a3295592d6405b46bafd09beeea8d6d52522802d5d59",
+      "code": "latin",
+      "en": "The transcript will appear after Speko finishes the call report.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "fc446739d0f4eea580020ba3d91a9c81437890b8e1896960da5624d495ab8c4e",
+      "code": "latin",
+      "en": "This call encountered a connection problem. Check your Speko connection before trying again.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "e23cfc9882799fa2548bddfc27f92b2ea79ca3b1e9e8b2a008cca3919bd7adb7",
+      "code": "latin",
+      "en": "Buy or import a number in Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "536920c5331f123b375c02b9b9aa683b2b1e77df03bd986959e0acfe65857f0e",
+      "code": "latin",
+      "en": "Complete number setup in Speko before enabling incoming calls.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "a581c79e2a1f4bba6f17a60f07de2908ea0c3e3f8940a63c40abfe81ef760752",
+      "code": "latin",
+      "en": "Loading Speko numbers…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "a4645287635b7f48ca98985eb4c470093f08890d35dbdf0e30f454fc49a02bb9",
+      "code": "latin",
+      "en": "Configure a public HTTPS callback origin for Paperclip first. Local instances need an explicitly configured tunnel or reverse proxy.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: HTTPS-."
+    },
+    {
+      "id": "aab06fd75785c0451661a9cb1466c479eb5978f7d551377eb9094642c1601fda",
+      "code": "latin",
+      "en": "Connect Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "1957106ce770a34a4fffadc5dfa9130bfd50fb8716a3ccf938ac3b02219d1ecf",
+      "code": "latin",
+      "en": "Copy its agent ID and a Speko API key below.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko.."
+    },
+    {
+      "id": "607a5019ce9756f694706f656174ac962d90711089f7cc51bf3af4330f192816",
+      "code": "latin",
+      "en": "Create a dedicated agent in Speko and choose its voice. Keep only Speko’s default tools; Paperclip adds the task connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko, Speko.."
+    },
+    {
+      "id": "f86ce831d19794b63c509a6e75a500048516139679111da2261de4ecda7922ce",
+      "code": "latin",
+      "en": "Credentials and a generated callback signing secret are saved in the company vault. Speko charges for voice usage separately from agent work. Outgoing calls are experimental. After connecting, save your callback number to let this agent call you about your tasks.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "013b67ca3e25f781b9b9fb7ff875dcd014cc9e866dbe5d4a1776a59e22a307bc",
+      "code": "latin",
+      "en": "Open Speko agents",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "21aa4d8435534277eaf76776539f7359b31844ad1049f4aff8dff31915bd3b9e",
+      "code": "latin",
+      "en": "Paste your Speko API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "bf05e12126639bdd26c4aea1de5e8440925a5d67fcaf4554e1dad5f2b357bb0d",
+      "code": "latin",
+      "en": "Reconnect Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "8ed72bd6d631e5008d03798e7df867159b78a14d1c5c2aed70caa053f9496c95",
+      "code": "latin",
+      "en": "Review recording and retention settings in your Speko workspace before testing.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko.."
+    },
+    {
+      "id": "c1f90dc55310d329cd8ca7fa3e0cc6fd9e31fe7fc09462545b3206f48174e7fa",
+      "code": "latin",
+      "en": "Speko agent ID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "5a0ccd00cd7f6dae59741c2d19c7eb64735882d3d46acdd8710e0af41d87fa4f",
+      "code": "latin",
+      "en": "Speko API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "cf2901e89637c12d05f984adee3e5c937b02cf0576d4dd15a901b3ae17c04e98",
+      "code": "latin",
+      "en": "Verifying Speko…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "ef032abbdd9e3b9b3cb4128d416e5e29ec6e21db458495c37acefde5cf6ad04c",
+      "code": "latin",
+      "en": "Voice is unavailable. Check the Speko connection in Apps.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/TaskVoiceLauncher.tsx: Speko."
+    },
+    {
+      "id": "e40a6ba49994e6f7b81bfe3a0dcddaf7139c0a6c14f3f2fbaf931939192bdd5b",
+      "code": "latin",
+      "en": "Ending the call keeps your task running. Speko voice charges are separate from agent costs.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/VoiceControls.tsx: Speko."
+    },
+    {
+      "id": "91023190d83b0f4559d4c3a14e2c9f00f16d0c8e5fddd6f0d7428af40bea6d20",
+      "code": "short-key",
+      "en": "Mute",
+      "reason": "Voice microphone control in components/voice/VoiceControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "415efea3233b02e66f83f3a286ae9aea4981f5e42116ba785a4c6cde308f830c",
+      "code": "short-key",
+      "en": "Unmute",
+      "reason": "Voice microphone control in components/voice/VoiceControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "3b0243f0da97fafa2b12b7e05554d81a2f9ed4215bc361b340fa18a084c7bec0",
+      "code": "latin",
+      "en": "Enter a valid branch name, such as master or release/next.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/WorkspaceBaseRefRecoveryNotice.tsx: master, release, next.."
+    },
+    {
+      "id": "0a4de0c1322dab2e20346cca622c94178c46f1fa34fe356c06e00c8fe2c58164",
+      "code": "glossary",
+      "en": "The configured starting branch must resolve before the agent can start. This repair overrides it for this task.",
+      "reason": "Resolve means locating a Git branch ref."
+    },
+    {
+      "id": "cb2a867dd7430f76c794802fc7ef173c33623f8a53eb7fffc3e1d2338e0042b0",
+      "code": "glossary",
+      "en": "Connect Google Workspace",
+      "reason": "Google Workspace is a product name."
+    },
+    {
+      "id": "b9b46d33618a2b55a6b7c7033cb38bacfcb3229a1efaa972ee3026dc67488dec",
+      "code": "latin",
+      "en": "Connect with a Superagent API key. Billable and destructive tools stay under action policies.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Superagent.."
+    },
+    {
+      "id": "16e1f480c5726507e590aad15add0c14f56a1d567cb616390d440ba136fc2bae",
+      "code": "latin",
+      "en": "Sign in with Ditto. API keys are optional.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Ditto.."
+    },
+    {
+      "id": "82bc0b4cb03077d50c9d98f1bf9a3d2d46371c2e369e30262e968be612f0c749",
+      "code": "latin",
+      "en": "Sign in with Gauge and pick an organization. API keys are optional.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Gauge."
+    },
+    {
+      "id": "d76bdbe635c28a5bb4b66494bba87f53279530fc9186f82b6e35c4266e8464b9",
+      "code": "latin",
+      "en": "Speko has not confirmed hangup yet",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/voice-call-attempt.ts: Speko."
+    },
+    {
+      "id": "3443e62692269619053ef017d752a9b63583e8710321e647cad22898e7f1cfd8",
+      "code": "latin",
+      "en": "Speko needs credits before starting a call. Add credits in Speko, then try again.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/voice-session-controller.ts: Speko, Speko."
+    },
+    {
+      "id": "481dfe2f91dc3e065d95e1b240d10f00c5e41af7bf7de0dcbd4e6647b1f3d713",
+      "code": "latin",
+      "en": "Managed by Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/AgentDetail.tsx: Muse."
+    },
+    {
+      "id": "6ab93698a0a4fd9d2fb3eedd80840ef34c6a1d1eac8ea60e296cf49a8b57182e",
+      "code": "latin",
+      "en": "Runs in Grok Bot. Usage not reported. Stopping this session revokes Paperclip authority; remote execution may continue. Open the Grok Bot desktop app to inspect it. This view contains Paperclip-reported activity.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/AgentDetail.tsx: Bot., Bot.."
+    },
+    {
+      "id": "bbb776286428c5bc954ded5a5074f1e7136ea9d83a86376c9be70b7ad49b624a",
+      "code": "latin",
+      "en": "Connect Copilot",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/Browse.tsx: Copilot."
+    },
+    {
+      "id": "0c40b0ccc4bdbec574b5ebc750c491c59ca282e597833a38af087f0738687c99",
+      "code": "latin",
+      "en": "Open Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/ChatEndpointDetail.tsx: Speko."
+    },
+    {
+      "id": "0c8a53f8ccc8d77bc8583175acf09786c81bf6a2d0a98b5a8cb05f8ac6859201",
+      "code": "latin",
+      "en": "Test your Speko voice connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/ChatEndpointSetup.tsx: Speko."
+    },
+    {
+      "id": "ae165c44e3d39d057ff41d0a49298c26f6a38aaf8db4e4b6245902815c92cf36",
+      "code": "short-key",
+      "en": "Authors",
+      "reason": "GitHub review author filter in pages/apps/chat/GitHubBotConfiguration.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "897fad564cf89bc55e90425b321ce0a013e8e47f62adbe9bca568a9c745383ce",
+      "code": "glossary",
+      "en": "Inline comment options",
+      "reason": "Comments are attached to lines of code. The Russian UI wording describes this directly."
+    },
+    {
+      "id": "0ff4d96199f70946b6413b18565fc1cd9a7a486e8ba4ce2d1079161610bf1479",
+      "code": "short-key",
+      "en": "Mentions",
+      "reason": "GitHub thread mention setting in pages/apps/chat/GitHubBotConfiguration.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "b493c1de98a8aaa3802318df63240547975ac5181db3cf6d0f974599149ba30f",
+      "code": "latin",
+      "en": "If it’s owned by an organization, open that organization’s Settings → Developer settings → GitHub Apps → Edit. You’ll need permission to manage the App.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: Settings, settings, Apps, Edit.."
+    },
+    {
+      "id": "98737ecae04758f880ceae2144a767b672af6ab289bd2fcb34204bdb727c08f2",
+      "code": "latin",
+      "en": "The numeric App ID on the GitHub App’s settings page. This is different from its Client ID or installation ID.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: App."
+    },
+    {
+      "id": "941b1ce546791d0618710db5b27f1aedf917ca1d7ef8d17fa28537dfb0a76b72",
+      "code": "latin",
+      "en": "Upload the .pem file downloaded from this GitHub App, or paste its entire contents, including the BEGIN and END lines.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: BEGIN, END.."
+    },
+    {
+      "id": "e0c5cc824867024af10946814cdff2c9d3db44a6de5043410e58ac606d5e23a8",
+      "code": "latin",
+      "en": "Use a PEM private key, including its BEGIN and END lines. A token or client secret won’t work here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: BEGIN, END.."
+    },
+    {
+      "id": "25b766aeb34c13ec95e33df277878cad84765f0c9dba23ebff7713f78e1c899a",
+      "code": "latin",
+      "en": "Use the numeric App ID, not the Client ID.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: App."
+    },
+    {
+      "id": "21c6ae0c8e513d925b62b33aeaa8e07a9bbcf758abbad3c84e36406c7561bb06",
+      "code": "latin",
+      "en": "You can reuse a .pem file you already saved. GitHub cannot show an old private key again. Creating a new key for the same App keeps its installation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: pem.."
+    },
+    {
+      "id": "664e7a0d0e4db2388871684d2fd56288edd3766f29c2ae82d427b0a705958347",
+      "code": "latin",
+      "en": "Muse — Personal agent (experimental)",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Muse."
+    },
+    {
+      "id": "5b19d75930465bd4e20967f343bc15d2ed3290642e60cb2ef8ceda1e4afad3ad",
+      "code": "latin",
+      "en": "Muse requires acknowledgement of external billing. Configure Muse and enable Allow externally billed provider.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Muse, Muse."
+    },
+    {
+      "id": "8857ef1495da268c3df0647837d86ad0b73beee77daf60031228feb4b09a661c",
+      "code": "latin",
+      "en": "OpenAI Dot (experimental)",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Dot."
+    },
+    {
+      "id": "3d5791b90664cb93fa5095d3947e2d3e77c78f55641a94fd62d334515d27fc9a",
+      "code": "latin",
+      "en": "OpenAI Dot requires acknowledgement of external billing. Configure the Dot adapter and enable Allow externally billed provider.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Dot, Dot."
+    },
+    {
+      "id": "fc4f3195de51e58de2c233a2e979a990b094f0343836ae01522d2f61993ceab8",
+      "code": "latin",
+      "en": "Add OpenAI Dot as a standalone agent choice. Pair your Dot and verify event delivery before assigning work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot, Dot."
+    },
+    {
+      "id": "148bfd1ae64c737751d576f0658d54ff10c0d0c3fc5e5477fd1a3949b3365df2",
+      "code": "latin",
+      "en": "Allow agents to select Paperclip Runner, including authenticated runner ingress when a sandbox requires it. First-run setup offers qualified GitHub Copilot. Turning this off hides the choice without affecting existing native runs.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Copilot.."
+    },
+    {
+      "id": "900e855b52e9ca8da04c5c694d1a08b91370e2b2e8629f0142849fb62e60d007",
+      "code": "latin",
+      "en": "Artifacts V1",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: V1."
+    },
+    {
+      "id": "3860cf36c28bc4f0b1e724664c58128a4830acd85c9a54664a1b45c2aea6558c",
+      "code": "latin",
+      "en": "Connect your personal Meta Muse. Pair it, detect its receiver, and verify an independent background reply before assigning tasks.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Muse.."
+    },
+    {
+      "id": "5267dee5b13fdae2142d8857379a524c07e378518cc5b551bc42488aabd95110",
+      "code": "latin",
+      "en": "Requires Assistant connections (MCP) and an authenticated instance with a public HTTPS URL. Turning this off blocks Dot calls and new work; saved connections are kept.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot."
+    },
+    {
+      "id": "9d2218cfeb55554d57713173b67c92290918e46b6a5ce512ddb011d06666eeb9",
+      "code": "latin",
+      "en": "Toggle artifacts V1 experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: V1."
+    },
+    {
+      "id": "9c87658115aea58aa716e14b0f5a8e37cf21a99a84d97dff2fa827bf4ac2c0fa",
+      "code": "latin",
+      "en": "Toggle Muse experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Muse."
+    },
+    {
+      "id": "a18226103afbef640432afde574d10aee9dfbe07b5ff4acdcca404179f5fbfdc",
+      "code": "latin",
+      "en": "Toggle OpenAI Dot experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot."
+    },
+    {
+      "id": "21679ae569da2bdfeb075b6511dec3fdc3e98d122d35713c04d7c99a78fb43ac",
+      "code": "latin",
+      "en": "Runs in Grok Bot · Usage not reported. Stop Paperclip work revokes this session’s authority; remote execution may continue. Open the Grok Bot desktop app to inspect it.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/IssueDetail.tsx: Bot.."
+    },
+    {
+      "id": "522cc4d83339abfa0340ad6c7f60c7f8495221b2d00803fef8aecf23d84de2ad",
+      "code": "latin",
+      "en": "Connect Dot agent",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "4d3a201053d4444c3536c7df47e1f1e287a51c151a2a47ce9d4aa2008ac95d0c",
+      "code": "latin",
+      "en": "Connect Dot as a Paperclip agent. Pair it with an agent after connecting; assigned work uses that agent’s permissions.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "fec956d1f6a162e1c0bfee8bcc1427e188e2320da192394cb08d899cf0b0abb0",
+      "code": "latin",
+      "en": "Connect Dot with pairing code",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "d975dacc17c56595151a2df673b3674a4c97a83bb619b703b42cbfc5c7db66da",
+      "code": "latin",
+      "en": "Dot agent connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "f5b9332a48a660629373f5e243424a4f4b9dbd6f4836601725cb3bfdfdef1da6",
+      "code": "latin",
+      "en": "Enter the one-use code from your Dot setup prompt to review this agent’s access. Access is granted when you click “Connect Dot with pairing code”.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot, Dot."
+    },
+    {
+      "id": "4ad3a341b41bb841af9bf774416fc4e333610c66271d37305b1cd0056b402c7a",
+      "code": "short-key",
+      "en": "Harness",
+      "reason": "Label of the adapter selector and agent roster column. Kept in no-static because the same token is the external avatar brand label."
     }
   ]
 }

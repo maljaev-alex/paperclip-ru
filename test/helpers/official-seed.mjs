@@ -33,7 +33,8 @@ export async function prepareOfficialInstance(baseUrl) {
   const api = officialApi(baseUrl);
   const settings = await api('/instance/settings/experimental');
   const requested = {
-    enableApps: true, enablePipelines: true, enableCases: true, enableStatusCards: true,
+    enableApps: true, enableCases: true, enableStatusCards: true,
+    ...(Object.hasOwn(settings, 'enablePipelines') ? { enablePipelines: true } : {}),
     enableDecisions: true, enableIsolatedWorkspaces: true, enableGoalsSidebarLink: true,
     ...(Object.hasOwn(settings, 'enableAgentChat') ? { enableAgentChat: true } : {}),
     ...(Object.hasOwn(settings, 'enableChatConnectors') ? { enableChatConnectors: true } : {}),

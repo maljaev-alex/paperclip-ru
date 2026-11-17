@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { randomBytes } from 'node:crypto';
 import { seedOfficial } from '../test/helpers/official-seed.mjs';
 import { bootstrapOfficialAuth, officialAuthenticated } from '../test/helpers/official-auth.mjs';
-import { validateOfficialBrowserSuite } from '../test/helpers/official-routes.mjs';
+import { supportsPublicMcp, validateOfficialBrowserSuite } from '../test/helpers/official-routes.mjs';
 import { treeInventory } from './lib/tree-snapshot.mjs';
 import { restoreOfficialUi } from './lib/official-gate-cleanup.mjs';
 
@@ -25,7 +25,6 @@ let runtime;
 let server;
 let before;
 let accepted;
-const authenticated = officialAuthenticated();
 const browserSuite = process.env.PAPERCLIP_TEST_SUITE || 'all';
 const previousStorageState = process.env.PAPERCLIP_TEST_STORAGE_STATE;
 let activeCli = path.join(project, 'tools/paperclip-ru.mjs');
@@ -47,6 +46,8 @@ const execute = (program, args, { cwd = project, env = process.env, label = 'com
 try {
   const version = process.env.PAPERCLIP_TEST_VERSION || JSON.parse(fs.readFileSync(path.join(project, 'data/compatibility.json'))).currentStable;
   if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('Official gate requires an explicit stable version');
+  process.env.PAPERCLIP_TEST_AUTHENTICATED ??= supportsPublicMcp(version) ? '1' : '0';
+  const authenticated = officialAuthenticated();
   validateOfficialBrowserSuite({ version, browserSuite, artifact: Boolean(process.env.PAPERCLIP_RU_DIST_DIR) });
   fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify({ private: true, dependencies: { '@paperclipai/server': version } }));
   const npmEnv = { ...process.env };

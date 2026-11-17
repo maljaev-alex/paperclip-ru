@@ -19,6 +19,14 @@ test("September composite chrome preserves embedded entity names", () => {
   assert.equal(translate('Открыть план revision 3', 'attr'), 'Открыть редакцию плана 3');
 });
 
+test("assistant connection consent captions translate without changing the display identity", () => {
+  const { translate } = createTranslator(loadDictionary());
+  const display = "Подключение «Dashboard  QA» (Release)";
+  assert.equal(translate("Revoke " + display, "attr"), "Отозвать: " + display);
+  assert.equal(translate("Connected as you · Read only"), "Подключено от вашего имени · только чтение");
+  assert.equal(translate("Connected as you · Read and write · Configure agents, projects and skills"), "Подключено от вашего имени · чтение и запись · настройка агентов, проектов и навыков");
+});
+
 test("описания вариантов «Лимит» в управлении взаимодействиями переведены", () => {
   const dict = loadDictionary();
   const notCreator = "Even a card that asks for Anyone is narrowed to exclude its creator.";

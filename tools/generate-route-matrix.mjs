@@ -11,6 +11,7 @@ import { verifyInstall } from "./lib/apply.mjs";
 import { hashFile } from "./lib/fs-atomic.mjs";
 import { classifyEnglish } from '../test/helpers/route-allowlist.mjs';
 import { officialBrowserOptions, officialAuthenticated } from '../test/helpers/official-auth.mjs';
+import { officialBaseRoutes } from '../test/helpers/official-routes.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const sha = (value) => createHash("sha256").update(value).digest("hex");
@@ -108,7 +109,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     page.on("dialog", async (d) => { errors.push({ route: currentRoute, type: "unexpected-dialog", message: d.message() }); await d.dismiss(); });
     // A one-page fixture proves one route. Only the official application can
     // supply evidence for the complete public route inventory.
-    const routes = synthetic ? ["/CMP/dashboard"] : [...requiredRoutes().map((r) => r.replace("/CMP/", `/${companyPrefix}/`)), ...extraRoutes];
+    const routes = synthetic ? ["/CMP/dashboard"] : [...officialBaseRoutes(requiredRoutes(), version).map((r) => r.replace("/CMP/", `/${companyPrefix}/`)), ...extraRoutes];
     const cdp = await page.context().newCDPSession(page);
     await cdp.send('Network.enable');
     await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });

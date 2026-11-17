@@ -255,5 +255,8 @@
   "Start browser authorization and give the user the approval link.",
   "The user code is for the human to verify the request. The private device code remains inside the CLI. After connecting, call paperclip_connection to verify the account and organization.",
   "Use a Paperclip CLI version with `mcp login --device` support. This needs no callback listener; it prints a verification URL and user code, then waits for human approval.",
-  "Authorization commands wait for human approval. When using an assistant shell tool, keep the command running in a persistent terminal or background process, capture its output privately, and share the approval URL immediately while it is still running. Client callback deadlines still apply. If the command timed out or stopped, start a fresh authorization request before sharing a link. If the host cannot keep the command alive across turns, ask the user to run it in their own terminal."
+  "Authorization commands wait for human approval. When using an assistant shell tool, keep the command running in a persistent terminal or background process, capture its output privately, and share the approval URL immediately while it is still running. Client callback deadlines still apply. If the command timed out or stopped, start a fresh authorization request before sharing a link. If the host cannot keep the command alive across turns, ask the user to run it in their own terminal.",
+  "Task workspace access is no longer available",
+  "This credential is not shared with the responsible user",
+  "Harness"
 ]

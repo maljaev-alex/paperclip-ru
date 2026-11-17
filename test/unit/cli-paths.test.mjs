@@ -150,11 +150,14 @@ test("instruction dirty compare: неизвестная сигнатура", () 
 
 test("skill overview navigation: после файла уходит с /files/", () => {
   const code = `nn=(0,h.useMemo)(()=>QVn(e),[e]),jt=nn.filePath;Je=nn.hasExplicitFilePath||jt!=="SKILL.md"?"files":"overview";function Ct(Ie){i(he=>{const Ge=new URLSearchParams(he);return Ie==="overview"?Ge.delete("tab"):Ge.set("tab",Ie),Ge})}function qs(Ie,he){return wE(Ie,he)}onSelectPath:Ie=>{Ct("files"),t(qs(_t,Ie))}`;
-  const { patched, code: out } = patchSkillOverviewNavigation(code);
-  assert.equal(patched, true);
-  assert.match(out, /Ie==="overview"&&nn\.hasExplicitFilePath&&_t&&t\(qs\(_t\)\)/);
-  assert.equal(patchSkillOverviewNavigation(out).patched, true);
-  assert.equal(patchSkillOverviewNavigation(out).code, out);
+  const wrapped = code.replace('onSelectPath:Ie=>', 'onSelectPath:n(Ie=>') + ',"onSelectPath")';
+  for (const source of [code, wrapped]) {
+    const { patched, code: out } = patchSkillOverviewNavigation(source);
+    assert.equal(patched, true);
+    assert.match(out, /Ie==="overview"&&nn\.hasExplicitFilePath&&_t&&t\(qs\(_t\)\)/);
+    assert.equal(patchSkillOverviewNavigation(out).patched, true);
+    assert.equal(patchSkillOverviewNavigation(out).code, out);
+  }
 });
 
 test("skill overview navigation: неизвестная сигнатура", () => {

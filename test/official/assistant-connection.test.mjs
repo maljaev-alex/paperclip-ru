@@ -6,11 +6,25 @@ import { createHash, randomBytes } from 'node:crypto';
 import { chromium } from 'playwright';
 import { officialApi, officialAssistantClientName } from '../helpers/official-seed.mjs';
 import { officialAuthenticated, officialBrowserOptions, officialCookieHeader, useOriginalOfficialAssets } from '../helpers/official-auth.mjs';
-import { supportsPublicMcp } from '../helpers/official-routes.mjs';
+import { stableAtLeast, supportsPublicMcp } from '../helpers/official-routes.mjs';
 import { classifyEnglish } from '../helpers/route-allowlist.mjs';
 
 const DEVICE_GRANT = 'urn:ietf:params:oauth:grant-type:device_code';
 const safePath = url => new URL(url).pathname.replace(/(\/mcp\/(?:requests|connections)\/)[^/]+/, '$1<qa-id>');
+
+function connectionDisplayIdentity(grant, namedIdentities, translated) {
+  if (!namedIdentities) return { name: grant.clientName };
+  const ownerName = grant.user?.name ?? 'You';
+  const parts = ownerName.trim().split(/\s+/);
+  const initials = (parts.length >= 2 ? parts[0][0] + parts.at(-1)[0] : ownerName.slice(0, 2)).toUpperCase();
+  const givenName = parts[0].split('@')[0] || 'Board';
+  const clientName = grant.clientName.trim();
+  if (translated) {
+    return { name: 'Подключение «' + clientName + '»' + (grant.user ? ' (' + givenName + ')' : ''), initials };
+  }
+  const ownerPrefix = grant.user ? givenName + (givenName.toLowerCase().endsWith('s') ? '’ ' : '’s ') : '';
+  return { name: ownerPrefix + clientName + ' connection', initials };
+}
 
 test('official assistant setup and consent preserve upstream behavior and user content', async t => {
   const baseUrl = process.env.PAPERCLIP_TEST_BASE_URL;
@@ -19,6 +33,7 @@ test('official assistant setup and consent preserve upstream behavior and user c
   assert.ok(baseUrl && serverDir && output && process.env.PAPERCLIP_TEST_SEED, 'The disposable official gate is required');
   const version = JSON.parse(fs.readFileSync(path.join(serverDir, 'package.json'), 'utf8')).version;
   if (!supportsPublicMcp(version)) return t.skip('Assistant Connection is not shipped in this official release');
+  const namedIdentities = stableAtLeast(version, '2026.1023.0');
   const seed = JSON.parse(fs.readFileSync(process.env.PAPERCLIP_TEST_SEED, 'utf8'));
   const api = officialApi(baseUrl);
   const authenticated = officialAuthenticated();
@@ -36,7 +51,7 @@ test('official assistant setup and consent preserve upstream behavior and user c
     assert.ok(response.ok, `QA MCP request failed: ${response.status} ${route}`);
     return response.json();
   };
-  const audit = async (page, stage, { deviceCode } = {}) => {
+  const audit = async (page, stage, { deviceCode, identity, revokeLabel } = {}) => {
     const state = await page.evaluate(() => {
       const visible = el => el && el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
       const candidates = [];
@@ -46,7 +61,7 @@ test('official assistant setup and consent preserve upstream behavior and user c
         const el = node.parentElement;
         if (!visible(el) || el.closest('textarea,input,pre,code,script,style,[contenteditable="true"],.prose,.cm-content')) continue;
         const value = node.nodeValue.trim();
-        if (/[A-Za-z]{2}/.test(value)) candidates.push({ value, tag: el.tagName, className: el.className });
+        if (/[A-Za-z]{2}/.test(value)) candidates.push({ value, tag: el.tagName, className: el.className, slot: el.getAttribute('data-slot') });
       }
       for (const el of document.querySelectorAll('[placeholder],[aria-label],[title]')) {
         if (!visible(el) || el.closest('pre,code,[contenteditable="true"],.prose,.cm-content')) continue;
@@ -64,6 +79,12 @@ test('official assistant setup and consent preserve upstream behavior and user c
     for (const candidate of state.candidates) {
       if (stage === 'oauth-consent' && candidate.tag === 'BDI' && /(?:^|\s)break-all(?:\s|$)/.test(candidate.className) && candidate.value === baseUrl) continue;
       if (stage === 'device-consent-read-only' && candidate.tag === 'STRONG' && /(?:^|\s)font-mono(?:\s|$)/.test(candidate.className) && candidate.value === deviceCode) continue;
+      if (stage === 'assistant-setup-connected' && candidate.tag === 'BUTTON' && candidate.attribute === 'aria-label' && candidate.value === revokeLabel) continue;
+      if (identity && candidate.tag === 'SPAN') {
+        if (!candidate.attribute && candidate.slot === 'avatar-fallback' && candidate.value === identity.initials) continue;
+        if (candidate.value === identity.name && (candidate.attribute === 'title' && /(?:^|\s)inline-flex(?:\s|$)/.test(candidate.className)
+          || !candidate.attribute && /(?:^|\s)truncate(?:\s|$)/.test(candidate.className))) continue;
+      }
       if (!classifyEnglish(candidate, { companyPrefixes: [seed.company.issuePrefix], userValues })) {
         report.runtimeLeaks.push({ stage, ...candidate });
       }
@@ -124,6 +145,7 @@ test('official assistant setup and consent preserve upstream behavior and user c
         assert.equal(await page.locator('details section > p.text-sm > strong').first().innerText(), 'Dashboard', 'Setup instructions preserve the selected organization name');
         await check('assistant-setup-manual');
         const setupBytes = await page.locator('pre').allTextContents();
+        assert.ok(setupBytes.includes(setup.serverUrl), 'Manual setup displays the original MCP server URL');
 
         const client = await requestJson('/mcp/oauth/register', { method: 'POST', body: {
           client_name: officialAssistantClientName, redirect_uris: [callback], token_endpoint_auth_method: 'none',
@@ -154,7 +176,9 @@ test('official assistant setup and consent preserve upstream behavior and user c
         assert.equal(new URL(page.url()).searchParams.get('error'), 'access_denied');
 
         const device = await requestJson('/mcp/oauth/device_authorization', { method: 'POST', body: {
-          client_id: client.client_id, resource: setup.serverUrl, scope: 'paperclip:read paperclip:write', company_id: seed.company.id,
+          client_id: client.client_id, resource: setup.serverUrl,
+          scope: namedIdentities ? 'paperclip:read paperclip:write paperclip:configure' : 'paperclip:read paperclip:write',
+          company_id: seed.company.id,
         } });
         await page.goto(`${baseUrl}/mcp-device`, { waitUntil: 'networkidle' });
         await page.locator('#device-code').fill(device.user_code);
@@ -176,6 +200,7 @@ test('official assistant setup and consent preserve upstream behavior and user c
         assert.equal((await approved.json()).status, 'approved');
         const consentPayload = approved.request().postDataJSON();
         assert.equal(consentPayload.allowWrites, false);
+        if (namedIdentities) assert.equal(consentPayload.allowConfiguration, false);
         assert.equal(consentPayload.companyId, seed.company.id);
         await page.locator('#mcp-allow-writes').waitFor({ state: 'detached' });
         await check('device-approved');
@@ -184,28 +209,38 @@ test('official assistant setup and consent preserve upstream behavior and user c
         assert.ok(grant, 'The actual device consent must create the test grant');
         ownedGrants.add(grant.id);
         assert.equal(grant.companyId, seed.company.id);
-        assert.ok(grant.scopes.includes('paperclip:read') && !grant.scopes.includes('paperclip:write'));
+        assert.ok(grant.scopes.includes('paperclip:read') && !grant.scopes.includes('paperclip:write') && !grant.scopes.includes('paperclip:configure'));
+        const identity = connectionDisplayIdentity(grant, namedIdentities, translated);
         await page.goto(`${baseUrl}/assistant-connections`, { waitUntil: 'networkidle' });
-        // A revoked grant has another muted paragraph for its status. Only
-        // the paragraph immediately after the client heading contains the
-        // organization name; baseline grants remain visible on the next pass.
-        const organizationRows = page.locator('[data-slot="card"] > h2 + p.text-sm.text-muted-foreground');
-        await organizationRows.first().waitFor({ state: 'visible' });
-        assert.ok((await page.locator('h2').allTextContents()).includes('Dashboard'), 'Connection names must preserve dictionary-key user values');
-        const organizationLabels = await organizationRows.allTextContents();
-        assert.ok(organizationLabels.length > 0, 'The actual grant rows must be rendered');
-        assert.ok(organizationLabels.every(text => text.split(':').slice(1).join(':').trim() === 'Dashboard'), 'Management rows preserve organization names after the translated label');
-        await check('assistant-connections');
+        const activeGrant = page.locator('[data-slot="card"]').filter({ has: page.getByText(identity.name, { exact: true }) }).filter({ has: page.getByRole('button') });
+        const heading = activeGrant.locator(namedIdentities ? 'h2 [title] > span.truncate' : 'h2');
+        await heading.waitFor({ state: 'visible' });
+        assert.equal(await heading.textContent(), identity.name, 'Connection names must preserve dictionary-key user values');
+        if (namedIdentities) assert.equal(await activeGrant.locator('h2 [title]').getAttribute('title'), identity.name);
+        assert.equal((await activeGrant.locator('h2 + p.text-sm.text-muted-foreground').textContent()).split(':').slice(1).join(':').trim(), 'Dashboard', 'Management rows preserve organization names after the translated label');
+        await activeGrant.getByText(translated ? 'Только чтение' : 'Read only', { exact: true }).waitFor({ state: 'visible' });
+        await check('assistant-connections', { identity });
         await page.setViewportSize({ width: 390, height: 844 });
-        await check('assistant-connections-mobile');
+        await check('assistant-connections-mobile', { identity });
         await page.setViewportSize({ width: 1440, height: 900 });
         await page.goto(`${baseUrl}/${seed.company.issuePrefix}/apps/assistant-connection`, { waitUntil: 'networkidle' });
-        assert.ok((await page.locator('p.font-medium').allTextContents()).includes('Dashboard'), 'The setup page preserves connected client names');
-        await check('assistant-setup-connected');
+        const connectedAssistants = page.locator('section[aria-labelledby="connected-assistants"]');
+        const setupIdentity = connectedAssistants.getByText(identity.name, { exact: true });
+        await setupIdentity.first().waitFor({ state: 'visible' });
+        assert.equal(await setupIdentity.first().textContent(), identity.name, 'The setup page preserves connected client names');
+        const revokeLabel = translated
+          ? (namedIdentities ? 'Отозвать: ' : 'Отозвать подключение ') + identity.name
+          : 'Revoke ' + identity.name + (namedIdentities ? '' : ' connection');
+        await connectedAssistants.getByRole('button', { name: revokeLabel, exact: true }).waitFor({ state: 'visible' });
+        await check('assistant-setup-connected', { identity, revokeLabel });
         await page.goto(`${baseUrl}/${seed.company.issuePrefix}/apps`, { waitUntil: 'networkidle' });
-        assert.ok((await page.locator('[data-app-slug="assistant-connection"]').innerText()).includes('Dashboard'), 'The gallery preserves connected client names');
-        const revoke = await request(`/api/mcp/connections/${grant.id}`, { method: 'DELETE', session: true });
-        assert.equal(revoke.status, 204);
+        assert.ok((await page.locator('[data-app-slug="assistant-connection"]').innerText()).includes(identity.name), 'The gallery preserves connected client names');
+        await page.goto(`${baseUrl}/assistant-connections`, { waitUntil: 'networkidle' });
+        const revokedResponse = page.waitForResponse(response => response.request().method() === 'DELETE'
+          && new URL(response.url()).pathname === `/api/mcp/connections/${grant.id}`);
+        await activeGrant.getByRole('button').click();
+        assert.equal((await revokedResponse).status(), 204);
+        await activeGrant.waitFor({ state: 'detached' });
         ownedGrants.delete(grant.id);
         const revoked = (await api('/mcp/connections')).find(connection => connection.id === grant.id);
         assert.ok(revoked?.revokedAt, 'The QA connection must be revoked');

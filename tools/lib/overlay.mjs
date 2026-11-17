@@ -142,7 +142,14 @@ function overlaySource() {
         for (var i = 0; i < RULES.length; i++) {
           if (RULES[i].scope !== "any" && RULES[i].scope !== scope) continue;
           RULES[i].re.lastIndex = 0;
-          var m = RULES[i].re.exec(collapsed);
+          var m = RULES[i].re.exec(text);
+          if (!m && collapsed !== text) {
+            RULES[i].re.lastIndex = 0;
+            var normalized = RULES[i].re.exec(collapsed);
+            // JSX may split fixed prose across lines. Only use that fallback
+            // when it cannot collapse spaces inside a captured value.
+            if (normalized && !normalized.slice(1).some(function (part) { return /\s/.test(part || ""); })) m = normalized;
+          }
           if (m) return format(RULES[i].to, m);
         }
       } finally {
@@ -230,11 +237,42 @@ function overlaySource() {
   // and the noun never meet in one string, so the {plural:N:...} rule syntax
   // cannot reach them. Once the noun node sits in the tree its previous sibling
   // holds the count, which is enough to pick the right Russian form.
+  var LIVE_COUNT_FORMS = Object.create(null);
+  [
+    ["p.text-sm.text-destructive", "completed runs await accounting."],
+    ["p.text-sm.text-destructive", "usage events are unpriced. Known spend excludes their unknown cost."],
+    ['[role="status"].border-b > span', "rows and"],
+    ['[role="status"].border-b > span', "columns. Download for the complete file."]
+  ].forEach(function (entry) {
+    var key = translate(entry[1]);
+    var forms = PLURALS[key];
+    if (!forms) return;
+    forms.concat(key, entry[1]).forEach(function (part) {
+      LIVE_COUNT_FORMS[part] = { selector: entry[0], forms: forms };
+    });
+  });
+
+  function liveCountForms(node, suffix) {
+    var entry = LIVE_COUNT_FORMS[suffix.trim()];
+    return entry && node.parentElement && node.parentElement.matches(entry.selector) ? entry.forms : null;
+  }
+
   function agree(node, value) {
     if (!node || typeof value !== "string") return value;
     var sentence = agreeCountSentence(node, value);
     if (sentence !== null) return sentence;
-    var forms = PLURALS[value.replace(/^\s+|\s+$/g, "")];
+    if (/^\d+$/.test(value.trim()) && nativeNodeValue) {
+      var next = node.nextSibling;
+      while (next && next.nodeType === 8) next = next.nextSibling;
+      if (next && next.nodeType === 3 && allowed(next)) {
+        var nextForms = liveCountForms(next, next.nodeValue);
+        if (nextForms) {
+          var nextValue = next.nodeValue.match(/^\s*/)[0] + plural(value, nextForms[0], nextForms[1], nextForms[2]) + next.nodeValue.match(/\s*$/)[0];
+          if (nextValue !== next.nodeValue) nativeNodeValue.call(next, nextValue);
+        }
+      }
+    }
+    var forms = liveCountForms(node, value) || PLURALS[value.trim()];
     if (!forms) return value;
     var prev = node.previousSibling;
     while (prev && prev.nodeType === 8) prev = prev.previousSibling;
@@ -355,6 +393,12 @@ function overlaySource() {
 
   function userTextNode(node) {
     var current = window.location.pathname;
+    if (textAfterLabel(node, 'p.text-sm.leading-relaxed.text-muted-foreground', 'The invitation includes everything your agent needs to join')) {
+      var ending = node.nextSibling;
+      while (ending && ending.nodeType === 8) ending = ending.nextSibling;
+      var caption = '. You can review its request before granting access.';
+      if (!ending || (ending.nodeType === 3 && (ending.nodeValue === caption || ending.nodeValue === translate(caption)))) return true;
+    }
     if (aiAgentBindingRoute() && node && node.parentElement && connectionChoiceButton(node.parentElement)
         && textAfterLabel(node, 'span.mt-1.block.text-xs.text-muted-foreground > span.block', 'For you:')) return true;
     if (/^\/assistant-connections\/?$/.test(current)) {
@@ -370,6 +414,12 @@ function overlaySource() {
     if (!el || el.nodeType !== 1) return false;
     if (el.closest('svg,[role="img"],.sr-only,[data-slot="badge"]')) return false;
     if (el.closest('[translate="no"], [data-testid="issue-detail-header"] h2, [data-testid="task-chat-composer-assignee"]')) return true;
+    // CsvPreview uses ordinary text nodes for unmodified file contents.
+    if (el.matches('thead > tr > th.whitespace-nowrap.text-left[scope="col"], tbody > tr > td.whitespace-pre-wrap.align-top')) {
+      var csvTable = el.closest('table');
+      if (csvTable && csvTable.matches('div[role="region"].min-h-0.flex-1.overflow-auto > table.w-full.border-collapse.text-sm')
+          && csvTable.querySelector(':scope > caption.sr-only')) return true;
+    }
     if (el.matches('span:first-child:not([class])') && el.parentElement && activityActorSummary(el.parentElement)) return true;
     if (el.matches('span.inline-flex[title]') && el.querySelector('[data-slot="avatar"]') && el.querySelector('.truncate')) return true;
     if (activitySummary(el)) return false;
@@ -463,6 +513,57 @@ function overlaySource() {
     return true;
   }
 
+  // IssueShareSheet has separate React text nodes for captions and names.
+  // Translate the captions in place, also when React updates just one node.
+  function shareText(node, value) {
+    if (node.nodeType !== 3 || !node.parentElement) return null;
+    var parent = node.parentElement;
+    if (parent.matches('[data-slot="alert-dialog-title"]')) {
+      var before = 'Remove ';
+      var translatedBefore = 'Удалить сохранённое разрешение для ';
+      var after = "'s saved grant?";
+      var parts = Array.prototype.filter.call(parent.childNodes, function (child) { return child.nodeType !== 8; });
+      if (parts.some(function (part) { return part.nodeType !== 3; })) return null;
+      if (!parts[0] || (parts[0].nodeValue !== before && parts[0].nodeValue !== translatedBefore)) return null;
+      if (parts.length > 3 || (parts[2] && parts[2].nodeValue !== after && parts[2].nodeValue !== '?')) return null;
+      if (node === parts[1]) return value;
+      if (node === parts[0] && value === before) return parts[2] ? translatedBefore : value;
+      if (node === parts[2] && value === after) return '?';
+      return null;
+    }
+    if (parent.matches('[data-testid="shared-agent-caution"] > span')) {
+      var label = parent.firstElementChild;
+      if (!label || !label.matches('span.font-semibold')) return null;
+      var caption = label.nextSibling;
+      while (caption && caption.nodeType === 8) caption = caption.nextSibling;
+      if (!caption || caption.nodeType !== 3) return null;
+      var name = caption.nextSibling;
+      while (name && name.nodeType === 8) name = name.nextSibling;
+      if (node === name) return value;
+      if (node === caption && value === ' ') return ' Память и рабочая область агента ';
+      if (value === "'s memory & workspace may carry residual private context from this task into its later runs for other people. Grant only if that's acceptable.") {
+        return ' могут сохранить частные сведения из этой задачи и перенести их в последующие запуски для других людей. Предоставляйте доступ, только если это допустимо.';
+      }
+      return null;
+    }
+    var descriptionBefore = "This removes this grant and the access it supplies to this task's descendants. Ownership, current assignment, project membership, inherited access, or another grant can still provide access. Revoking access does ";
+    var translatedDescriptionBefore = 'Удаление разрешения также отзывает доступ, который оно предоставляло к подзадачам. Владелец задачи, её текущий исполнитель и участники проекта могут сохранить доступ. Также может действовать унаследованный доступ или другое разрешение. Отзыв доступа ';
+    if (parent.matches('[data-slot="alert-dialog-description"]')) {
+      if (value === descriptionBefore) return translatedDescriptionBefore;
+      if (value === " erase content already seen or retained in an agent's memory.") return ' удаляет содержимое, которое уже просмотрено или сохранено в памяти агента.';
+    }
+    if (value === 'not' && parent.matches('[data-slot="alert-dialog-description"] > span.font-semibold')) {
+      var leading = parent.previousSibling;
+      if (leading && (leading.nodeValue === descriptionBefore || leading.nodeValue === translatedDescriptionBefore)) return 'не';
+    }
+    return null;
+  }
+
+  function translateUiText(node, value) {
+    var translated = shareText(node, value);
+    return translated === null ? agree(node, translate(value)) : translated;
+  }
+
   var natives = {};
   var hookFailures = [];
 
@@ -484,8 +585,7 @@ function overlaySource() {
         get: d.get,
         set: function (value) {
           if (typeof value === "string" && (!guard || guard(this))) {
-            value = translate(value);
-            if (this.nodeType === 3) value = agree(this, value);
+            value = this.nodeType === 3 ? translateUiText(this, value) : translate(value);
           }
           d.set.call(this, value);
         }
@@ -523,7 +623,7 @@ function overlaySource() {
     if (node.nodeType !== 3) return;
     if (!node.isConnected) return;
     if (!allowed(parent) || !allowed(node)) return;
-    var next = agree(node, translate(node.nodeValue));
+    var next = translateUiText(node, node.nodeValue);
     if (next !== node.nodeValue) nativeNodeValue.call(node, next);
   }
 
@@ -603,7 +703,7 @@ function overlaySource() {
     while (node) {
       if (node.nodeType === 3) {
         if (allowed(node)) {
-          var next = agree(node, translate(node.nodeValue));
+          var next = translateUiText(node, node.nodeValue);
           if (next !== node.nodeValue) node.nodeValue = next;
         }
       } else if (node.nodeType === 1) {
@@ -767,28 +867,52 @@ export function patchSkillOverviewNavigation(code) {
   const [full, ctName, tabArg, setSearch, searchArg, paramsName] = m;
   const from = Math.max(0, m.index - 4000);
   const around = code.slice(from, Math.min(code.length, m.index + 40000));
-  const nnM = around.match(/(\w+)\.hasExplicitFilePath/);
-  const navM = around.match(new RegExp(`onSelectPath:\\w+=>\\{${ctName}\\("files"\\),(\\w+)\\((\\w+)\\((\\w+),`));
+  const nnM = around.match(/([\w$]+)\.hasExplicitFilePath/);
+  // Newer esbuild outputs wrap the same callback in their function-name helper.
+  const navM = around.match(new RegExp(`onSelectPath:(?:[\\w$]+\\()?([\\w$]+)=>\\{${ctName}\\("files"\\),([\\w$]+)\\(([\\w$]+)\\(([\\w$]+),\\1\\)\\)\\}`));
   if (!nnM || !navM) return { code, patched: false };
   const nn = nnM[1];
-  const navigate = navM[1];
-  const toSkill = navM[2];
-  const skillId = navM[3];
+  const [, , navigate, toSkill, skillId] = navM;
   const patchedFn = `function ${ctName}(${tabArg}){${setSearch}(${searchArg}=>{const ${paramsName}=new URLSearchParams(${searchArg});return ${tabArg}==="overview"?${paramsName}.delete("tab"):${paramsName}.set("tab",${tabArg}),${paramsName}}),${tabArg}==="overview"&&${nn}.hasExplicitFilePath&&${skillId}&&${navigate}(${toSkill}(${skillId}))}`;
   return { code: `${code.slice(0, m.index)}${patchedFn}${code.slice(m.index + full.length)}`, patched: true };
 }
 
 /** Keep the known BYO page out of the upstream connection-detail sidebar. */
 export function patchByoAppSidebar(code) {
+  if ((code.match(/path:"apps\/byo"/g) || []).length !== 1) return { code, patched: false, replacements: 0 };
+  return patchKnownAppClassifiers(code, ['legacy', 'modern']);
+}
+
+// November lazy-loads the production layout. Follow its actual import and
+// require both known classifiers before changing either half of the bundle.
+export function splitByoSidebarChanges(live) {
+  const changes = new Map();
+  for (const [rel, entry] of live) {
+    if (!/^assets\/index-[\w-]+\.js$/.test(rel) || (entry.match(/path:"apps\/byo"/g) || []).length !== 1) continue;
+    const imports = [...entry.matchAll(/import\("\.\/(Layout\.production-[\w-]+\.js)"\)\.then\(([\w$]+)=>\(\{default:\2\.Layout\}\)\)/g)];
+    if (imports.length !== 1) continue;
+    const layoutRel = 'assets/' + imports[0][1];
+    const layout = live.get(layoutRel);
+    if (!layout) continue;
+    const modern = patchKnownAppClassifiers(entry, ['modern']);
+    const legacy = patchKnownAppClassifiers(layout, ['legacy']);
+    if (modern.patched && legacy.patched) {
+      if (modern.replacements) changes.set(rel, modern.code);
+      if (legacy.replacements) changes.set(layoutRel, legacy.code);
+    }
+  }
+  return changes;
+}
+
+function patchKnownAppClassifiers(code, expectedKinds) {
   const unchanged = { code, patched: false, replacements: 0 };
-  if ((code.match(/path:"apps\/byo"/g) || []).length !== 1) return unchanged;
   const legacy = '["browse","connections","connect","chat","review","attention","gateways","advanced","app"]';
   const modern = new Set([
     '["browse","connections","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
     '["browse","connections","assistant-connection","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
   ]);
   const sets = [...code.matchAll(/var ([\w$]+)=new Set\((\["browse","connections",[^;\r\n]{0,200}?\])\)/g)];
-  if (sets.length !== 2) return unchanged;
+  if (sets.length !== expectedKinds.length) return unchanged;
   const kinds = [];
   for (const match of sets) {
     let entries;
@@ -802,7 +926,7 @@ export function patchByoAppSidebar(code) {
     const branch = new RegExp(`([\\w$]+)=([\\w$]+)\\[0\\]\\?\\.toLowerCase\\(\\)==="apps",[\\w$]+=\\1&&\\2\\[1\\]&&!${escapedName}\\.has\\(\\2\\[1\\]\\.toLowerCase\\(\\)\\)\\?\\2\\[1\\]:null`);
     if (!branch.test(code.slice(match.index + match[0].length, match.index + 2000))) return unchanged;
   }
-  if (kinds.filter(kind => kind === 'legacy').length !== 1 || kinds.filter(kind => kind === 'modern').length !== 1) return unchanged;
+  if (!expectedKinds.every(kind => kinds.includes(kind))) return unchanged;
   let replacements = 0;
   for (const match of sets.reverse()) {
     const entries = JSON.parse(match[2]);
@@ -813,6 +937,20 @@ export function patchByoAppSidebar(code) {
     replacements += 1;
   }
   return { code, patched: true, replacements };
+}
+
+export function patchAssistantConnectionName(code) {
+  // The display helper is shared by the setup page, management list and revoke
+  // label. Capture upstream’s given-name helper before it adds an English possessive.
+  const pattern = /function ([\w$]+)\(([\w$]+)\)\{const ([\w$]+)=\2\.clientName\.trim\(\);return`\$\{\2\.user\?`\$\{[\w$]+\(([\w$]+)\(\2\.user\.name\)\)\} `:""\}\$\{\3\} connection`\}(?=[\w$]+\(\1,"assistantConnectionDisplayName"\))/g;
+  const matches = [...code.matchAll(pattern)];
+  if (matches.length !== 1) return code;
+  const [match] = matches;
+  const [, name, connection, clientName, givenName] = match;
+  const owner = `${givenName}(${connection}.user.name)`;
+  const display = '`Подключение «${' + clientName + '}»${' + connection + '.user?` (${' + owner + '})`:""}`';
+  const localized = `function ${name}(${connection}){const ${clientName}=${connection}.clientName.trim();return ${display}}`;
+  return code.slice(0, match.index) + localized + code.slice(match.index + match[0].length);
 }
 
 /** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */
