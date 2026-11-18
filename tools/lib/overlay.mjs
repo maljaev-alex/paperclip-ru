@@ -601,7 +601,10 @@ function overlaySource() {
       }
     }
     if (parent && parent.matches('li.px-4.py-3 > div > div.min-w-0 > div.flex.flex-wrap.items-center.text-foreground > span.text-muted-foreground:nth-child(2)')
-      && /^\/[^/]+\/activity\/?$/.test(window.location.pathname)) return translate(value, 'audit-verb');
+      && /^\/[^/]+\/activity\/?$/.test(window.location.pathname)) {
+      var auditVerb = translate(value, 'audit-verb');
+      if (auditVerb !== value) return auditVerb;
+    }
     return agree(node, translate(value));
   }
 

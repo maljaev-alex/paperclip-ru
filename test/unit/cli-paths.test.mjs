@@ -4,6 +4,8 @@ import { parseArgv } from "../../tools/lib/args.mjs";
 import { EXIT, TOOL_VERSION } from "../../tools/lib/constants.mjs";
 import { ToolError } from "../../tools/lib/fs-atomic.mjs";
 import { candidateRoots } from "../../tools/lib/paths.mjs";
+import { planPatch } from "../../tools/lib/apply.mjs";
+import { loadDictionary } from "../../tools/lib/dictionary.mjs";
 import { buildManifest, normalizeManifest } from "../../tools/lib/manifest.mjs";
 import { patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchSubscriptionTokenLabels, INDEX_MARKER, OVERLAY_FILE } from "../../tools/lib/overlay.mjs";
 import { assertInside, sha256 } from "../../tools/lib/fs-atomic.mjs";
@@ -170,6 +172,9 @@ test("subscription token captions keep the upstream amounts and formatter", () =
   const result = patchSubscriptionTokenLabels(source);
   assert.equal(result, source.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
   assert.equal(patchSubscriptionTokenLabels(result), result);
+  const live = new Map([["index.html", "<html><head></head></html>"], ["assets/costs.js", source]]);
+  const { planned } = planPatch({ server: { version: "2026.1106.0" }, dict: loadDictionary(), targets: [...live.keys()], live, panelResize: false });
+  assert.equal(planned.find(file => file.rel === "assets/costs.js").content, result);
   const other = source.replace("SubscriptionTokenUsage", "UnrelatedUsage");
   assert.equal(patchSubscriptionTokenLabels(other), other);
 });

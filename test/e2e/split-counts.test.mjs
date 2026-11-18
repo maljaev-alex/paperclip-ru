@@ -52,6 +52,10 @@ test('subscription counts, voice labels and audit verbs preserve adjoining React
     window.__paperclipRu.resweep();
   });
   assert.equal(await page.locator('#verb').textContent(), 'запросил передачу ·');
+  for (const [source, result] of [['mcp connection authorized', 'авторизовал'], ['mcp connection revoked', 'отозвал']]) {
+    await page.locator('#verb').evaluate((el, value) => { el.firstChild.nodeValue = value; }, source);
+    assert.equal(await page.locator('#verb').textContent(), result);
+  }
   assert.equal(await page.locator('a').textContent(), 'CMP-C1 · Dashboard');
   assert.equal(await page.locator('p').textContent(), 'requested a handoff for');
 });

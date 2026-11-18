@@ -44,15 +44,21 @@ function patchUiBehavior(source, dict) {
   const actors = patchActivityActorFallbacks(byo.code, dict.exact);
   const auditActors = patchAuditActorLabels(actors.code, dict.exact);
   return {
-    code: patchSubscriptionTokenLabels(patchAssistantConnectionName(auditActors)),
+    code: patchAssistantConnectionName(auditActors),
     dirtyPatched: dirty.patched,
     overviewTabPatched: overview.patched,
     activityActorNamesPatched: actors.patched,
   };
 }
 
+function patchSourceTemplates(source) {
+  // Both signatures refer to original JSX literal arrays, including captions
+  // the general dictionary can also translate independently.
+  return patchSubscriptionTokenLabels(patchCredentialAccessNotice(source));
+}
+
 function patchJs(source, dict) {
-  const prepared = patchCredentialAccessNotice(source);
+  const prepared = patchSourceTemplates(source);
   let occurrences;
   try {
     occurrences = extractOccurrences(prepared);
@@ -340,7 +346,7 @@ function liveNeedsSurgicalJsPatches(live, dict) {
   if (splitByoSidebarChanges(live).size) return true;
   for (const [rel, source] of live) {
     if (!rel.endsWith(".js")) continue;
-    if (patchCredentialAccessNotice(source) !== source || patchUiBehavior(source, dict).code !== source) return true;
+    if (patchSourceTemplates(source) !== source || patchUiBehavior(source, dict).code !== source) return true;
   }
   return false;
 }
