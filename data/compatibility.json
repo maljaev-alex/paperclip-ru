@@ -25,9 +25,15 @@
       "verification": {
         "source": "official-npm-package",
         "fingerprint": "matched",
-        "lifecycle": "pending",
-        "browserModes": []
-      }
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "80 браузерных маршрутов с авторизацией в каждом режиме. Повторный apply идемпотентен.",
+      "tested": "2026-11-18"
     },
     {
       "version": "2026.1023.0",
@@ -36,9 +42,15 @@
       "verification": {
         "source": "official-npm-package",
         "fingerprint": "matched",
-        "lifecycle": "pending",
-        "browserModes": []
-      }
+        "lifecycle": "passed",
+        "browserModes": [
+          "translation",
+          "translation+panel-resize"
+        ],
+        "byteIdenticalRevert": true
+      },
+      "notes": "82 браузерных маршрута с авторизацией в каждом режиме. Повторный apply идемпотентен.",
+      "tested": "2026-11-18"
     },
     {
       "version": "2026.1012.0",
