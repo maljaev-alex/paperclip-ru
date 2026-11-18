@@ -150,7 +150,6 @@ jobs:
         env:
           PAPERCLIP_TEST_VERSION: ${{ matrix.version }}
           PAPERCLIP_TEST_DATABASE_URL: postgresql://postgres@127.0.0.1:5432/paperclip_release_compat
-          PAPERCLIP_TEST_AUTHENTICATED: ${{ matrix.version == '2026.1012.0' && '1' || '0' }}
           PAPERCLIP_TEST_SUITE: all
           PAPERCLIP_RU_DIST_DIR: ${{ github.workspace }}/dist
           PAPERCLIP_RU_PANEL_RESIZE: ${{ matrix.panel == 'enabled' && '1' || '0' }}

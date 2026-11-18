@@ -6,6 +6,35 @@ import { buildOverlay, patchActivityActorFallbacks } from '../../tools/lib/overl
 import { applyDictionary, extractOccurrences } from '../../tools/lib/strings.mjs';
 import { activityRowSource } from '../helpers/activity-row-fixture.mjs';
 
+test('raw audit keys and accessible roster choices preserve their source values', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><body></body>' }));
+  await page.goto('http://127.0.0.1/QA/activity');
+  await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    document.body.innerHTML = '<ul><li class="px-4 py-3"><span class="pc-ru-audit-identity" title="System"><span class="truncate">System</span></span><span id="verb">agent identity created</span><span class="font-mono opacity-70" id="raw">agent.identity.created</span></li></ul>';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#raw').textContent(), 'agent.identity.created');
+  assert.equal(await page.locator('.pc-ru-audit-identity').textContent(), 'System');
+  assert.equal(await page.locator('.pc-ru-audit-identity').getAttribute('title'), 'System');
+  assert.notEqual(await page.locator('#verb').textContent(), 'agent identity created');
+  await page.evaluate(() => {
+    history.replaceState({}, '', '/QA/agents/all');
+    document.body.innerHTML = '<table><tbody><tr><td><button role="checkbox"></button></td></tr></tbody></table>';
+    document.querySelector('button').setAttribute('aria-label', 'Select Агент  Save');
+  });
+  assert.equal(await page.getByRole('checkbox').getAttribute('aria-label'), 'Выбрать Агент  Save');
+  await page.evaluate(() => {
+    history.replaceState({}, '', '/QA/apps');
+    document.body.innerHTML = '<article data-app-slug="local"><button aria-label="Подключить Local endpoint"></button></article>';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.getByRole('button').getAttribute('aria-label'), 'Подключить локальную конечную точку');
+});
+
 test('entity names stay intact while adjacent status, activity and accessibility chrome translate', async (t) => {
   const browser = await chromium.launch({ channel: 'chromium', headless: true });
   t.after(() => browser.close());
@@ -95,7 +124,7 @@ test('assistant client and organization names are protected only on their offici
   const cases = [
     { route: '/mcp-connect/qa-request', html: '<div data-slot="card"><h1><bdi id="name">Dashboard</bdi></h1><p id="company" class="break-words text-lg font-semibold">Settings</p><label><span id="radio-name" class="break-words font-medium">Dashboard</span></label><button id="chrome">Save</button></div><bdi id="other">Settings</bdi>', names: ['name', 'company', 'radio-name'] },
     { route: '/mcp-device', html: '<div data-slot="card"><h1><bdi id="name">Dashboard</bdi></h1><button id="chrome">Save</button></div><bdi id="other">Settings</bdi>', names: ['name'] },
-    { route: '/assistant-connections', html: '<div data-slot="card"><h2 id="name" class="font-medium">Dashboard</h2><button id="chrome">Save</button></div><h2 id="other" class="font-medium">Settings</h2>', names: ['name'] },
+    { route: '/assistant-connections', html: '<div data-slot="card"><h2 id="name" class="font-medium">Dashboard</h2><p class="text-sm">Works as <a id="agent" class="underline" href="/CMP/agents/qa/runtime">Dashboard</a></p><button id="chrome">Save</button></div><h2 id="other" class="font-medium">Settings</h2>', names: ['name', 'agent'] },
     { route: '/CMP/apps/assistant-connection', html: '<div class="space-y-1"><p id="name" class="text-sm font-medium">Dashboard</p></div><div class="space-y-1"><p id="company" class="font-medium">Settings</p></div><button id="chrome">Save</button><p id="other" class="font-medium">Settings</p>', names: ['name', 'company'] },
     { route: '/CMP/apps', html: '<div data-app-slug="assistant-connection"><div class="border-t"><span id="name">Dashboard</span><span id="chrome" class="text-xs">Save</span></div><h2 id="other" class="font-medium">Settings</h2></div>', names: ['name'] },
   ];
@@ -418,6 +447,104 @@ test('connection intent choices retain account names in identified inline and pr
       assert.equal(await page.locator('#intent-account-0').getAttribute('aria-label'), 'Settings');
     }
   }
+});
+
+test('private access captions keep the React name nodes and emphasized negation', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><html><body></body></html>' }));
+  await page.goto('http://127.0.0.1/CMP/issues/CMP-1');
+  await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    // IssueShareSheet in 2026.1023.0 and 2026.1106.0 use these child nodes.
+    const container = document.createElement('div');
+    container.innerHTML = '<div role="note" aria-label="Shared agent caution" data-testid="shared-agent-caution"><svg aria-hidden="true"></svg><span id="caution"><span class="font-semibold">Shared agent.</span></span></div><div role="alertdialog" data-slot="alert-dialog-content"><h2 id="revoke" data-slot="alert-dialog-title"></h2><p id="warning" data-slot="alert-dialog-description"><span class="font-semibold">not</span></p><button id="ordinary-control">Save</button></div>';
+    const caution = container.querySelector('#caution');
+    caution.append(' ', 'Dashboard', "'s memory & workspace may carry residual private context from this task into its later runs for other people. Grant only if that's acceptable.");
+    container.querySelector('#revoke').append('Remove ', 'Dashboard', "'s saved grant?");
+    const warning = container.querySelector('#warning');
+    warning.prepend("This removes this grant and the access it supplies to this task's descendants. Ownership, current assignment, project membership, inherited access, or another grant can still provide access. Revoking access does ");
+    warning.append(" erase content already seen or retained in an agent's memory.");
+    document.body.appendChild(container);
+  });
+  const expectedWarning = 'Удаление разрешения также отзывает доступ, который оно предоставляло к подзадачам. Владелец задачи, её текущий исполнитель и участники проекта могут сохранить доступ. Также может действовать унаследованный доступ или другое разрешение. Отзыв доступа не удаляет содержимое, которое уже просмотрено или сохранено в памяти агента.';
+  for (const name of ['Dashboard', 'Save']) {
+    if (name === 'Save') {
+      await page.evaluate(name => {
+        document.querySelector('#caution').childNodes[2].data = name;
+        document.querySelector('#revoke').childNodes[1].nodeValue = name;
+        window.__paperclipRu.resweep();
+      }, name);
+    }
+    assert.equal(await page.locator('#revoke').textContent(), `Удалить сохранённое разрешение для ${name}?`);
+    assert.equal(await page.locator('#revoke').evaluate(el => el.childNodes[1].nodeValue), name);
+    assert.equal(await page.locator('#caution').evaluate(el => el.childNodes[2].nodeValue), name);
+    assert.equal(await page.locator('#caution').textContent(), `Общий агент. Память и рабочая область агента ${name} могут сохранить частные сведения из этой задачи и перенести их в последующие запуски для других людей. Предоставляйте доступ, только если это допустимо.`);
+    assert.equal(await page.locator('#warning').textContent(), expectedWarning);
+    assert.equal(await page.locator('#warning > span.font-semibold').textContent(), 'не');
+    assert.equal(await page.locator('#ordinary-control').textContent(), 'Сохранить');
+  }
+});
+
+test('external agent invitation preserves the company name across React text updates', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><html><body></body></html>' }));
+  await page.goto('http://127.0.0.1/CMP/agents');
+  await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    const description = document.createElement('p');
+    description.id = 'invitation';
+    description.className = 'text-sm leading-relaxed text-muted-foreground';
+    description.append('The invitation includes everything your agent needs to join ', 'Dashboard', '. You can review its request before granting access.');
+    document.body.appendChild(description);
+  });
+  for (const name of ['Dashboard', 'Save']) {
+    if (name === 'Save') {
+      await page.locator('#invitation').evaluate((el, name) => {
+        el.childNodes[1].nodeValue = name;
+        window.__paperclipRu.resweep();
+      }, name);
+    }
+    assert.equal(await page.locator('#invitation').evaluate(el => el.childNodes[1].nodeValue), name);
+    assert.equal(await page.locator('#invitation').textContent(), `В приглашении есть всё необходимое для вступления вашего агента в компанию ${name}. Вы можете проверить заявку агента перед предоставлением доступа.`);
+  }
+});
+
+test('CSV preview preserves file headers and cells while translating its surrounding labels', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><html><body></body></html>' }));
+  await page.goto('http://127.0.0.1/CMP/issues/CMP-1');
+  const dictionary = loadDictionary();
+  dictionary.exact.set('Row', 'Строка');
+  await page.addScriptTag({ content: buildOverlay(dictionary, { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    const preview = document.createElement('div');
+    preview.innerHTML = '<div><span id="csv-label" class="font-medium text-foreground">CSV preview</span></div><div class="min-h-0 flex-1 overflow-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset" role="region" aria-label="schedule.csv CSV table" tabindex="0"><table class="w-full border-collapse text-sm"><caption class="sr-only">schedule.csv — first record used as column headers</caption><thead class="sticky top-0 z-10 bg-muted"><tr><th scope="col" class="w-10 border-b border-border px-3 py-3 text-right font-mono text-xs text-muted-foreground"><span id="csv-row" class="sr-only">Row</span>#</th><th id="csv-header" scope="col" class="whitespace-nowrap border-b border-border px-4 py-3 text-left font-medium">Dashboard</th></tr></thead><tbody><tr class="even:bg-muted/30 hover:bg-accent/50"><th scope="row" class="border-b border-border/50 px-3 py-2 text-right font-mono text-xs font-normal text-muted-foreground">1</th><td id="csv-cell" class="whitespace-pre-wrap border-b border-border/50 px-4 py-2 align-top">Save</td></tr></tbody></table></div>';
+    const otherTable = preview.querySelector('table').cloneNode(true);
+    otherTable.querySelector('#csv-cell').id = 'other-cell';
+    otherTable.querySelector('#csv-header').id = 'other-header';
+    otherTable.querySelector('#csv-row').removeAttribute('id');
+    preview.appendChild(otherTable);
+    document.body.appendChild(preview);
+  });
+  assert.equal(await page.locator('#csv-label').textContent(), 'Предпросмотр CSV');
+  assert.equal(await page.locator('#csv-row').textContent(), 'Строка');
+  assert.equal(await page.locator('#csv-header').textContent(), 'Dashboard');
+  assert.equal(await page.locator('#csv-cell').textContent(), 'Save');
+  assert.equal(await page.locator('#other-cell').textContent(), 'Сохранить');
+  assert.notEqual(await page.locator('#other-header').textContent(), 'Dashboard');
+  await page.evaluate(() => {
+    document.querySelector('#csv-header').textContent = 'Save';
+    document.querySelector('#csv-cell').firstChild.data = 'Dashboard';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#csv-header').textContent(), 'Save');
+  assert.equal(await page.locator('#csv-cell').textContent(), 'Dashboard');
 });
 
 test('activity actor names remain data while source fallbacks and adjacent verbs translate', async t => {

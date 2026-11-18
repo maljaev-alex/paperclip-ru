@@ -10,6 +10,12 @@ export function stableAtLeast(version, minimum) {
   return true;
 }
 
+export function officialBaseRoutes(routes, version) {
+  if (!stableAtLeast(version, '2026.1106.0')) return routes;
+  // Upstream removed the Pipelines experiment and its three board routes.
+  return routes.filter(route => !['/CMP/pipelines', '/CMP/review-queue', '/CMP/learnings'].includes(route));
+}
+
 // These are additions to tools/routes.json. Keep the legacy inventory usable
 // on the August builds, while requiring the real surfaces of newer stables.
 export function officialRoutePlan({ version, seed, settings, authenticated = false }) {
@@ -69,6 +75,12 @@ export function officialRoutePlan({ version, seed, settings, authenticated = fal
     assert.equal(settings?.enablePublicMcp, true, 'Authenticated QA must enable public MCP on the disposable instance');
     requireRoute(`${prefix}/apps/assistant-connection`);
   }
+  if (stableAtLeast(version, '2026.1023.0')) {
+    assert.equal(settings?.enableFastResponses, true, 'QA must enable fast responses to reach all organization connection settings');
+    requireRoute(`${prefix}/company/settings/connections`);
+    destinations.push({ route: `${prefix}/apps/gateways`, finalPath: `${prefix}/apps/gateways` });
+  }
+  if (stableAtLeast(version, '2026.1106.0')) requireRoute(`${prefix}/activity/commentary`);
   return { extraRoutes, destinations };
 }
 

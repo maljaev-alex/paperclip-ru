@@ -4,8 +4,10 @@ import { parseArgv } from "../../tools/lib/args.mjs";
 import { EXIT, TOOL_VERSION } from "../../tools/lib/constants.mjs";
 import { ToolError } from "../../tools/lib/fs-atomic.mjs";
 import { candidateRoots } from "../../tools/lib/paths.mjs";
+import { planPatch } from "../../tools/lib/apply.mjs";
+import { loadDictionary } from "../../tools/lib/dictionary.mjs";
 import { buildManifest, normalizeManifest } from "../../tools/lib/manifest.mjs";
-import { patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, INDEX_MARKER, OVERLAY_FILE } from "../../tools/lib/overlay.mjs";
+import { patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchSubscriptionTokenLabels, INDEX_MARKER, OVERLAY_FILE } from "../../tools/lib/overlay.mjs";
 import { assertInside, sha256 } from "../../tools/lib/fs-atomic.mjs";
 import os from "node:os";
 import path from "node:path";
@@ -150,16 +152,31 @@ test("instruction dirty compare: неизвестная сигнатура", () 
 
 test("skill overview navigation: после файла уходит с /files/", () => {
   const code = `nn=(0,h.useMemo)(()=>QVn(e),[e]),jt=nn.filePath;Je=nn.hasExplicitFilePath||jt!=="SKILL.md"?"files":"overview";function Ct(Ie){i(he=>{const Ge=new URLSearchParams(he);return Ie==="overview"?Ge.delete("tab"):Ge.set("tab",Ie),Ge})}function qs(Ie,he){return wE(Ie,he)}onSelectPath:Ie=>{Ct("files"),t(qs(_t,Ie))}`;
-  const { patched, code: out } = patchSkillOverviewNavigation(code);
-  assert.equal(patched, true);
-  assert.match(out, /Ie==="overview"&&nn\.hasExplicitFilePath&&_t&&t\(qs\(_t\)\)/);
-  assert.equal(patchSkillOverviewNavigation(out).patched, true);
-  assert.equal(patchSkillOverviewNavigation(out).code, out);
+  const wrapped = code.replace('onSelectPath:Ie=>', 'onSelectPath:n(Ie=>') + ',"onSelectPath")';
+  for (const source of [code, wrapped]) {
+    const { patched, code: out } = patchSkillOverviewNavigation(source);
+    assert.equal(patched, true);
+    assert.match(out, /Ie==="overview"&&nn\.hasExplicitFilePath&&_t&&t\(qs\(_t\)\)/);
+    assert.equal(patchSkillOverviewNavigation(out).patched, true);
+    assert.equal(patchSkillOverviewNavigation(out).code, out);
+  }
 });
 
 test("skill overview navigation: неизвестная сигнатура", () => {
   const { patched } = patchSkillOverviewNavigation(`function Ct(Ie){return Ie}`);
   assert.equal(patched, false);
+});
+
+test("subscription token captions keep the upstream amounts and formatter", () => {
+  const source = 'function c({usage:e}){return(0,t.jsxs)("span",{className:"font-mono text-xs text-muted-foreground",children:[f(e.inputTokens+e.cachedInputTokens)," in · ",f(e.outputTokens)," out",e.cachedInputTokens>0&&(0,t.jsxs)("span",{className:"block",children:[f(e.cachedInputTokens)," input cached"]})]})}r(c,"SubscriptionTokenUsage")';
+  const result = patchSubscriptionTokenLabels(source);
+  assert.equal(result, source.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
+  assert.equal(patchSubscriptionTokenLabels(result), result);
+  const live = new Map([["index.html", "<html><head></head></html>"], ["assets/costs.js", source]]);
+  const { planned } = planPatch({ server: { version: "2026.1106.0" }, dict: loadDictionary(), targets: [...live.keys()], live, panelResize: false });
+  assert.equal(planned.find(file => file.rel === "assets/costs.js").content, result);
+  const other = source.replace("SubscriptionTokenUsage", "UnrelatedUsage");
+  assert.equal(patchSubscriptionTokenLabels(other), other);
 });
 
 test("assertInside блокирует выход по .. и symlink-цель вне корня", () => {

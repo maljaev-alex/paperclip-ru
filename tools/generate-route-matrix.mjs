@@ -11,6 +11,7 @@ import { verifyInstall } from "./lib/apply.mjs";
 import { hashFile } from "./lib/fs-atomic.mjs";
 import { classifyEnglish } from '../test/helpers/route-allowlist.mjs';
 import { officialBrowserOptions, officialAuthenticated } from '../test/helpers/official-auth.mjs';
+import { officialBaseRoutes } from '../test/helpers/official-routes.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const sha = (value) => createHash("sha256").update(value).digest("hex");
@@ -47,6 +48,43 @@ export function readRouteAuditState() {
     if (attribute === 'title') return { context: 'activity-actor-title', actorName: summary.firstElementChild.textContent.trim() };
     return {};
   };
+  const auditRow = 'ul.divide-y.divide-border:is([aria-label="Audit activity"],[aria-label="Активность аудита"])'
+    + ' > li.px-4.py-3.text-sm > div.flex.items-start.justify-between:has(> time) > div.min-w-0.space-y-1';
+  const auditAction = auditRow + ' > div.flex.flex-wrap.items-center.gap-2.text-xs.text-muted-foreground'
+    + ' > span.font-mono.opacity-70[class~="text-(length:--text-micro)"]:last-child';
+  const auditEntity = auditRow + ' > div.text-foreground > span.text-muted-foreground + span.text-muted-foreground:last-child';
+  const dataContext = (el, attribute) => {
+    const app = el.closest('[role="listitem"][data-app-slug]');
+    if (app && (!attribute || attribute === 'aria-label')) {
+      const title = app.querySelector('h2.text-sm.font-semibold.text-foreground');
+      if (title) return {
+        context: el === title && !attribute ? 'app-catalog-heading' : 'app-catalog-chrome',
+        appName: title.textContent.trim(),
+        appSlug: app.getAttribute('data-app-slug'),
+      };
+    }
+    if (!attribute && el.matches('section[aria-labelledby="agent-identity-heading"] span.font-mono.text-sm')) {
+      return { context: 'agent-identity-key' };
+    }
+    if (!attribute && el.matches('section[aria-labelledby="agent-skills-heading"] [data-slot="badge"]')) {
+      return { context: 'assigned-skill-badge' };
+    }
+    if (!attribute && el.matches('section button.flex.w-full.items-center.gap-3.px-3[class~="py-2.5"]'
+      + ' > span.flex.min-w-0.flex-1.flex-col > span.truncate.text-sm.font-medium:first-child')) {
+      return { context: 'skill-studio-landing-name' };
+    }
+    if (!attribute && el.matches(auditAction)) return { context: 'audit-event-code' };
+    if (!attribute && el.matches(auditEntity)) return { context: 'audit-entity-type' };
+    if (!attribute && el.matches('p.line-clamp-2.text-muted-foreground')) {
+      const header = el.closest('[role="button"].group')?.querySelector('div.truncate.font-mono.font-medium.text-foreground');
+      if (header) return { context: 'skill-summary', skillId: header.textContent.trim() };
+    }
+    if (!attribute && el.matches('p.truncate.text-xs.text-muted-foreground')) {
+      const header = el.parentElement?.querySelector(':scope > div.flex > span.truncate.font-medium.text-foreground');
+      if (header) return { context: 'skill-summary', skillId: header.textContent.trim() };
+    }
+    return {};
+  };
   const text = [];
   const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   let n;
@@ -54,7 +92,7 @@ export function readRouteAuditState() {
     const el = n.parentElement;
     if (!visible(el) || el.closest("textarea,input,pre,code,kbd,samp,script,style,[contenteditable='true'],.prose,.paperclip-markdown,.cm-content")) continue;
     const value = n.nodeValue.trim();
-    if (/[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, ...actorContext(el),
+    if (/[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, ...actorContext(el), ...dataContext(el),
       ...(/^\/[^/]+\/apps\/assistant-connection\/?$/.test(window.location.pathname)
         && el.matches('section[aria-labelledby="connected-assistants"] p.font-medium') ? { context: 'assistant-client-name' } : {}) });
   }
@@ -62,7 +100,7 @@ export function readRouteAuditState() {
     if (!visible(el) || el.closest('pre,code,.prose,[contenteditable="true"],.cm-content')) continue;
     for (const attribute of ['placeholder', 'aria-label', 'title']) {
       const value = el.getAttribute(attribute)?.trim();
-      if (value && /[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, attribute, ...actorContext(el, attribute) });
+      if (value && /[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, attribute, ...actorContext(el, attribute), ...dataContext(el, attribute) });
     }
   }
   return { lang: document.documentElement.lang, title: document.title,
@@ -108,7 +146,7 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
     page.on("dialog", async (d) => { errors.push({ route: currentRoute, type: "unexpected-dialog", message: d.message() }); await d.dismiss(); });
     // A one-page fixture proves one route. Only the official application can
     // supply evidence for the complete public route inventory.
-    const routes = synthetic ? ["/CMP/dashboard"] : [...requiredRoutes().map((r) => r.replace("/CMP/", `/${companyPrefix}/`)), ...extraRoutes];
+    const routes = synthetic ? ["/CMP/dashboard"] : [...officialBaseRoutes(requiredRoutes(), version).map((r) => r.replace("/CMP/", `/${companyPrefix}/`)), ...extraRoutes];
     const cdp = await page.context().newCDPSession(page);
     await cdp.send('Network.enable');
     await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
@@ -136,7 +174,13 @@ export async function generateRouteMatrix({ output, serverDir, baseUrl, companyP
           const el = n.parentElement;
           if (!visible(el) || el.closest("textarea,input,pre,code,kbd,samp,script,style,[contenteditable='true'],.prose,.paperclip-markdown,.cm-content")) continue;
           const value = n.nodeValue.trim();
-          if (/[A-Za-z]{2}/.test(value)) text.push({ value, tag: el.tagName, className: el.className, surface: true });
+          if (/[A-Za-z]{2}/.test(value)) {
+            const skillPicker = el.matches('span.truncate') && el.parentElement?.matches('span.flex.min-w-0.flex-col')
+              && el.closest('[role="option"]') && Array.from(el.parentElement.children).some(sibling => sibling !== el
+                && sibling.matches('span.truncate') && sibling.textContent.trim() === value);
+            text.push({ value, tag: el.tagName, className: el.className, surface: true,
+              ...(skillPicker ? { context: 'skill-picker-identifier' } : {}) });
+          }
         }
         for (const el of surface.querySelectorAll('[placeholder],[aria-label],[title]')) {
           if (!visible(el)) continue;

@@ -4,17 +4,17 @@
   "sourceCommit": "07cc692062c0bd844fcdd69c7113bea2acdc2bce",
   "migratedAt": "2026-09-29",
   "lastReview": {
-    "toolVersion": "1.0.4",
-    "date": "2026-10-14",
-    "addedExactFindings": 145,
-    "scope": "Source and semantic review of October UI additions; targeted user-data browser regressions. Existing exact records are preserved."
+    "toolVersion": "1.0.5",
+    "date": "2026-11-18",
+    "addedExactFindings": 419,
+    "scope": "Source and bundle review of UI additions, provider catalog descriptions and operator notices for Paperclip 2026.1023.0 and 2026.1106.0. Existing exact records are preserved."
   },
   "note": "Exact migration of the previously accepted baseline. Raw findings remain available in lint --json; all new or changed diagnostics fail the gate.",
   "byCode": {
-    "glossary": 104,
-    "latin": 951,
+    "glossary": 121,
+    "latin": 1322,
     "suspicious": 2,
-    "short-key": 836
+    "short-key": 867
   },
   "accepted": [
     {
@@ -11374,6 +11374,2520 @@
       "code": "short-key",
       "en": "Shared",
       "reason": "Reviewed ownership label; excluded from static rewriting. Source-shaped pool, legacy connection choice, reused connection and remote account guards preserve API names in visible text and accessibility labels while adjacent ownership and actions translate. Independent browser regressions passed on 2026-10-14. Sources: ui/src/components/ai-connections/AiConnectionPoolConnector.tsx and legacy connection callers."
+    },
+    {
+      "id": "874c08a156c072cd783fb4f8b95dfa6f3119b22a1a9b26ad3633b9553857fe5b",
+      "code": "latin",
+      "en": "Copilot through Paperclip Runner",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Copilot."
+    },
+    {
+      "id": "3c452d9edf66439a39b4d4ba9e6270baf497fd57b387e84a7fc8f02cc5dcc0e8",
+      "code": "latin",
+      "en": "Muse — Personal agent",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Muse."
+    },
+    {
+      "id": "23af66ce525d7682bddf7fc002f6c9f4bff787fd32f2436c00c8249f817258e4",
+      "code": "latin",
+      "en": "Your Dot in ChatGPT",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Dot, ChatGPT."
+    },
+    {
+      "id": "1c6b656afb4bad30d3d4716d746454a7a82886b470822dfb485cdd477ff46539",
+      "code": "latin",
+      "en": "Your personal Muse at muse.ai",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/adapter-display-registry.ts: Muse, muse.ai."
+    },
+    {
+      "id": "e381ec31a345223e27395b2e7717a4a60f081d6edd0fc9a5f2618e503fbba901",
+      "code": "latin",
+      "en": "Cursor uses Paperclip questions; per-run cost is unavailable. Pi accepts any provider/model ID. GitHub Copilot awaits qualification.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Pi, Copilot."
+    },
+    {
+      "id": "67e03abd2ba1af34cc6bbdbb4c1299b2084069f5d05752b70554aa7432fe0e87",
+      "code": "latin",
+      "en": "Dot connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot."
+    },
+    {
+      "id": "3dda972ea299c978dd7c038ded849ea78b31b0248583ec1025d9cf3dd929d131",
+      "code": "latin",
+      "en": "Dot does not report token usage or cost. Paperclip cannot enforce a provider spend ceiling; known company and agent budget limits still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot."
+    },
+    {
+      "id": "00ede1169c722304278ecf42b1d8a32fa873260a81524a62d5b78b2097d24209",
+      "code": "latin",
+      "en": "Let Dot read and write its assigned workspace and publish files. Requires a local Runner. Commands are available only on Linux with bubblewrap; they cannot read your home directory or use injected credentials.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot, bubblewrap.."
+    },
+    {
+      "id": "daaa97ebc6cd6b346e7d1cc932f212ecd908e1572df89af36a98648485bc60ac",
+      "code": "latin",
+      "en": "Let Dot read files attached to its current assigned task. File contents are sent to OpenAI. Does not require workspace command access; off by default.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Dot, OpenAI.."
+    },
+    {
+      "id": "d6d5e5bf4bda52602d450f3952b928d1b81c4caa224502a457c2b589cddae387",
+      "code": "latin",
+      "en": "Muse connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Muse."
+    },
+    {
+      "id": "1eb29586c29353fe448b66a32a2eb457996ebc5f50031c4ec6f0c4ea2b85d3da",
+      "code": "latin",
+      "en": "Muse does not report usage or cost. Paperclip cannot enforce a Muse spend ceiling; known company and agent budget limits still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Muse, Muse.."
+    },
+    {
+      "id": "e60ee3c463c51b5c54cbc33a92396c478cc899555a5dc55e7a0fd2daa7063db7",
+      "code": "latin",
+      "en": "Pi thinking level",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Pi."
+    },
+    {
+      "id": "c2cde161ae9c3092a80f047b47f7a8a591cd5800cff2d839dd1f497a2582a9bd",
+      "code": "latin",
+      "en": "Select Cursor's session mode. Permissions and company approval rules still apply.",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Cursor.."
+    },
+    {
+      "id": "f15e79a6dfe6ee8bf0b794b08c37e00d15f97aaf45f9ea8d97b91dd1ce74ea73",
+      "code": "latin",
+      "en": "Unsupported saved mode — select Agent, Plan, or Ask",
+      "reason": "Preserves the product name, external UI label, or technical literal in adapters/codex-local/config-fields.tsx: Agent, Plan, Ask."
+    },
+    {
+      "id": "263a82fe587b34464463cd86d515d5599ebe7d0d610c19a6197641c02f5abc67",
+      "code": "glossary",
+      "en": "Unsupported saved mode — select Agent, Plan, or Ask",
+      "reason": "Agent is the name of a provider mode, alongside Plan and Ask."
+    },
+    {
+      "id": "b1ae8673eaca2705d3cd8bee64d891566ee7b2ed1ef3f498872df63fac79372f",
+      "code": "latin",
+      "en": "Copilot execution environment",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiConnectionCredentialStep.tsx: Copilot."
+    },
+    {
+      "id": "aac2a33cb8b08ffb0f3fd5c511c0d35b3080bc18e457e9d509a3877a06ceeb93",
+      "code": "latin",
+      "en": "Use a personal fine-grained token with Copilot Requests permission.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiConnectionCredentialStep.tsx: Copilot, Requests.."
+    },
+    {
+      "id": "0eb015a69e8ffb084b679ba2d79885dd3a04d86a831817d4e34757d7c23ebc87",
+      "code": "latin",
+      "en": "API key · x-api-key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: x-api-key."
+    },
+    {
+      "id": "542ef92a978108d8191fb6d7ddbd18df25e2d63c7d9895395f10c4ccce75936c",
+      "code": "latin",
+      "en": "Bedrock API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Bedrock."
+    },
+    {
+      "id": "eb8a7b19b53db594f2f0225eaa4e58662f40162d8e3c4a634ea40417ba2b1284",
+      "code": "latin",
+      "en": "Bedrock API key and AWS region",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Bedrock."
+    },
+    {
+      "id": "13424cd209d7b7d348b43bb21e65d8dbba471eff304719acbcb2c65029b2db97",
+      "code": "latin",
+      "en": "ChatGPT subscription or API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: ChatGPT."
+    },
+    {
+      "id": "a3c66df35231fdb3a27337b1ce22021c354ef747abe8beb428a72484a70bd60f",
+      "code": "latin",
+      "en": "Emissary or another compatible endpoint",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/ai-connections/AiProviderSetup.tsx: Emissary."
+    },
+    {
+      "id": "6283df70bdd723b737e784308202a93a49e0036420ba98b818ba746b7947818b",
+      "code": "short-key",
+      "en": "Uploads",
+      "reason": "Artifact section label in components/artifacts/ArtifactUploadControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "3771d0b903d4fc6b1cedeba2aa1b477a5d9074c087ad2313fc967eb9fe043e43",
+      "code": "glossary",
+      "en": "Execution is paused for this project until the budget block is resolved.",
+      "reason": "The object is a budget block. The Russian term for lifting a block is idiomatic here."
+    },
+    {
+      "id": "2b697fd84d3f7f2a1a665130efdf138e9d1e555a79338b34b9a4ca40918b7f75",
+      "code": "glossary",
+      "en": "Heartbeats are paused for this scope until the budget block is resolved.",
+      "reason": "The object is a budget block. The Russian term for lifting a block is idiomatic here."
+    },
+    {
+      "id": "dc078668bf5dc6160a8f115610cb78ce4f1d3ae87abf5354548f7c8d5ddb6eb5",
+      "code": "short-key",
+      "en": "Handoffs",
+      "reason": "Case history section label in components/cases/CaseHandoffHistory.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "0ed5dcfdb0e6292b1404c89d08cd7d559f6c93e553f94f7a1d3f01ee965c783d",
+      "code": "latin",
+      "en": "Add a shared OpenAI or OpenRouter API connection to get started.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/decision-models/DecisionModelSettings.tsx: OpenRouter.."
+    },
+    {
+      "id": "14a1fe5e93321b2870b311062f99133229dd92364d740cc679ee28cc1690ff74",
+      "code": "latin",
+      "en": "Choose a supported OpenAI or OpenRouter API connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/decision-models/DecisionModelSettings.tsx: OpenRouter.."
+    },
+    {
+      "id": "e416d623444b51d138ffc355efc0419810d803a22a5abe77fdf0325c1124fa74",
+      "code": "latin",
+      "en": "Connect your Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "65f8996424ba2213513828441c021d6ccb2b175b8bcdcbc6e8a43acea3c3b0a5",
+      "code": "latin",
+      "en": "Dot has not reported useful activity for 15 minutes. Inspect the Dot before assigning replacement work; Paperclip cannot confirm its external stop.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot, Dot."
+    },
+    {
+      "id": "f885df47e383af7b14df995077fc818847583295be8a1fc2920850f537de1c15",
+      "code": "latin",
+      "en": "Dot manages its model and external tools. Paperclip supplies task coordination, people, assigned skills, and connected app tools. Dot can start a task directly from its conversation. Enable Read task attachments below to send assigned task file contents to OpenAI. Enable workspace files and commands for work in the assigned workspace. Provider usage and cost are unavailable; stopping a Paperclip run revokes access without confirming an external stop.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot, Dot."
+    },
+    {
+      "id": "caf99b658980420a91be613126e1c7b15d13118dfebe4fe83d43347d897a2de3",
+      "code": "latin",
+      "en": "Enable OpenAI Dot and Assistant connections (MCP) in experimental settings.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "6a3c8c426a3770d4670a8f4c92fdb5e527d5aebbcfce7889191199182fde568e",
+      "code": "latin",
+      "en": "Pair Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "664fbc880009c39743fd0eeac9e98ea9bd3f37b914d9635253a1be429decb193",
+      "code": "latin",
+      "en": "Paste into your Dot to connect this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "dc255a5c78719a5c999c6b52997437644168844789e370ce6483852f62a89465",
+      "code": "latin",
+      "en": "Save the agent, then return here to pair your Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot.."
+    },
+    {
+      "id": "18d710bdfaaf8e65fada7a57be161aea5119d177094d73eef5e2ee3a51bf6c86",
+      "code": "latin",
+      "en": "Set up with Dot",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "150d141de50a8d2e6aa0332d3aa27503e7547fc775e07606973cc04632e11df4",
+      "code": "latin",
+      "en": "Waiting for Dot to read and confirm the harmless mailbox challenge.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/DotRunnerConnection.tsx: Dot."
+    },
+    {
+      "id": "47bdda77a4251b8ed295c0c3b28e1d05c9457f1345bbaf4d76be8cda7bf75d80",
+      "code": "latin",
+      "en": "Ask the Bot for a Webhook URL navigation link if clicking its routine does nothing.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: URL.."
+    },
+    {
+      "id": "492141b1744f814faf29d7f8cba44f3c0087fc9e105855b7f0a34f089cd29585",
+      "code": "latin",
+      "en": "Enable Grok Bot, Assistant connections (MCP), and Paperclip Runner on an authenticated public HTTPS instance.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: HTTPS-."
+    },
+    {
+      "id": "de2651269925b8f039baca14f6546f110385778115b7892be1d9767dcc588bb9",
+      "code": "latin",
+      "en": "Revokes this session’s Paperclip authority and stops future dispatch. Remote execution may continue. Open Grok Bot to inspect it.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: Bot.."
+    },
+    {
+      "id": "74b0f9619b8ed82d0094f1af54060cf141af893ba73821dc644a6eeb8dfc209c",
+      "code": "latin",
+      "en": "Runs in Grok Bot. The Bot retains its apps and persistent context. Paperclip supplies task coordination and first-party tools. Usage and spending are not reported.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotConnection.tsx: Bot.."
+    },
+    {
+      "id": "4a6497b8b10768cd2c353af8953446ba31faaedd06ded51d627a3a6fba86abcc",
+      "code": "latin",
+      "en": "Shows Paperclip-reported activity. Open the Grok Bot desktop app to inspect the Bot’s complete activity.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/GrokBotWorkSummary.tsx: Bot.."
+    },
+    {
+      "id": "75c10e1e77cb90aad2d48cd92969b2b85b8360cefea2392020208178cdefea38",
+      "code": "latin",
+      "en": "An authenticated instance with a public HTTPS URL is required to connect Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse, HTTPS-."
+    },
+    {
+      "id": "27eaf7e602047b7194ec1aca57757c8c4ccdc68265f87be4246e1d99f61f42d6",
+      "code": "latin",
+      "en": "Attest this Muse worker stopped",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "dcbc383c7a4a27d1454cae79e83d937fcf127f24f00c00193cca569182faddb6",
+      "code": "latin",
+      "en": "Connect Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "133ce8bba416272db2b5adf5f7397d389f776a1e5a0dde251807d42f15cf0222",
+      "code": "latin",
+      "en": "Connect your Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "34e92c61e20db48a829674b10979cf9697557bf1cb8c7ac3318f7dfefad9004a",
+      "code": "latin",
+      "en": "Detector removal observation SHA-256",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: SHA-256."
+    },
+    {
+      "id": "603090f03c13286de9572df2bca917a246ee4930b792a3b4e2f171bc9651dcfa",
+      "code": "latin",
+      "en": "Detector removal observed at (UTC)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: UTC."
+    },
+    {
+      "id": "4641b2a53d26b3172a030053e35050760933f69c736a4082fc3b0f0784c879af",
+      "code": "latin",
+      "en": "Detector removal, worker stopping, and sandbox cleanup are separate. Paperclip cannot verify every private Muse tool or stop all personal Muse conversations.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse, Muse.."
+    },
+    {
+      "id": "6296c561365bfacc730a27e439d59d43903dbec362de6b6cc9a5a40cd2f8bfde",
+      "code": "latin",
+      "en": "I have stopped this Muse worker for the named assignment and run. This does not certify independent private tools or unknown native effects.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "b97ce79a8a40b5b3665262a402bb9997d56ecd2320ac293f1a614edfe7ae212e",
+      "code": "latin",
+      "en": "Loading Muse connection…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "d3d6374f71e41f245a7025778772a3f8ada913aad6842acbe1184539e4b42964",
+      "code": "latin",
+      "en": "Muse is disabled in experimental settings. Connection cleanup and stop evidence remain available.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "81da4a26b2aab2f5172cec0bbb15ec7547792b2184a727dc111a6067cf6a69b7",
+      "code": "latin",
+      "en": "Muse reported that this assignment’s worker is quiescent. Independent private effects remain unconfirmed.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "867bcfdafa80b14edc9cc7eed25cfb1eeed1e5513bf44416c6bf6a0648ea3302",
+      "code": "latin",
+      "en": "Muse uses its own tools and permissions. Paperclip coordinates company tasks and questions. Provider usage and cost are unavailable.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "7d40ec412dac4b7bf6170477906edae3e5a215832dfc66cc06d3cee748109392",
+      "code": "glossary",
+      "en": "Native effect outcomes remain unknown and block replacement work. Worker attestation does not resolve or replay those effects.",
+      "reason": "Resolve refers to determining external operation outcomes, not closing a task."
+    },
+    {
+      "id": "51766347d8f8219cacd68fc7beb0977f2ffb0f450fe88a521af4e132cf5d8e9c",
+      "code": "latin",
+      "en": "Observation SHA-256",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: SHA-256."
+    },
+    {
+      "id": "b6a661cbdc3c97d9ebeab786e8c95d8291159155ee266a42944c3ada07011a71",
+      "code": "latin",
+      "en": "Observed at (UTC)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: UTC."
+    },
+    {
+      "id": "3eb5453d0a849d77447a5cd9a843dcb1d963803367485a7ec20cac88e237250a",
+      "code": "latin",
+      "en": "Open Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "1c51c63364ceb557564de04069f3eeb83b3e83eed7029e420622f4acf45ec244",
+      "code": "latin",
+      "en": "Paste into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve the Paperclip hostname.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse., Muse."
+    },
+    {
+      "id": "fa6b651706d8767c158c032993128d8917ca9bd177f52385e65666c06c952084",
+      "code": "latin",
+      "en": "Reconnect Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "17d228d87edf5a4dddd7356d9acc6856baf59613469f52884014a5b732603b7e",
+      "code": "latin",
+      "en": "Record exact Muse detector removal",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "6261641596e8aa5f89d4b95fa1d4b6c7fcbdebaef7bf09e572d408563fbdc018",
+      "code": "latin",
+      "en": "Registered Muse hook ID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "66670c295168e6a11ab0ec54d41b6efaabc7eb7811943a847b2694cbc78b3f31",
+      "code": "latin",
+      "en": "Save the agent, then connect your personal Muse here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "84aec540eb4a0c497889080d241fc8257b2563a520fcea06cf994cee9fb99f53",
+      "code": "latin",
+      "en": "Unable to confirm your account. Refresh to inspect this Muse connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse.."
+    },
+    {
+      "id": "45e2ef3a2ca0390fa96a84313ee884aa8d9ce07afd1e4be1fd1200b8c0084e23",
+      "code": "latin",
+      "en": "Unable to load the Muse connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse.."
+    },
+    {
+      "id": "ef809c7414abdf010065b3b032d671c2f20c4876acfa4f3943ab7c0aae0570bc",
+      "code": "latin",
+      "en": "You attested that this assignment’s Muse worker stopped.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/MuseRunnerConnection.tsx: Muse."
+    },
+    {
+      "id": "1989c56c653d0e64840bef83341c5d2691ade3a0dee679ca9bc629fd33ef58f4",
+      "code": "latin",
+      "en": "An organization admin needs to approve this agent before Dot can connect. This page will update after approval.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "18c57110c3fc665aab7511fcd54db74f899f6e036db9010f00fe96a413a07f49",
+      "code": "glossary",
+      "en": "Connection checks passed, but this agent cannot receive tasks. Resolve the agent’s setup blocker in Paperclip.",
+      "reason": "The object is a setup blocker. The Russian verb for removing a blocker is idiomatic here."
+    },
+    {
+      "id": "03be8f5fe3eefa8ffc1197b6372a6edbe89fc06099254197ddf4cb0439ae4cb3",
+      "code": "latin",
+      "en": "Copy the setup prompt and send it to your Dot in ChatGPT. Your Dot will connect itself; we’ll watch for it here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, ChatGPT., Dot."
+    },
+    {
+      "id": "5743ca8b8db646d43940bdf95738269c8d96b663aded226eb0579e176327664c",
+      "code": "latin",
+      "en": "Dot connection checks",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "9efd6cf90d894f0ed4e62558b6d5c4e5504c8560cc3c4881a1cfec1b501fb371",
+      "code": "latin",
+      "en": "Dot uses your OpenAI account. Provider usage and cost aren’t reported to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, OpenAI.."
+    },
+    {
+      "id": "fc6e8a688c018e08faaa3be06192a611bbde07b2f9f8e93c4c78ab053cb8f48f",
+      "code": "latin",
+      "en": "Invite your Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "44efc0563e0ec05e8f6317cfa6f430a22862a1a650bd472faa3c6999c18bc2a7",
+      "code": "latin",
+      "en": "Loading Muse invitation…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "2900d0ac8abc5ed994bc4df6f09998b724cb66159654e4ab60ace723521f4a36",
+      "code": "latin",
+      "en": "Loading Muse setup…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "52f5dd5feba15174395df1f51e4af79f36030cc6f940cf17b664647562825ab7",
+      "code": "latin",
+      "en": "Muse connection checks",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "e760e02a42f6948c48d8c98b0bf13ee1cb5ccc81800d96ac1c9fb9b77d376d9a",
+      "code": "latin",
+      "en": "Muse is connected",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "241a5b7d3367bfdbef62195da6404f879eb9400bf45910569ef187f3541a7a80",
+      "code": "latin",
+      "en": "Muse is disabled. These are the last observed connection checks; new work cannot start.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "f503e7ed77b66576e82d844ff43f4b47afed48e058f1cf82d10b803428831a56",
+      "code": "latin",
+      "en": "Muse is paired. Waiting for the first persisted receiver contact.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "8ee91be690741166bd391bd2423349028fc35d84ed7076403b65d93601a3313c",
+      "code": "latin",
+      "en": "Muse is ready for tasks. All connection checks and agent setup passed.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "349baf6dc7a2042dfb23ef37b05320f60b515b9fd7c9daffdd76209cbaab901d",
+      "code": "latin",
+      "en": "Muse replied to an independent background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "a99ea6c7fd0d7488d392b5436ff438abcbd76807deb5b1c83d58de4480dbab7e",
+      "code": "latin",
+      "en": "Muse requires an authenticated Paperclip instance with a public HTTPS URL and a company operator account.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse, HTTPS-."
+    },
+    {
+      "id": "4b9e84faff92c4bf17c48ea7d2b86f621776098b3a92b6cce09f5b59717fa1ae",
+      "code": "latin",
+      "en": "Muse uses its own approved tools. Provider usage and cost are unavailable to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "53157eadbaa6ed6e4f73cc10aa1c98b9cbd0062f0953ba3cd9dfd9e0274ea405",
+      "code": "latin",
+      "en": "No recent response. Open Muse to check the current conversation and hostname permission, then test again. Silence does not identify a permission problem.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "24b5650671278ae2af95c7d06d6853477eee5f9e4491d71fc34232bf19e27eff",
+      "code": "latin",
+      "en": "Paperclip authorized the scoped Muse agent connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "4fc4db0d9505e49724b8661829208982c8c52a7c218f9160ace8b68b989dc500",
+      "code": "latin",
+      "en": "Paperclip observed a public receiver check. Only an authenticated reply confirms Muse can work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "4b50688b468895db0fd0ab67516fb557bd6a18cd03b7b8b1188bb22b5c4d7c0d",
+      "code": "latin",
+      "en": "Paste the setup prompt into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve this Paperclip hostname. Muse keeps the connection credential in its secure vault. The hostname permission applies to future requests.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse., Muse, Muse."
+    },
+    {
+      "id": "5da59522c6da00ec2ed2f796aa98dc0e8ffcebfccb7150171c988665bf61831e",
+      "code": "latin",
+      "en": "Receiver detected. Waiting for Muse to reply to the background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "0811a99c3b3b83a7e895f8deeb6dc881dbf5994cebdc5f08122aae5f884cb1fd",
+      "code": "latin",
+      "en": "Send this whole prompt to your current Muse conversation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse.."
+    },
+    {
+      "id": "9b33a3ebe0e2acc358d8ccf6f2a24c06c2d20643682efbf96b3352147f226b44",
+      "code": "latin",
+      "en": "Send this whole prompt to your Dot in ChatGPT.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot, ChatGPT.."
+    },
+    {
+      "id": "5653f9598308a51d6aafd8a94463894c2868dce412aee7cd782e1b2c6c123404",
+      "code": "latin",
+      "en": "This Muse connection expired. Reconnect Muse with a fresh setup prompt. Previous checks do not restore access.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse, Muse."
+    },
+    {
+      "id": "291c1fc56e05928a9f1de09744c58de4723de8d83cc2c42b4168bde2119753ef",
+      "code": "latin",
+      "en": "Waiting for Dot…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "a3962bcf051f6988fb50a49833824925e3e7ac3c190d18d91120567b46a1018b",
+      "code": "latin",
+      "en": "Waiting for Muse to reply to the current background test.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "42448f1e2effe96200869096c4fec70d2235a750932202505483fd3ccb7b7736",
+      "code": "latin",
+      "en": "Waiting for your Dot to confirm a test event. No task will be created.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot.."
+    },
+    {
+      "id": "a1e58077c679f66581d58a7a9a90dee2ac48215a7259fbcd84d04dd6d79256b1",
+      "code": "latin",
+      "en": "Watching for Muse to pair. Copy the setup prompt into your current Muse conversation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse., Muse.."
+    },
+    {
+      "id": "3d400a49bd3f0fb9f01615b246b7d454ae3d01c5e26dee66ab09cb6bdd8d8c63",
+      "code": "latin",
+      "en": "Watching for your Dot. Updates will appear here automatically.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot.."
+    },
+    {
+      "id": "105b0550d4406f58c745acbf462bb47826436fe507137ff01719e3382540fad7",
+      "code": "latin",
+      "en": "We’re checking whether this instance can prepare Muse setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Muse."
+    },
+    {
+      "id": "6b777f1951b4de7f1503f828ef50a910e405565793da36fe1ded04db60ff5b90",
+      "code": "latin",
+      "en": "Your Dot confirmed the test event. Paperclip is finishing agent setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "a932b7cc0740eecc7817b2133f52e1ce87e20007945f151e1ae000c319e65f66",
+      "code": "latin",
+      "en": "Your Dot connected, but hasn’t confirmed the test event. Ask it to check Paperclip, then retry.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "c7b38e93a9342a449d48a80103c09b35c32ea2caedfc45f892538142e4074810",
+      "code": "latin",
+      "en": "Your Dot connected. Waiting for it to enable task updates.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "4daf5bd54917da0fd0a44d6ccfb0720ff8e34ff46182b312d0d7bf81adc7642a",
+      "code": "latin",
+      "en": "Your Dot has connected and confirmed task updates. Paperclip is preparing it for assignments.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "ce905146f05061d445973b06092a866fc4c0a23ccb4af235068adf72587626cd",
+      "code": "latin",
+      "en": "Your Dot has connected to this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "5db231fd62340cab94fcf1df33ba02334d51269774d7e0707dd12730059d7fa0",
+      "code": "latin",
+      "en": "Your Dot has connected. We’re checking that task updates can travel both ways.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "eec1c66ac68f8559a271286bee18b04019b1ab17c33a4b8bd3112578d3aad6c5",
+      "code": "latin",
+      "en": "Your Dot is connected",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "24d598e170317a21e8463872ae181119da9b12281c179cd5d51746895ddda031",
+      "code": "latin",
+      "en": "Your Dot is connected. This agent must be available in Paperclip before it can receive assignments.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "f27fa9b01343a77a721c0018c4ddebe73807839972c949271f1717f6d2e933f0",
+      "code": "latin",
+      "en": "Your Dot is ready for tasks. Messages can travel both ways.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "8f8ccd88e8a43e1456a644daabf85e723fcf3fad8a24ecae5ad0025a96041f36",
+      "code": "latin",
+      "en": "Your Dot is subscribed to new assignments and messages.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "6aadab1df794229f2859de155795266fcb2d28dcfaeeb6f06ac6ecd1f348aad5",
+      "code": "latin",
+      "en": "Your Dot received our test and replied to Paperclip.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteContent.tsx: Dot."
+    },
+    {
+      "id": "6c335e6287628fa6ab699c661cd82352af6d5780978e2a56af4ab9815727def8",
+      "code": "latin",
+      "en": "Enable Muse and Paperclip Runner in experimental settings to connect your personal Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Muse, Muse.."
+    },
+    {
+      "id": "6c5086650288a2a08e43533e9bf21f07eeb51afbd8e358a5655d49c4e2127d75",
+      "code": "latin",
+      "en": "Resume this agent before connecting Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Dot.."
+    },
+    {
+      "id": "2f87e650f1a9cd1963700825d596a885dd44633ecfcab4a63ec27a7dc9efc856",
+      "code": "latin",
+      "en": "This agent was terminated. Invite another agent to connect Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Dot.."
+    },
+    {
+      "id": "ed18c5676e4e03a235623ea762874d8087862d34308e594a2706696fc1172f5d",
+      "code": "latin",
+      "en": "This instance has no public HTTPS URL for Muse. Ask your instance administrator to configure a stable public HTTPS address, then refresh setup. Muse cannot connect through a local-only address.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: HTTPS-, Muse., HTTPS-, Muse."
+    },
+    {
+      "id": "10ddb8a48c01cb56b29319cbe7ba5a33d1459241d5f70302be8bba0cd94ac39f",
+      "code": "latin",
+      "en": "Unable to confirm your account. Refresh to resume Muse setup.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: Muse.."
+    },
+    {
+      "id": "dc6cc97b8f3d08e1f3c864b76a3b78a5dd46af5047003fb1f3f8df775958f1f9",
+      "code": "latin",
+      "en": "Use an authenticated Paperclip instance with a public HTTPS URL and a company operator account. Local trusted access alone cannot connect Muse.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/ExternalAgentInviteDialog.tsx: HTTPS-, Muse."
+    },
+    {
+      "id": "defd4f21a311cae44a175104f689d02b2da51d494b5cebdeac831b980099dd8d",
+      "code": "latin",
+      "en": "Copy the connection instructions into your Bot’s chat. Add the custom MCP plugin and complete its browser authorization.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/GrokBotSetupContent.tsx: MCP-."
+    },
+    {
+      "id": "67aee72d6d5a7bf7cc58df7b220b1f1499e76bb9e4c2f4471ae5d80c9909e854",
+      "code": "latin",
+      "en": "Use the name shown in the Grok Bot desktop app. Bot web links may no longer work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/GrokBotSetupContent.tsx: Bot.."
+    },
+    {
+      "id": "b836297de3bf45339bd741a658d1181c5c1d8a0af8f7cd33af44447d2a61d4f4",
+      "code": "latin",
+      "en": "Acknowledge external provider billing before creating your Dot agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot.."
+    },
+    {
+      "id": "761700b2b1fc8121abbb879b8d4c0ebd24a1e18a4286bf76136be1a3b08c2d16",
+      "code": "latin",
+      "en": "Create this agent, then copy its pairing prompt to your Dot.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot.."
+    },
+    {
+      "id": "e66508ae110ef6881bec9df47615955b1ee1ae05f842a50271cc4dac35d0d3a2",
+      "code": "latin",
+      "en": "Pair your Dot and test event delivery in configuration before assigning work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot."
+    },
+    {
+      "id": "255caa19ee88fae8fe70a3eb0203926d43e1a44172618fc8d55d4f865e12c510",
+      "code": "latin",
+      "en": "Refresh Copilot models and select an available model before creating this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Copilot."
+    },
+    {
+      "id": "8803af0e910f3d8472c8c475524a434a474d835692bb195e21c5e9eead1a65c1",
+      "code": "latin",
+      "en": "Your Dot agent has been created",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/new-agent/NewAgentSetup.tsx: Dot."
+    },
+    {
+      "id": "e3660ac7489449ad034f7eb901b2ad8e018b6e338641c59cf53c7d2a2758b2ab",
+      "code": "latin",
+      "en": "Additional tool details (Claude Code)",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Code."
+    },
+    {
+      "id": "86f7426cf0556e946a6e315db0ba79d2e05201fa8c908cd85d806f42bc343d23",
+      "code": "latin",
+      "en": "Braintrust project UUID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Braintrust."
+    },
+    {
+      "id": "0dd27e2745f0d85f14387ee66250340462a2f72de49e5528b925fb9fbd7974d4",
+      "code": "latin",
+      "en": "Custom OTLP",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: OTLP."
+    },
+    {
+      "id": "eb57c1db366dc1bc5ec15ec173dd5c2c99091dc3b153b4dd6967c5227864e1ab",
+      "code": "short-key",
+      "en": "Logs",
+      "reason": "Telemetry record type in components/observability/AgentObservabilitySettings.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "1b8ac3f5d32c15179426aed7dde3aab0e84bb5b94dd7e7f5bc79a771d6df9593",
+      "code": "latin",
+      "en": "OTLP base URL",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: OTLP."
+    },
+    {
+      "id": "bd9f7dc3dd3632a1fab47ca159e547ca73963ce9be8ee0af3607172ec6f3b2e5",
+      "code": "latin",
+      "en": "Send Codex and Claude Code logs and traces to your observability service.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: Code."
+    },
+    {
+      "id": "b0c38251969ced15cfeb7768e56d0a11bbff5d857ee4e1b5829ff03e7a607681",
+      "code": "short-key",
+      "en": "Traces",
+      "reason": "Telemetry record type in components/observability/AgentObservabilitySettings.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "fde3b7a67cbdbbbad5232daa09cdb41f9a3231f30af5398750e8b13f711450c1",
+      "code": "latin",
+      "en": "Use the base URL without /v1/logs or /v1/traces. It must be reachable from each agent environment.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/observability/AgentObservabilitySettings.tsx: v1, logs, v1, traces.."
+    },
+    {
+      "id": "4dacdf9fa34f1b9bc4c9a076d4884f3dbe24117c6705e5c322c857a1e5ede319",
+      "code": "latin",
+      "en": "Choose a GitHub Copilot token connection for this source.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "f2c5be1f89c94e08e11902c5dc0a4857cfb0387d5a22d82d48baef4f367ae5fe",
+      "code": "latin",
+      "en": "Connect GitHub Copilot and choose a model",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "fd20c315d1956e9c8cb6beee67121798862bc3b2167079d9ed1c66ce96ecbfec",
+      "code": "latin",
+      "en": "Connect GitHub Copilot and select an available model before creating this agent.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "63533551a3d7c917f639e8d90c35f794b55b56f0f7bae6aa5841f811c1cf8bc0",
+      "code": "latin",
+      "en": "Copilot model",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot."
+    },
+    {
+      "id": "5e75a2996d7926990b6fbafc91771968ccbf0bc8b8759754577db70b687a5056",
+      "code": "latin",
+      "en": "Could not discover Copilot models.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot.."
+    },
+    {
+      "id": "0dd2d2bf8a2f53c065c0389cf17a9f73e5937068d2234ef2f7c753ffbfc919f6",
+      "code": "glossary",
+      "en": "Could not resolve the execution environment.",
+      "reason": "Resolve means determine the execution environment."
+    },
+    {
+      "id": "1ffc229616421dfb27ddf358532a5191c6cd36004063427366c459bdcd81a7be",
+      "code": "latin",
+      "en": "No available Copilot models were discovered. Check this account’s Copilot access.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/OnboardingWizard.tsx: Copilot, Copilot."
+    },
+    {
+      "id": "9d092cdbcb95599fdc303f15c18bc086e29afb04ad5f98987d548e1f65c51ff0",
+      "code": "short-key",
+      "en": "Branches",
+      "reason": "Repository branch selector label in components/RepositoryBranchSelect.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "7cc2176154e1de7af90fe79b0c21f73fb9295c884f711453a79c1024b0d8dd82",
+      "code": "short-key",
+      "en": "Annually",
+      "reason": "Subscription billing frequency in components/SubscriptionCostCard.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "a0d8eee1531316e73ea52facb0452a31ec75e9c40703d39db5601f3410548e0e",
+      "code": "short-key",
+      "en": "Currency",
+      "reason": "Subscription currency field in components/SubscriptionCostCard.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "41b271d41248b7722575cdea6d6e03867a0ab2d345bf4743117a852ea7bdaad4",
+      "code": "latin",
+      "en": "Muse chooses its model and effort. Paperclip has no per-task override.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/task-chat/ComposerRunSettingsPicker.tsx: Muse."
+    },
+    {
+      "id": "ffe2376802c75f28d27591f2a034da0a7e3d3bbda7e01ecdcddfbab5e70413b3",
+      "code": "latin",
+      "en": "Speko handles the audio and may retain recordings according to your workspace settings. Paperclip keeps task history. Speko usage is billed separately from agent work. Calls are limited to ten minutes.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/NativeVoiceConversation.tsx: Speko, Speko."
+    },
+    {
+      "id": "f2fe2a3eb9e0d4bee2345b484cf388693cd12ee464bbc4d52df3bca626828340",
+      "code": "latin",
+      "en": "Agent costs are separate. Recordings remain in Speko.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko.."
+    },
+    {
+      "id": "105df64d5d3bd90a546b37b5001ea987ec978b45f8b9414e7b2cb73f395f94d9",
+      "code": "latin",
+      "en": "Confirming call cleanup with Speko.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko.."
+    },
+    {
+      "id": "871dba9d410da2fe6846319fdd0efd45c88be4e25b680e5f8a6bc1fc58eb3ddd",
+      "code": "latin",
+      "en": "Speko charge",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "79ca121479d27ee2be6bf6d1e32c4b118a705414f83d2edd4a14e6a2ab3c6a3a",
+      "code": "latin",
+      "en": "Speko did not provide a transcript for this call.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "33a245ef2f8f1783352fc61170027ba6013454b39e3bd301d3e28f84b0cf7a1a",
+      "code": "latin",
+      "en": "The transcript is unavailable. Paperclip will retry while Speko finishes the report.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "bae31a5f936709a30a72a3295592d6405b46bafd09beeea8d6d52522802d5d59",
+      "code": "latin",
+      "en": "The transcript will appear after Speko finishes the call report.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "fc446739d0f4eea580020ba3d91a9c81437890b8e1896960da5624d495ab8c4e",
+      "code": "latin",
+      "en": "This call encountered a connection problem. Check your Speko connection before trying again.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoCallHistory.tsx: Speko."
+    },
+    {
+      "id": "e23cfc9882799fa2548bddfc27f92b2ea79ca3b1e9e8b2a008cca3919bd7adb7",
+      "code": "latin",
+      "en": "Buy or import a number in Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "536920c5331f123b375c02b9b9aa683b2b1e77df03bd986959e0acfe65857f0e",
+      "code": "latin",
+      "en": "Complete number setup in Speko before enabling incoming calls.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "a581c79e2a1f4bba6f17a60f07de2908ea0c3e3f8940a63c40abfe81ef760752",
+      "code": "latin",
+      "en": "Loading Speko numbers…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoPhoneLine.tsx: Speko."
+    },
+    {
+      "id": "a4645287635b7f48ca98985eb4c470093f08890d35dbdf0e30f454fc49a02bb9",
+      "code": "latin",
+      "en": "Configure a public HTTPS callback origin for Paperclip first. Local instances need an explicitly configured tunnel or reverse proxy.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: HTTPS-."
+    },
+    {
+      "id": "aab06fd75785c0451661a9cb1466c479eb5978f7d551377eb9094642c1601fda",
+      "code": "latin",
+      "en": "Connect Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "1957106ce770a34a4fffadc5dfa9130bfd50fb8716a3ccf938ac3b02219d1ecf",
+      "code": "latin",
+      "en": "Copy its agent ID and a Speko API key below.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko.."
+    },
+    {
+      "id": "607a5019ce9756f694706f656174ac962d90711089f7cc51bf3af4330f192816",
+      "code": "latin",
+      "en": "Create a dedicated agent in Speko and choose its voice. Keep only Speko’s default tools; Paperclip adds the task connection.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko, Speko.."
+    },
+    {
+      "id": "f86ce831d19794b63c509a6e75a500048516139679111da2261de4ecda7922ce",
+      "code": "latin",
+      "en": "Credentials and a generated callback signing secret are saved in the company vault. Speko charges for voice usage separately from agent work. Outgoing calls are experimental. After connecting, save your callback number to let this agent call you about your tasks.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "013b67ca3e25f781b9b9fb7ff875dcd014cc9e866dbe5d4a1776a59e22a307bc",
+      "code": "latin",
+      "en": "Open Speko agents",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "21aa4d8435534277eaf76776539f7359b31844ad1049f4aff8dff31915bd3b9e",
+      "code": "latin",
+      "en": "Paste your Speko API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "bf05e12126639bdd26c4aea1de5e8440925a5d67fcaf4554e1dad5f2b357bb0d",
+      "code": "latin",
+      "en": "Reconnect Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "8ed72bd6d631e5008d03798e7df867159b78a14d1c5c2aed70caa053f9496c95",
+      "code": "latin",
+      "en": "Review recording and retention settings in your Speko workspace before testing.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko.."
+    },
+    {
+      "id": "c1f90dc55310d329cd8ca7fa3e0cc6fd9e31fe7fc09462545b3206f48174e7fa",
+      "code": "latin",
+      "en": "Speko agent ID",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "5a0ccd00cd7f6dae59741c2d19c7eb64735882d3d46acdd8710e0af41d87fa4f",
+      "code": "latin",
+      "en": "Speko API key",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "cf2901e89637c12d05f984adee3e5c937b02cf0576d4dd15a901b3ae17c04e98",
+      "code": "latin",
+      "en": "Verifying Speko…",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/SpekoProviderSetup.tsx: Speko."
+    },
+    {
+      "id": "ef032abbdd9e3b9b3cb4128d416e5e29ec6e21db458495c37acefde5cf6ad04c",
+      "code": "latin",
+      "en": "Voice is unavailable. Check the Speko connection in Apps.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/TaskVoiceLauncher.tsx: Speko."
+    },
+    {
+      "id": "e40a6ba49994e6f7b81bfe3a0dcddaf7139c0a6c14f3f2fbaf931939192bdd5b",
+      "code": "latin",
+      "en": "Ending the call keeps your task running. Speko voice charges are separate from agent costs.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/voice/VoiceControls.tsx: Speko."
+    },
+    {
+      "id": "91023190d83b0f4559d4c3a14e2c9f00f16d0c8e5fddd6f0d7428af40bea6d20",
+      "code": "short-key",
+      "en": "Mute",
+      "reason": "Voice microphone control in components/voice/VoiceControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "415efea3233b02e66f83f3a286ae9aea4981f5e42116ba785a4c6cde308f830c",
+      "code": "short-key",
+      "en": "Unmute",
+      "reason": "Voice microphone control in components/voice/VoiceControls.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "3b0243f0da97fafa2b12b7e05554d81a2f9ed4215bc361b340fa18a084c7bec0",
+      "code": "latin",
+      "en": "Enter a valid branch name, such as master or release/next.",
+      "reason": "Preserves the product name, external UI label, or technical literal in components/WorkspaceBaseRefRecoveryNotice.tsx: master, release, next.."
+    },
+    {
+      "id": "0a4de0c1322dab2e20346cca622c94178c46f1fa34fe356c06e00c8fe2c58164",
+      "code": "glossary",
+      "en": "The configured starting branch must resolve before the agent can start. This repair overrides it for this task.",
+      "reason": "Resolve means locating a Git branch ref."
+    },
+    {
+      "id": "cb2a867dd7430f76c794802fc7ef173c33623f8a53eb7fffc3e1d2338e0042b0",
+      "code": "glossary",
+      "en": "Connect Google Workspace",
+      "reason": "Google Workspace is a product name."
+    },
+    {
+      "id": "b9b46d33618a2b55a6b7c7033cb38bacfcb3229a1efaa972ee3026dc67488dec",
+      "code": "latin",
+      "en": "Connect with a Superagent API key. Billable and destructive tools stay under action policies.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Superagent.."
+    },
+    {
+      "id": "16e1f480c5726507e590aad15add0c14f56a1d567cb616390d440ba136fc2bae",
+      "code": "latin",
+      "en": "Sign in with Ditto. API keys are optional.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Ditto.."
+    },
+    {
+      "id": "82bc0b4cb03077d50c9d98f1bf9a3d2d46371c2e369e30262e968be612f0c749",
+      "code": "latin",
+      "en": "Sign in with Gauge and pick an organization. API keys are optional.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/app-gallery-copy.ts: Gauge."
+    },
+    {
+      "id": "d76bdbe635c28a5bb4b66494bba87f53279530fc9186f82b6e35c4266e8464b9",
+      "code": "latin",
+      "en": "Speko has not confirmed hangup yet",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/voice-call-attempt.ts: Speko."
+    },
+    {
+      "id": "3443e62692269619053ef017d752a9b63583e8710321e647cad22898e7f1cfd8",
+      "code": "latin",
+      "en": "Speko needs credits before starting a call. Add credits in Speko, then try again.",
+      "reason": "Preserves the product name, external UI label, or technical literal in lib/voice-session-controller.ts: Speko, Speko."
+    },
+    {
+      "id": "481dfe2f91dc3e065d95e1b240d10f00c5e41af7bf7de0dcbd4e6647b1f3d713",
+      "code": "latin",
+      "en": "Managed by Muse",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/AgentDetail.tsx: Muse."
+    },
+    {
+      "id": "6ab93698a0a4fd9d2fb3eedd80840ef34c6a1d1eac8ea60e296cf49a8b57182e",
+      "code": "latin",
+      "en": "Runs in Grok Bot. Usage not reported. Stopping this session revokes Paperclip authority; remote execution may continue. Open the Grok Bot desktop app to inspect it. This view contains Paperclip-reported activity.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/AgentDetail.tsx: Bot., Bot.."
+    },
+    {
+      "id": "bbb776286428c5bc954ded5a5074f1e7136ea9d83a86376c9be70b7ad49b624a",
+      "code": "latin",
+      "en": "Connect Copilot",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/Browse.tsx: Copilot."
+    },
+    {
+      "id": "0c40b0ccc4bdbec574b5ebc750c491c59ca282e597833a38af087f0738687c99",
+      "code": "latin",
+      "en": "Open Speko",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/ChatEndpointDetail.tsx: Speko."
+    },
+    {
+      "id": "0c8a53f8ccc8d77bc8583175acf09786c81bf6a2d0a98b5a8cb05f8ac6859201",
+      "code": "latin",
+      "en": "Test your Speko voice connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/ChatEndpointSetup.tsx: Speko."
+    },
+    {
+      "id": "ae165c44e3d39d057ff41d0a49298c26f6a38aaf8db4e4b6245902815c92cf36",
+      "code": "short-key",
+      "en": "Authors",
+      "reason": "GitHub review author filter in pages/apps/chat/GitHubBotConfiguration.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "897fad564cf89bc55e90425b321ce0a013e8e47f62adbe9bca568a9c745383ce",
+      "code": "glossary",
+      "en": "Inline comment options",
+      "reason": "Comments are attached to lines of code. The Russian UI wording describes this directly."
+    },
+    {
+      "id": "0ff4d96199f70946b6413b18565fc1cd9a7a486e8ba4ce2d1079161610bf1479",
+      "code": "short-key",
+      "en": "Mentions",
+      "reason": "GitHub thread mention setting in pages/apps/chat/GitHubBotConfiguration.tsx. The translation is unambiguous as a UI label."
+    },
+    {
+      "id": "b493c1de98a8aaa3802318df63240547975ac5181db3cf6d0f974599149ba30f",
+      "code": "latin",
+      "en": "If it’s owned by an organization, open that organization’s Settings → Developer settings → GitHub Apps → Edit. You’ll need permission to manage the App.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: Settings, settings, Apps, Edit.."
+    },
+    {
+      "id": "98737ecae04758f880ceae2144a767b672af6ab289bd2fcb34204bdb727c08f2",
+      "code": "latin",
+      "en": "The numeric App ID on the GitHub App’s settings page. This is different from its Client ID or installation ID.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: App."
+    },
+    {
+      "id": "941b1ce546791d0618710db5b27f1aedf917ca1d7ef8d17fa28537dfb0a76b72",
+      "code": "latin",
+      "en": "Upload the .pem file downloaded from this GitHub App, or paste its entire contents, including the BEGIN and END lines.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: BEGIN, END.."
+    },
+    {
+      "id": "e0c5cc824867024af10946814cdff2c9d3db44a6de5043410e58ac606d5e23a8",
+      "code": "latin",
+      "en": "Use a PEM private key, including its BEGIN and END lines. A token or client secret won’t work here.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: BEGIN, END.."
+    },
+    {
+      "id": "25b766aeb34c13ec95e33df277878cad84765f0c9dba23ebff7713f78e1c899a",
+      "code": "latin",
+      "en": "Use the numeric App ID, not the Client ID.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: App."
+    },
+    {
+      "id": "21c6ae0c8e513d925b62b33aeaa8e07a9bbcf758abbad3c84e36406c7561bb06",
+      "code": "latin",
+      "en": "You can reuse a .pem file you already saved. GitHub cannot show an old private key again. Creating a new key for the same App keeps its installation.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/apps/chat/GitHubConnectionRecovery.tsx: pem.."
+    },
+    {
+      "id": "664e7a0d0e4db2388871684d2fd56288edd3766f29c2ae82d427b0a705958347",
+      "code": "latin",
+      "en": "Muse — Personal agent (experimental)",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Muse."
+    },
+    {
+      "id": "5b19d75930465bd4e20967f343bc15d2ed3290642e60cb2ef8ceda1e4afad3ad",
+      "code": "latin",
+      "en": "Muse requires acknowledgement of external billing. Configure Muse and enable Allow externally billed provider.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Muse, Muse."
+    },
+    {
+      "id": "8857ef1495da268c3df0647837d86ad0b73beee77daf60031228feb4b09a661c",
+      "code": "latin",
+      "en": "OpenAI Dot (experimental)",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Dot."
+    },
+    {
+      "id": "3d5791b90664cb93fa5095d3947e2d3e77c78f55641a94fd62d334515d27fc9a",
+      "code": "latin",
+      "en": "OpenAI Dot requires acknowledgement of external billing. Configure the Dot adapter and enable Allow externally billed provider.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/CompanyImport.tsx: Dot, Dot."
+    },
+    {
+      "id": "fc4f3195de51e58de2c233a2e979a990b094f0343836ae01522d2f61993ceab8",
+      "code": "latin",
+      "en": "Add OpenAI Dot as a standalone agent choice. Pair your Dot and verify event delivery before assigning work.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot, Dot."
+    },
+    {
+      "id": "148bfd1ae64c737751d576f0658d54ff10c0d0c3fc5e5477fd1a3949b3365df2",
+      "code": "latin",
+      "en": "Allow agents to select Paperclip Runner, including authenticated runner ingress when a sandbox requires it. First-run setup offers qualified GitHub Copilot. Turning this off hides the choice without affecting existing native runs.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Copilot.."
+    },
+    {
+      "id": "900e855b52e9ca8da04c5c694d1a08b91370e2b2e8629f0142849fb62e60d007",
+      "code": "latin",
+      "en": "Artifacts V1",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: V1."
+    },
+    {
+      "id": "3860cf36c28bc4f0b1e724664c58128a4830acd85c9a54664a1b45c2aea6558c",
+      "code": "latin",
+      "en": "Connect your personal Meta Muse. Pair it, detect its receiver, and verify an independent background reply before assigning tasks.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Muse.."
+    },
+    {
+      "id": "5267dee5b13fdae2142d8857379a524c07e378518cc5b551bc42488aabd95110",
+      "code": "latin",
+      "en": "Requires Assistant connections (MCP) and an authenticated instance with a public HTTPS URL. Turning this off blocks Dot calls and new work; saved connections are kept.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot."
+    },
+    {
+      "id": "9d2218cfeb55554d57713173b67c92290918e46b6a5ce512ddb011d06666eeb9",
+      "code": "latin",
+      "en": "Toggle artifacts V1 experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: V1."
+    },
+    {
+      "id": "9c87658115aea58aa716e14b0f5a8e37cf21a99a84d97dff2fa827bf4ac2c0fa",
+      "code": "latin",
+      "en": "Toggle Muse experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Muse."
+    },
+    {
+      "id": "a18226103afbef640432afde574d10aee9dfbe07b5ff4acdcca404179f5fbfdc",
+      "code": "latin",
+      "en": "Toggle OpenAI Dot experimental setting",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/InstanceExperimentalSettings.tsx: Dot."
+    },
+    {
+      "id": "21679ae569da2bdfeb075b6511dec3fdc3e98d122d35713c04d7c99a78fb43ac",
+      "code": "latin",
+      "en": "Runs in Grok Bot · Usage not reported. Stop Paperclip work revokes this session’s authority; remote execution may continue. Open the Grok Bot desktop app to inspect it.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/IssueDetail.tsx: Bot.."
+    },
+    {
+      "id": "522cc4d83339abfa0340ad6c7f60c7f8495221b2d00803fef8aecf23d84de2ad",
+      "code": "latin",
+      "en": "Connect Dot agent",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "4d3a201053d4444c3536c7df47e1f1e287a51c151a2a47ce9d4aa2008ac95d0c",
+      "code": "latin",
+      "en": "Connect Dot as a Paperclip agent. Pair it with an agent after connecting; assigned work uses that agent’s permissions.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "fec956d1f6a162e1c0bfee8bcc1427e188e2320da192394cb08d899cf0b0abb0",
+      "code": "latin",
+      "en": "Connect Dot with pairing code",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "d975dacc17c56595151a2df673b3674a4c97a83bb619b703b42cbfc5c7db66da",
+      "code": "latin",
+      "en": "Dot agent connection",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot."
+    },
+    {
+      "id": "f5b9332a48a660629373f5e243424a4f4b9dbd6f4836601725cb3bfdfdef1da6",
+      "code": "latin",
+      "en": "Enter the one-use code from your Dot setup prompt to review this agent’s access. Access is granted when you click “Connect Dot with pairing code”.",
+      "reason": "Preserves the product name, external UI label, or technical literal in pages/McpConnect.tsx: Dot, Dot."
+    },
+    {
+      "id": "4ad3a341b41bb841af9bf774416fc4e333610c66271d37305b1cd0056b402c7a",
+      "code": "short-key",
+      "en": "Harness",
+      "reason": "Label of the adapter selector and agent roster column. Kept in no-static because the same token is the external avatar brand label."
+    },
+    {
+      "id": "7ea7e5bb86e31f12408f984ecfd667164f003b6d1e931eb1695c5196c35dbe08",
+      "code": "latin",
+      "en": "Use Claude through Amazon Bedrock with a Bedrock API key and AWS region.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e5d60b8e9f2adb9c5ea5ac4eed0a946fe27191a3d6f646cc608370546ddcf7bc",
+      "code": "latin",
+      "en": "Connect Bitly's provider-hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "be2ffd1e3920ab7f42747075f035ae46f4b39423dc0fdb712ecfaa442c6f5391",
+      "code": "latin",
+      "en": "Explore AI traces, manage evaluation datasets and scorers, and run Braintrust evaluations.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6e15a3dc248834f83d838cdd6d5fbc2fa7dbffb0bb982a177ddf6ef863789647",
+      "code": "latin",
+      "en": "Review Calendly event types and availability, and use supported scheduling actions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "091067239223848f64ae7770995777a9931e3429f967febf865c2cbc1540ddfc",
+      "code": "latin",
+      "en": "Connect any compatible harness to a Chat Completions-compatible provider or gateway.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "76d159ceaf5550f8531b90bdec741162fa3044564f06cabb88599b28d411f0c7",
+      "code": "latin",
+      "en": "Search the public web and read source pages with Exa.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4b0a6cf29ced6bb585a6a633f4d82c3677ef12de0d395d4c917385a0f5485d66",
+      "code": "latin",
+      "en": "Search, scrape, and parse public web pages with Firecrawl.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cb422e8d156de936210d9a94ed6daf93f88f883f17a65687c16e6814b21aaea",
+      "code": "latin",
+      "en": "Connect GitHub repository access or authenticate GitHub Copilot agents.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d3c69b4cb9986e05e1550dd7b38ce7761cdc2183c87ef3920986e1fabaa95995",
+      "code": "latin",
+      "en": "Connect Gmail, Drive, Docs, Sheets, Slides, and Calendar with one Google account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "889409b101b43d457ef8cbd4fe652b4a6a5e9049f25b4d19114dd539d7dcb5ae",
+      "code": "latin",
+      "en": "Read Google Search Console, Bing Webmaster, and analytics data for connected properties.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1ad4668851ef897f980daa08a0cd4b7f74e466e450e4438ac6ec9ab72b855c94",
+      "code": "latin",
+      "en": "Connect Make's provider-hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cf4686747c6f645f0aef63c03b3e098cb79e669df03083f0ab23675f3d6c7fd3",
+      "code": "latin",
+      "en": "Search the public web and extract source pages with Parallel.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f65920ef2150e58403ead90c22993604d52ce41760b16e5cda58fd1d47131026",
+      "code": "short-key",
+      "en": "Phase",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "1d57d80ee24ff5fb5d391c8dba47d289a88d1c79ce9755c107c5fc1364e70614",
+      "code": "latin",
+      "en": "Create an Airtable personal access token with the scopes and base resources required for the actions you intend to allow. MCP calls inherit your Airtable role and base permissions; organization allowlisting may still apply.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d764d2a1c0be21dee608e04a4589000cacc286774efd6032855e9d567b09c05c",
+      "code": "latin",
+      "en": "Use a disposable or development base for initial write qualification. Enterprise admins may need to allowlist MCP access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2511b04538b3e91f58ec7a8641d042aaa1202cdae90f3d5f620ace9b7f3b9044",
+      "code": "latin",
+      "en": "Amazon Bedrock API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f6e76c1115470226f3a8b9f74299de4338aac39d21ef3ea8287230083a648daa",
+      "code": "latin",
+      "en": "The mcp.all scope covers Bitly's broad MCP catalog, including link and QR management, analytics, groups, custom domains, and Bitly Sites.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "743b9842ea6d861a99684cd67174a052347b53922c0f0024f0a7a10e94219b55",
+      "code": "latin",
+      "en": "Generate a Bitly API token under Settings → API. The token may authorize the MCP's full catalog under your Bitly account; Paperclip cannot narrow the token. Review discovered actions and keep writes and destructive operations disabled until explicitly needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "94028212dc35bf8854eb0e7bc9d90b345c90a3f816253cafd558a8ac15f9f056",
+      "code": "latin",
+      "en": "This API token is not documented as a restricted MCP token. It may authorize Bitly's broad MCP catalog, including link creation/update/deletion, QR codes, Sites publishing/deletion, and custom-domain operations.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e89c5a21e396f4e866bc85da71ee936f40a761c9807f9ce93ef6d53d2b720ce3",
+      "code": "latin",
+      "en": "Sign in with Calendly",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "47a6c210dccdb00178bf5c6394e6778aa8bee167e4c8793bf38f853e4e1b9d45",
+      "code": "latin",
+      "en": "Connect the provider-hosted Calendly MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2fba90410fe45216ef756487d0c2f5e17172ef38baab496e0b24669fce968467",
+      "code": "glossary",
+      "en": "Check the connected account, event type, timezone, availability, and attendee details before using a scheduling write. Use a test scheduling artifact only when the discovered tool explicitly supports it.",
+      "reason": "Scheduling artifact means a test event in Calendly; the localized text names the concrete event."
+    },
+    {
+      "id": "1d043b7612bc7e8e43ba54b4541ec0059939d3aec3d3ae49d760e963f7f9cb5a",
+      "code": "latin",
+      "en": "Calendly MCP requires DCR and OAuth 2.1 authorization-code with PKCE S256. It does not support personal access tokens or manually provisioned static OAuth clients.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0588f65f68d9fc07951d6b2169562766fcffb07e9fa380294962bea0270ef299",
+      "code": "latin",
+      "en": "Chat Completions API API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f93bfa5195731a0c50fff9a6ddc92d32e70fd119d2e6efe790ccead92356fb2e",
+      "code": "latin",
+      "en": "Search ClickUp workspaces and manage tasks, docs, and conversations through the official MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "414f4be7efc68190f14b8937b96735255f8566704ea88d392bbff2222f96f6fe",
+      "code": "latin",
+      "en": "Sign in with ClickUp",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3dd48de14046af5b25de2827ba21e2173eb57c211edaae3be9a3b3ce7446a634",
+      "code": "latin",
+      "en": "Connect the provider-hosted ClickUp MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "532607f382a1d95677a89c6e97ffdb542343099b981609e813dc230700bb4058",
+      "code": "latin",
+      "en": "Choose only the ClickUp workspace needed. Confirm the target list and task before changing content, starting a timer, posting a chat message, or deleting anything.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "11ca7693d6200948e37cfde066e1dc3c18ce70a3dc70599d3f97b8496985f423",
+      "code": "latin",
+      "en": "ClickUp's MCP may expose task, document, and chat writes, time tracking, and task deletion under the signed-in user's permissions. Review the catalog and keep write and destructive actions disabled until explicitly needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cc826c697c7a1d223649a2a50bc9320d1da4744fe1370bdb94e2744275b00dc",
+      "code": "latin",
+      "en": "Use the public hosted MCP server for read-only library documentation lookups.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "bf9ccd78e51216ba0aa563bbcd68a2454fceac9baecb278484a0f731c9fe6396",
+      "code": "latin",
+      "en": "Recommended. Use an organization auth token from Settings → Enterpret MCP. This is the primary, store-ready connection method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e844e51b3fafd90c68ff10d70d6df0c679dd11634cd5ffe0d4dd5638f6cccbbe",
+      "code": "latin",
+      "en": "Generate an auth token in Enterpret under Settings, Enterpret MCP, then paste it below. One token belongs to one Enterpret organization. This is the recommended connection method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b6b16da165a44553c89026f96769cb7edd7a23c63127defb5f7c9e5663816241",
+      "code": "latin",
+      "en": "Enterpret auth token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "dbb7dc5f9bbc3dd5963ddc42ca7a93215cc1a5eef334f5a29ad6cc3de2aa02ed",
+      "code": "latin",
+      "en": "Paste the token from Settings, Enterpret MCP",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "791db068b2c0ea4f8a51cbfb0ac2df68630a3e9805befd2c6246627582c629d6",
+      "code": "latin",
+      "en": "Check your auth token's expiry in Enterpret Settings > Enterpret MCP and replace it before it lapses.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "78382f447a5ccd33de0e0431b1ae86820787b13588c829a5325a5c7696ab49be",
+      "code": "latin",
+      "en": "run_graph_query starts as Ask first. Cypher is not established as read-only even when Enterpret advertises readOnlyHint.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c7d85bc5d6f8eb80340a008fc536449c820aaf79ee551394fdbe2c76b97ce365",
+      "code": "latin",
+      "en": "Use browser sign-in when each person should query feedback under their own Enterpret account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b9bbcaada1b7c6d7d6742c2293d306b355afc069be5f711eff96b3b158cded04",
+      "code": "latin",
+      "en": "Sign in to Enterpret in the browser to query the official read-only MCP. Each person connects with their own Enterpret account, and Enterpret attributes their queries individually.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "abeefb4e880482af93c3613164c42f16670fa1267221274d603ab2b629ac8e46",
+      "code": "latin",
+      "en": "Sign in with Enterpret",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "667f037d063fcc254b6ab2638b3bc286087abb08464e801813a2d3d7be1afda8",
+      "code": "latin",
+      "en": "The official Enterpret MCP is read-only. Enterpret previously reported broader OAuth scopes, including mcp:write and email, than Paperclip requested. Enterpret is correcting this scope reporting; it does not establish access to the separate beta Agent MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cbf59713710fa7fae5b6bfe1428c7d274b70088ff9fca08fd1ac1f08dd6895d",
+      "code": "glossary",
+      "en": "The official Enterpret MCP is read-only. Enterpret previously reported broader OAuth scopes, including mcp:write and email, than Paperclip requested. Enterpret is correcting this scope reporting; it does not establish access to the separate beta Agent MCP.",
+      "reason": "Agent is the official name of the separate provider tool or service, so its product name remains unchanged."
+    },
+    {
+      "id": "e4792fff2e954277970ab07b2693897ab1b0015babe2444a437d3c97033fa708",
+      "code": "latin",
+      "en": "After revocation, Enterpret may cache token validity for up to 24 hours. Disconnect this connection to stop Paperclip access immediately. Enterpret is reducing this delay.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cf120dfdfbb16b61a78ee38620762e1a36dc63368700c39a8b477a8d5048386f",
+      "code": "latin",
+      "en": "You need an Enterpret account with access to your organization's feedback.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f78dc42c2c346139daa8e396daa925660a6cd2800634449eb4f3e38b2cf45398",
+      "code": "latin",
+      "en": "Use public Exa search",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c592bf823ca2dd688f962c34f9ed72a778a00e0f60eb9f2398ffcfd5cc359393",
+      "code": "latin",
+      "en": "Use Exa’s public, keyless search MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1e9fb76bf2bc590cc748725bb13c4cc5abc3fd881cfb4d35fd3b9cc08ea2b787",
+      "code": "latin",
+      "en": "The public MCP route provides web search and page fetching. Keep citations with results. Account-authenticated Agent and advanced tools are not included in this method.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "65ced2e72003ac6a4d97bc3344aea4bd2c064da1b48ef447a4c99493857a0e28",
+      "code": "glossary",
+      "en": "The public MCP route provides web search and page fetching. Keep citations with results. Account-authenticated Agent and advanced tools are not included in this method.",
+      "reason": "Agent is the official name of the separate provider tool or service, so its product name remains unchanged."
+    },
+    {
+      "id": "ddc1882ecd8c556cde51d1ead70969808a96c67206e34010df38bfdb7caef4d3",
+      "code": "latin",
+      "en": "Sign in with Firecrawl",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8b1ef6aebbc06642ccd2300a19f15e67cf65882726fdffc520f9f577be2afc52",
+      "code": "latin",
+      "en": "Use interactive Firecrawl account authorization for the full hosted MCP tool surface.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "91ca6a2b637f8f2876b908525e7442406bb1b4253eabe6eb3c5ff3cdae8bbd6c",
+      "code": "latin",
+      "en": "Sign in and choose the Firecrawl team whose usage should apply. This route exposes the account-authorized tool surface; review paid jobs and action policies before execution.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "132f427ff6fea484fa59d6b8d77740fbea4bc7df732596c29b0b43110996822c",
+      "code": "latin",
+      "en": "Account authorization exposes Firecrawl’s broader hosted MCP surface, including job-based research tools that may use account credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4e345d6883bfeb8d5217216735f2ec3e640c21f020e53c45a8aeea432a6cbc22",
+      "code": "latin",
+      "en": "Use a Firecrawl API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "50bd5c08f111e30bdcdab6c041c82ae5bc072ec3b44cbf7ffb20a54e508adf94",
+      "code": "latin",
+      "en": "Use a customer-created Firecrawl API key in a Bearer header for unattended or higher-limit access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "38dc44531ab55660da6897ae7c862e7fcf802236e0594a3d5fe43bc42552ed99",
+      "code": "latin",
+      "en": "Create a Firecrawl API key for the intended team, then connect it with a Bearer header. The authenticated server may expose additional job tools and spend team credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "72046242744c1672a8e9f74b7fa36bba174a88d99288743e9bc9acefc7dec230",
+      "code": "latin",
+      "en": "Use the rate-limited keyless public web-search route without a Firecrawl credential.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0537e66515c476790f09fce2db3334662195faefff07c9123f782f2c2403e724",
+      "code": "latin",
+      "en": "The keyless route currently exposes Search, Scrape, and Parse. Keep requests bounded; these calls can consume the provider’s keyless allowance.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aa71bdde75691cc080c36e06b5b1949fe5c753247345ca3d051b93ddb7c1de35",
+      "code": "latin",
+      "en": "Connect Gauge in the browser and choose the organization this connection may use. Write tools start enabled and remain governed by Paperclip's action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ed175ba0fd11048d22a3f1c853192edb62b60a00c5a61d4a3688e3bf6cae9d40",
+      "code": "latin",
+      "en": "Sign in with Gauge",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9f14610d277f7785ca79f4a0fb829ec96292282ee3f2940904ca7c179b443c01",
+      "code": "latin",
+      "en": "A Gauge account. Each connection reaches one Gauge organization: sign-in uses the organization chosen during consent, and an API key uses the organization that created it.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "632e6a6e265cfb565dd730b58962cf7dd935bf1dabea72e486cc08b84434fe9e",
+      "code": "latin",
+      "en": "Gauge content tools can publish to your connected CMS, including live. Set publish actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "923cbe7957687c0e0542ba4f7f923c4a13d3ef67a8e4dfc5c2b64412e470c621",
+      "code": "latin",
+      "en": "Read AI visibility, SEO and traffic data, and run content workflows. Gauge content tools can publish to your connected CMS, including live. Set publish actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "21f4c170a2e3a9431bcf5af61aba8994f928a2aab79283b2333f48b56d97fa51",
+      "code": "latin",
+      "en": "Use a Gauge organization API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "85df64761696cc9e5bd6cbd939c9b8b27290f5c1a91e55bf4cd710ef1810abe9",
+      "code": "latin",
+      "en": "In Gauge, open Settings → Integrations → API Keys, generate a key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "382224fcd72a0128bf662a37f55932a8bb1543a98e5bd03f27593803955b0351",
+      "code": "latin",
+      "en": "Gauge API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "11920733d82cf77f920690a6085020f9641ea9f6df168a7f328685be2373e9e6",
+      "code": "latin",
+      "en": "Paste your Gauge API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a21368d675d96070283bb581c2b767d8ced5fdcae60a611dcbf8d94f3bbdbc4f",
+      "code": "latin",
+      "en": "Generate the webhook secret in Paperclip, then create one private GitHub App with active SSL-verified webhooks and Issues and Pull requests read/write permission. Subscribe to issue_comment and pull_request_review_comment for comment mentions; add issues and pull_request for description mentions, and pull_request_review for review-summary mentions. The wizard selects all five. GitHub sends installation and installation_repositories automatically. Install the App only on repositories where people may mention the agent.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b49dd815aa33fdd7993cc4ed2535fb0f977330b2d6ca711a7fa0aae96ec1a30e",
+      "code": "latin",
+      "en": "Sign in with GSC Wizard",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ae5b1987bfe3144722301a7fd10fc3b30fef6deb801ab4f540d1bcf1cab96274",
+      "code": "latin",
+      "en": "Use remote OAuth authorization for the GSC Wizard MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "fcf5129656e49a182d21fff3b1d63efe2eb2faaac913eba3172a0332b86a75e2",
+      "code": "latin",
+      "en": "Connect the GSC Wizard account and its authorized properties. Check site identity and date bounds before querying; review any URL submission or property-changing action separately.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ebbdbe918b4fdb41b5e42533ea236f7af90c9306d0d0760b9c26ce7d1f7dc3d1",
+      "code": "latin",
+      "en": "GSC Wizard connects multiple search and analytics providers; confirm the authorized property and action policy for each tool.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7a50bb1ad09c5196790cc18bf3e63c88a93d8f9d2eca42f471010e4623cba259",
+      "code": "latin",
+      "en": "Use a GSC Wizard MCP key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4acad7a632fabd3534f323daf25009872111643a982b9e7e244c11f6e451bd06",
+      "code": "latin",
+      "en": "Use a customer-created GSC Wizard MCP key in a Bearer header.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de49b1e521848ac494d83c0c84673ad9f6c09da8005db7e26cbd2f8e3779f319",
+      "code": "latin",
+      "en": "Use the anonymous hosted MCP endpoint for public Hugging Face Hub lookups.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "45dcee1b7b9175747fc2364ac96ae948feb12aed86d60dc4b059712f22709f82",
+      "code": "latin",
+      "en": "This anonymous method exposes the public Hugging Face Hub read tools for repository search, public repository details, datasets, and documentation. It does not require an account or API key and is rate-limited. Keep queries to public information; do not include secrets, personal data, private repository names, or proprietary content.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c6a1e02dd04300abcba62c02c307f4d8b5acc067b3ed460c06e941f5255471c8",
+      "code": "latin",
+      "en": "Use public Hugging Face Hub",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "921437bb6dd1dbdab571338dd0c5e79531c20cfd863ba028e6709c9be5a5dbfa",
+      "code": "latin",
+      "en": "This method only advertises read tools for the public Hub; do not include secrets, personal data, private repository names, or proprietary content in queries.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "507f04058befd9a61006b08af86f1c301f3024c706e3795d0d1bbfc1463d9be4",
+      "code": "latin",
+      "en": "Review Klaviyo campaign performance and prepare campaign changes for review.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6bd8e6fb29ffe728502d0dc2c5b40269a1086c40ee163d5d4319902c9c740c1d",
+      "code": "latin",
+      "en": "Sign in with Klaviyo",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "36ffe021dbad28c74fd3e259cb42d0a2da6ab750e4debdf9058f40ccac33598d",
+      "code": "latin",
+      "en": "Connect to the provider-hosted Klaviyo MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "5601091740b108afb6ba6fc8693fa82dddd2c8ccdea5dcf73a655d57dd3fa44e",
+      "code": "latin",
+      "en": "Klaviyo's remote MCP requires an Owner, Admin, or Manager account role.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "84aeb6d39f8340fcfe83e49c52f0c7f4b918f88f5661bf9c6653b4afdcfe0f25",
+      "code": "latin",
+      "en": "The campaigns:write toolset may expose campaign sending and other writes. Keep write actions Off until reviewed; the provider's Advanced read-only mode is optional and does not replace Paperclip action permissions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "00a382e801ed9706d2212f78f34837f3affc3853fff89cdafbb0aa491447dd72",
+      "code": "latin",
+      "en": "Connect Linear for issues and projects. Paperclip registers its own OAuth client with Linear MCP; no developer-console setup is needed.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2a26c1dc2bab1d3d05bb8ae438008de2a351541081e7e9fd0c0858e37d5d3e24",
+      "code": "latin",
+      "en": "Sign in with Linear",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b7ae560524cb25a64488725c84db7310e26f7d1e3dec02e722c10c440b4d7fb5",
+      "code": "latin",
+      "en": "Use a Linear API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "eea66bba49cb463d5fa137604748e00ba5e868440f5a31f9d970e06eb87a725b",
+      "code": "latin",
+      "en": "Create a Linear API key with the permissions needed for the actions you intend to allow. A key restricted to Read is supported for read-only use; workspace and role access still apply.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aac098838fc720c897f9d85e35993f2b6b59fff343e3ff2be0ae836b3e7706e3",
+      "code": "latin",
+      "en": "Linear API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1846ce188f6fc322ed3e1bea1f56fbd0506af457ef791f3e86136cb8c346c1f7",
+      "code": "latin",
+      "en": "Paste your Linear API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d7f2eb159ebf3937c5fb27aab0383832b715cda5f2eeba8bf0cc8cea6daf0571",
+      "code": "latin",
+      "en": "Linear’s standard MCP endpoint exposes read and write tools; review the discovered catalog and Paperclip action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4c28928bd332b841a012be2389264bf055d422f7c87cbbcd0e9627f917c44114",
+      "code": "latin",
+      "en": "Create a Make API token with the mcp:use scope and any additional scopes required by the selected scenarios. Enter the zone host from your Make organization. The token is sent as a Bearer header and remains a secret.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c8a3d0aa4c3ef2a57cf99e1f343a508fad5e8166ae8881bc8fe7677abc8c2d40",
+      "code": "latin",
+      "en": "Read and manage boards and work items in monday.com.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "67a607f1e2415c4f90b37763a97479612d7b359c8f78d38e4ab462d4972e806b",
+      "code": "latin",
+      "en": "Sign in with monday.com",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d44176bc8423d35baabbde2a1bf66de0d514a54ce6242c961ba32e08cbdec200",
+      "code": "latin",
+      "en": "Connect the hosted monday.com MCP server using OAuth and dynamic client registration.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "89b7e49a8cb94566b2dbcaeb092c0298bc8ebce5ca18c396334e81e98c84e9ac",
+      "code": "latin",
+      "en": "Use the selected monday.com account only. Read the target board and its columns before acting, and verify the exact board and item before any change. Keep write and destructive actions Off unless the user explicitly asks for a specific change. Never send messages, publish, or trigger automations through a board action without separate authorization.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de9dc2f29d0cb9ff108c5bb18787b140db249f44bb63503aff3cfca0a3cfd1f0",
+      "code": "latin",
+      "en": "The hosted MCP server acts as the authorizing monday.com user and inherits that user's monday.com permissions. An account admin may also restrict MCP access to selected workspaces.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4c6770f2e1d3379b4a1b4a11a49f7f0dd148ac41d8370b1d9289e7a6f01d2d08",
+      "code": "latin",
+      "en": "An additional OAuth/DCR connection can require account-admin approval for Paperclip and its exact callback URL before user authorization completes. If approval is pending, reconnect after the account admin approves it.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b95a72f8d0875aa6050ccda2e7ce31cefa2fc036c7171ff57991ee6987c61c57",
+      "code": "latin",
+      "en": "monday.com personal API tokens are documented for personal use, prototyping, and testing, and the provider says they are not intended for integrations used by other people. This connector uses the OAuth/DCR route for additional MCP clients; account-level approval may be required.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "83c768a2826fb3878de11f042bcad5c48605ee5ff6b9de1fcd63f46a80c65104",
+      "code": "latin",
+      "en": "The tool catalog includes actions that can send notifications (optionally email), delete or activate automations, publish workflows, and create or run monday.com platform agents; a low-level tool can execute GraphQL mutations. Keep these actions Off unless separately authorized, and never run agents or change automations during qualification.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "790dd5ef186a65d8d03873207b50601b41afeb436a17c1cd04f8a5dabc17baa7",
+      "code": "latin",
+      "en": "MCP calls count toward the account's monday.com API call limits. Keep tests bounded and avoid repeated discovery or broad queries.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f55da05e3c3d3a79b58245e6686d74898138eb45cda573cfe7a4eb17c4fb0866",
+      "code": "latin",
+      "en": "Use public Parallel Search",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e79ea02d646e57470233bd705d94896a63ba167f38dfdec30c8edc9cacbed839",
+      "code": "latin",
+      "en": "Use Parallel Search’s public, keyless MCP route.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9fd8627ff37ebeb716e319461c5cd2c827a4a37139b9100d098ba13835cdb1c0",
+      "code": "latin",
+      "en": "The public route exposes web_search and web_fetch. Keep source URLs, excerpts, and retrieval context in the result; this is separate from Parallel Task MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "354a0198c9ce7c82915d24ae02048ccc3eacc05522c64ca24af426e8b9035a86",
+      "code": "latin",
+      "en": "Sign in to the intended Resend team. The full_access grant covers reading and managing account resources, including sending email and deletion. Review the discovered actions in Paperclip before using them.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0d537ef705e7c22e2d5d7e29f90f188b524a639b6d78973f6cb66838db3cfeb2",
+      "code": "latin",
+      "en": "Resend full_access grants broad account read/write/delete access; Paperclip action policies govern execution separately.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cbda2b151fbd9835cef2d470c993323cfdc7cc129ac9398c77936350073b25ce",
+      "code": "latin",
+      "en": "Connect any compatible harness to an OpenAI Responses-compatible provider or gateway, including Emissary.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "63391231aebc4cd05159dcaef0d5d6add7159800306d84f7f6322d413fd2e022",
+      "code": "latin",
+      "en": "Responses API API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "36e28d5e9600b030d58a57ed7ae687638e95c01b2c94f61d0eae1d96b0aff8d0",
+      "code": "latin",
+      "en": "Connect with a Superagent organization API key.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "aa22bb49b247e12fe151679ae0bca1ca4ba670e5693a24652820f4a999e8b898",
+      "code": "latin",
+      "en": "Open Superagent Settings → API keys, create a separate key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "5c616e9eb999bccdac64cd0afb519e4cd5b895b6a245c0a4f5cc5bd8316e7d17",
+      "code": "latin",
+      "en": "Superagent API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "328e014011ec90e2502c6817d9d2ef7fe125c778e2594f5ea6cc43ce278a618a",
+      "code": "latin",
+      "en": "Superagent report and triage tools consume organization credits, and deleting a finding is permanent. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "eb90417f315bcc02cea87e02d11e32e088de6a44876ac3de2cea9bb075ebdf3f",
+      "code": "latin",
+      "en": "Search the public web and extract page content with Tavily’s hosted MCP server.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2a5d7a1cd15a906b814efb450374f8bda42226311ec418dd2174f605d5eda309",
+      "code": "latin",
+      "en": "Sign in with Tavily",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3f45d5caa3efdd15521091374152c6db00291b2c2c5903a9595d874a3a475ac5",
+      "code": "latin",
+      "en": "Connect the provider-hosted Tavily MCP server with browser sign-in.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b5fe59ecc0b02ad1969a50fee00861e209c4a65a42250f71ecae157a83f04299",
+      "code": "latin",
+      "en": "Browser sign-in requires a public HTTPS Paperclip callback; local HTTP callbacks are rejected by Tavily. Use Tavily for bounded public research. Set focused queries and relevant domains, cite the source URLs, and distinguish retrieved facts from inference. Research does not authorize contacting a company or submitting forms.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a615df546dc76ec0a793ef34e23d76bef10f91027741fd6d425eaaadb470a148",
+      "code": "latin",
+      "en": "Tavily OAuth selects the account’s `mcp_auth_default` key when configured; otherwise it may use the personal default or first available key. Review the chosen account and usage allowance.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cabcf1717e6925a36eceb63ba130bf9f4fa0a30ab03de8e76bb5b07410f1bf43",
+      "code": "latin",
+      "en": "Connect with a Telem API key.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "50b11d5f29569b44b1081a523d120a63d4aba6b563eb70ead7dc2f1401d9088d",
+      "code": "latin",
+      "en": "Create an API key in the Telem console at app.telem.ai. Paste the key below. Open Advanced to set auto routing, the tier, or the providers to include or exclude.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c884a8cfc74e737118d9d993cbd06bbfb8ddf0481ec773d321707a3f29bf3429",
+      "code": "latin",
+      "en": "Telem.AI API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8acc7fce4ffe8fcc586d2639d00ba17bb1ce2504ed44632e1c98295baa094155",
+      "code": "latin",
+      "en": "A Telem API key. Create one in the Telem console at app.telem.ai.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7851ad410f6113e90fb5237ed9c309720ca13168d5028cb6286e7e3a9831838f",
+      "code": "latin",
+      "en": "Query connected marketing, analytics, CRM, and warehouse data through Windsor.ai.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "dd89e3d99e9aa4c68916102f1ee9f51a2cabb09d8faf5e800190857494e55bdb",
+      "code": "latin",
+      "en": "Sign in with Windsor.ai",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7545fb50c854016a188042f902903daaf0e3f6c43ddfe8ea4b40bf5c75fa564e",
+      "code": "latin",
+      "en": "Use browser OAuth for Windsor.ai’s hosted data MCP.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "17d8194e30d65283c0bb0c0628a760de76c39ed9b5e7af952aedba56aa3aa4e1",
+      "code": "latin",
+      "en": "Browser sign-in requires a public HTTPS Paperclip callback; local HTTP callbacks are rejected by Windsor.ai. Connect Windsor.ai, then verify which advertising, analytics, CRM, or warehouse sources are linked. Keep source account and metric definitions with results. Review any action that changes campaigns, budgets, posts, or listings.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2567ed60e4806b33d86a97c8970c88361737fff5d06fa585fa35d4ab6cd531de",
+      "code": "latin",
+      "en": "Windsor.ai requires the provider-level delete scope to establish the MCP session, including for read-only use. This scope may expose destructive actions; do not approve it unless those provider permissions are acceptable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "29275aeb650ce529f324befeae73f7fadff4a6cb2d82ec729b1380b9d055f054",
+      "code": "latin",
+      "en": "Use a Windsor.ai API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4000739afb5bb876b3fd0e5034b1f9821914732de18da81b3e8fa08cb4f9a316",
+      "code": "latin",
+      "en": "Use a customer-created Windsor.ai API key as a Bearer credential.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "86fa85ddb8e9ef04677d2c5d289429e6843faeeb4813ef94053a2b27774735d0",
+      "code": "latin",
+      "en": "Create a Windsor.ai key for the intended account. Verify connected source accounts and action availability before use; broad tool exposure may include advertising changes.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "86e9179e754353370d4472a8705035ac890dcc0af2bc1dbd07c1fa72df5d4cbd",
+      "code": "latin",
+      "en": "Sign in with Braintrust (US)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c3fb281116ce2b5a1b957eb555f3e818026b130071c1d204669ad473cada7285",
+      "code": "latin",
+      "en": "Inspect Braintrust data and run evaluations. Access follows your Braintrust account permissions. Evaluations and Topics processing can incur costs. Dataset edits can permanently delete rows; automation activation can enable retention or delivery.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7fccd9560d7d8b77850a67d45b623e8831aafcfde67bf6e1286f98887da14a97",
+      "code": "latin",
+      "en": "Use browser sign-in for a Braintrust organization hosted in the US.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "876351cf34d6e71e405334caab3308bcc05d70fc15128390c2f03ffcfd64bc5b",
+      "code": "latin",
+      "en": "Choose the US endpoint for the organization’s data plane region. Sign in with the Braintrust account whose data agents should access. No developer app registration is needed. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3c37e18fb4548f32f2df1cb0cfd370da4f176da300078bcb7c419c962e547672",
+      "code": "latin",
+      "en": "Access follows the signed-in Braintrust account or API key. Paperclip action policies do not narrow the provider credential or enforce a separate project boundary.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "1b52637fdf25e5119bd1f46a6baf74e5825e33d8ddbeb5aad691c064a9a4bcd4",
+      "code": "latin",
+      "en": "Evaluations, evaluator tests, and Topics processing can consume Braintrust or model credits.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3da7f00512e967a90378568b67d6859378079977376a1e7719c81751c355a180",
+      "code": "latin",
+      "en": "Use a Braintrust API key (US)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c7303fbec5ecbbd971ddb62b4a5e20f897d0c10b4e0ac8a2cab062bc508d96d6",
+      "code": "latin",
+      "en": "Use an API key for a Braintrust organization hosted in the US.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2ffa59c0c05d761b9913520cdcd1d9400b76229c2417ea59be4c133c044cc0e1",
+      "code": "latin",
+      "en": "Choose the US endpoint for the organization’s data plane region. Create a key in Braintrust Settings → API keys. Paste the key for the account whose data agents should access. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e06009075561e5ffc92294ff8971174bc23c2982c8bb630650849de6954757ef",
+      "code": "latin",
+      "en": "Braintrust API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8f59c9605496b81dc00fa35ec8335c80f66e4dbe610162b87c56d206d9198796",
+      "code": "latin",
+      "en": "Paste your Braintrust API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6274ca48ccb1306f8d5d6a523456bfbcfb9fcb693b7c5cf76696bb911044f462",
+      "code": "latin",
+      "en": "Sign in with Braintrust (EU)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8c2e79fd213d596ba9b4b76ef2d864ecdf389c8bf9b80d840c48be3a862234cc",
+      "code": "latin",
+      "en": "Use browser sign-in for a Braintrust organization hosted in the EU.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "88086dc96a1cfd7aa62f033b275e5983f9c2f3b99cedca1e7a5e73bf7021bc6c",
+      "code": "latin",
+      "en": "Choose the EU endpoint for the organization’s data plane region. Sign in with the Braintrust account whose data agents should access. No developer app registration is needed. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0750859f62cb4414f8cf581432f3f1cd4c7ae9cda43c18df2307a8e155b96ae2",
+      "code": "latin",
+      "en": "Use a Braintrust API key (EU)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "cb29b8fbcad64eff35cbc4d2ea3c64352a781a35230bb0cd80f41b111363f96d",
+      "code": "latin",
+      "en": "Use an API key for a Braintrust organization hosted in the EU.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a5dcc65d9b5b4999b9b2bdc8be6337348439a02828f6bfa17e8613d4998e9788",
+      "code": "latin",
+      "en": "Choose the EU endpoint for the organization’s data plane region. Create a key in Braintrust Settings → API keys. Paste the key for the account whose data agents should access. Access follows that account’s Braintrust permissions. Review reads, writes, and destructive actions on Permissions after connecting.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2c6847781ea65011882d6ee160dfca4aa966d9bf63b31c74cd8fd1a96a0eacd9",
+      "code": "latin",
+      "en": "Manage resources and run tools in your Daytona account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9b5d751ba737875773e75b4b368a228b515758a3b7bd5fc3223569b7522130e0",
+      "code": "latin",
+      "en": "Connect a Daytona organization API key. All published HTTP API and Toolbox actions are available; the key's provider permissions and your action policies control access. Sandbox IDs come directly from Daytona.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a6352994aa4ec6b46d6e0bd95dc43cb4270f1a4dcaf6c56fa257a8a66205a717",
+      "code": "latin",
+      "en": "Connect Ditto in the browser. The connection acts as the Ditto user who signs in. Write tools start enabled and remain governed by Paperclip's action policies.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "df9c21131e203e98ef019d24b91a50755a8e88304e1fb7a0929ef273ac9625ee",
+      "code": "latin",
+      "en": "Sign in with Ditto",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ed1f0c58db72d7033a7b90ff3c38017de0f8b1713bd994e9d666f4dd4631f83a",
+      "code": "latin",
+      "en": "A Ditto account in the workspace whose text and style guides agents should use. API keys require developer integrations on the Ditto plan.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "de215aecf685bb21473e569258f5774a695ea15864024464af8e171b426024e9",
+      "code": "latin",
+      "en": "Ditto delete tools cannot be undone, and linking text to a library component replaces each text item's developer ID. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b1f66bd4d3e761853b0152d7e7b432db682635a98b1bd1a388e97d6d3536a2e8",
+      "code": "latin",
+      "en": "Read style guide rules and search product text, and create, edit and translate text, components, variants and style guides. Ditto delete tools cannot be undone, and linking text to a library component replaces each text item's developer ID. Set those actions to Ask first before agents run unattended.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b79df2ecb125db797e36ef0e34f06b88c9b0608b5389936061561b2e4a0572f0",
+      "code": "latin",
+      "en": "Use a Ditto workspace API key when browser sign-in is not suitable.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "b33a9c52c1affac4f65ffd188f37a5802036e291cafd3b68335058e87c4b7fe1",
+      "code": "latin",
+      "en": "In Ditto, open Developers → API keys, create a key for Paperclip, and paste it below.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "14b2e73c926c3cf30daa7672e99beefe14a09f26bd14f80fd54ea8b892409e5c",
+      "code": "latin",
+      "en": "Ditto API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3b3bbe443ec6d5f6f197f86294c0640f23a64ec09782fe95dfc9a55b75288e19",
+      "code": "latin",
+      "en": "Paste your Ditto API key",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "30550a74d5eeea9d9fd4cd1d449dff73c52e11691adf3db373b955a2572c6621",
+      "code": "latin",
+      "en": "GitHub Copilot personal access token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "3dc1e7a7d8b2b3c669a2053f400bae3d3667f7822d8c4cf195e1c8eefb76bb32",
+      "code": "latin",
+      "en": "Authenticate the GitHub Copilot agent runtime with a personal or explicitly shared account.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "0b5d69eb7aa9f75638e67d13709134837b975ec9ab577f28c57573a902838f1b",
+      "code": "latin",
+      "en": "Create a personal fine-grained token with the Copilot Requests permission. Copilot authentication is separate from repository and MCP access. [GitHub authentication instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli).",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8dd6e88c66784aec437dc1f66aebde0e04ff4f7f668fa02e95a6ebb9cfe6033d",
+      "code": "glossary",
+      "en": "Google must register the Workspace email and the Cloud project that owns the OAuth client before these services can be used.",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "6772a9ed1a198f7fa210b65a122911bcd501d0fdfbeca160d507984220614d36",
+      "code": "latin",
+      "en": "Use one Paperclip-managed sign-in for your selected Google services.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a940bcdc8a619a54b17e1f41bff1b9238fbe78953bdaffe7fc157e1bde7dd8a0",
+      "code": "latin",
+      "en": "Use one customer-owned Google OAuth client for your selected Google services.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "4cdb7d0c56de519bba2272d5769db60608e40449170e364280c6fb8e41ac5c67",
+      "code": "latin",
+      "en": "Enable the Google Workspace MCP APIs and register Paperclip's callback URI. Choose which permissions to grant on Google's consent screen; declined permissions disable only the corresponding actions.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "79c54a1c91c43569bde32629ae2b2ef3c9c8fb9e586e3ce7ed28f4bd18251571",
+      "code": "glossary",
+      "en": "Enable the Google Workspace MCP APIs and register Paperclip's callback URI. Choose which permissions to grant on Google's consent screen; declined permissions disable only the corresponding actions.",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "00f3ae1007360dd66e16a3494f3244f0cace9504aa0e6af210179df9f82e44b4",
+      "code": "latin",
+      "en": "Sign in with Paperclip Cloud and let your assigned agents publish and manage your Notebook pages.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2fda26d508546a1752a0c2607c6c56f6827a3dd541885666183d4d01462a4a84",
+      "code": "latin",
+      "en": "Create a dedicated Speko voice persona and choose its voice. Paperclip registers signed session tools and keeps the selected Paperclip agent responsible for task work. Public HTTPS callbacks are required. Review provider recording settings; Speko charges are separate from agent costs. Phone calling is withheld pending live qualification.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9a748eec5a1556325b483563319558df48a06f99b81bc724bfcbc62c2a0382a5",
+      "code": "latin",
+      "en": "Manage Unikraft Cloud instances, services, volumes, images, certificates, autoscaling, and sandbox commands and files.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "9cdeed8ca11e7de168aef1c2f0787574124422d3eb3bb111fb07f7f430c56392",
+      "code": "latin",
+      "en": "Connect Unikraft",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "57d3dcc915d532acb56fcf88412c36f8ef068e5aa7b54ab4d05f326dca6b45f4",
+      "code": "latin",
+      "en": "Manage resources and run sandbox commands in your Unikraft Cloud organization.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "19c9f990064b56f573ab23f62f21adb2db65aae266cb4ea27dc2754a044ff70a",
+      "code": "latin",
+      "en": "Connect a Unikraft Cloud API token. All published platform API and sandbox plugin actions are available; your action policies control which ones agents can use. Each action can target any Unikraft Cloud metro, and uses the default metro when it does not name one.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "2dc7a3048191761d0073ce6dc636d29d72c0eb8ce0501320c95a33fa2c4c6ce6",
+      "code": "latin",
+      "en": "Unikraft API token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7f607d3e7f1fb777a065dfda7b374c321d42ae661638449cc862a40f18154b54",
+      "code": "latin",
+      "en": "Enter Unikraft API token",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "ead9ebeddba1d814cb7608abf5ae0249c7fa7e1c249cf300150d483356c4d443",
+      "code": "latin",
+      "en": "Dallas (dal)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "da2ba12bc47b395ca47553cf556f9b85384b15de2001953905cc9a56e55d1327",
+      "code": "latin",
+      "en": "Frankfurt (fra)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c4e83f4730c815c36e1dfa743150688c7d8ee37432b2a1255ff02cbbaf42fa3a",
+      "code": "latin",
+      "en": "San Francisco (sfo)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "6cc1d0778c14d37a8cdfe6e1052d43589ba938ae0b9d7e1a65d38be5f4dc0aa9",
+      "code": "latin",
+      "en": "Singapore (sin)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "da27e7b5ec7383e529dc8348d42f78967295eea4d12d93c83d99f53ca38c1f2c",
+      "code": "latin",
+      "en": "Washington, DC (was)",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "69cd53aa591f56b5f137d32c2a6f5278cf09ffdb92254c4d63399f87b7bdc199",
+      "code": "latin",
+      "en": "This connection can run commands in sandboxes, read and write sandbox files, start and stop instances, and delete instances, volumes, and other resources. Select trusted agents and set action permissions before use. Your Unikraft API token stays in the vault.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7a45e0714eaa2f27ee54a06d837635f3b28a5847b34c67517b57704d401d8d67",
+      "code": "latin",
+      "en": "Allow Paperclip Notebook connections and publishing through an explicitly enabled instance rollout.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "a4657d341281480caf70b0a12722ed738bb8dd8a323388d6bf04f0eb08366328",
+      "code": "latin",
+      "en": "Connect an existing Grok Bot as an experimental Paperclip agent. Requires Assistant connections (MCP), Paperclip Runner, and an authenticated public HTTPS instance. Provider spending is not reported.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "8cffa1d005242e6bc55fcb06cc41116ce3489261ec7963f9d27a77a2de3d5eff",
+      "code": "latin",
+      "en": "Connect your personal Meta Muse through its managed background receiver and the external Paperclip Runner. Experimental; requires authenticated public HTTPS and Paperclip Runner.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7358b27d3b5c7d796d84514214f2279d1a335424f682aab8f1462fb98190d90f",
+      "code": "latin",
+      "en": "Enter an HTTP or HTTPS OTLP base URL without credentials, query, fragment, or signal path.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "23fa99f9dc12f8c5e0cfad326618b525ae9f3391ea887d75dbdbaaf9d2fb1ce5",
+      "code": "glossary",
+      "en": "Service selection requires Google Workspace",
+      "reason": "Workspace is part of the Google Workspace product name, which remains unchanged."
+    },
+    {
+      "id": "42bc01f976b2c3a1fe30e07c0d974ea94a50b592d6cca3d3fb8968b246620a59",
+      "code": "latin",
+      "en": "The selected plugin environment did not complete the Runner hello probe and confirmed cleanup. Check its runtime, account, and model access.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c8d366cc93665cfbe4fcc3538f62db53b4ebac29c4767876b01525d3fef77874",
+      "code": "latin",
+      "en": "The verified Copilot runtime authenticated this account and accepted the selected model. No model prompt was sent.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "7ddc2f227a648addefeaef290b2cb4f31b4b2e49de957f78d2447fc704a1b0b7",
+      "code": "latin",
+      "en": "Use an OpenRouter API model ID without the openrouter/ prefix",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "e5fdf2efc3e7710b6b880da6ff3f3617496be579973923b39a791fd5efc9eef2",
+      "code": "short-key",
+      "en": "Accuracy",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "193f404545d2b542931a999d7753d41e193ae1afa396fb2677896b9b49a0a825",
+      "code": "latin",
+      "en": "Add OpenAI Dot as a standalone agent choice with its own experimental opt-in. Requires Assistant connections (MCP) and an authenticated instance with a public HTTPS URL.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "c1ad802f27a22c8e2ab481e6135a36f3398af07cc821bc2c77ba1b804f975efc",
+      "code": "latin",
+      "en": "Dot external execution must be reconciled before a new assignment; Paperclip cannot confirm its external stop.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "f2535b83a693c5e04d5f1975d341a6d560435dde189e11e62cb15b6cc4acae37",
+      "code": "latin",
+      "en": "Dot usage and provider cost are unavailable. Explicit externally billed provider acknowledgement is required.",
+      "reason": "Operator-facing catalog text preserves provider names, API terms, scopes, external menu labels and technical identifiers."
+    },
+    {
+      "id": "d86261e7e4cc3339d7bfe1129932122a24b465fba15307b8bac549b01f75d062",
+      "code": "short-key",
+      "en": "Extended",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "3b462d1d280e63631b8d718f29818442419027e0723418290aa533b80a2b1828",
+      "code": "short-key",
+      "en": "Tier",
+      "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "7413d5336ff9ce0c2cebac17271bcdd20d3487a8a58a6d2dd79f6b7c7ae129cb",
+      "code": "short-key",
+      "en": "Resets",
+      "reason": "Verified account quota expiry label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "6ee29b3eb9ecfa1665f0355af4ca06efb79430920495e60ebb20f5eeec3dca72",
+      "code": "short-key",
+      "en": "Resets ",
+      "reason": "Verified account quota expiry label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "0ba805309a98920b6c8c56d29b8c6b75586aa5abda81a6559dbe741c79661603",
+      "code": "short-key",
+      "en": "Row",
+      "reason": "Verified CSV row header label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "ae43b0f32a18315285c329ecc41e4624930f16ec29dd775b28458c2e0ec0f850",
+      "code": "short-key",
+      "en": "Reported",
+      "reason": "Verified decision history provider status label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "0ae0418b2192877ba914bcbe62986c48baf10ac9c7d1f8075249fa72aacfa8f7",
+      "code": "latin",
+      "en": ". Muse keeps the connection credential in its secure vault. Hostname permission applies to future requests to this Paperclip hostname.",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "51a66883f6b85700756159de1d2401a6fc80a0a5286634a9e42411d68dc21932",
+      "code": "short-key",
+      "en": "Billed",
+      "reason": "Verified subscription billing label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "a2209ea7b5bc30069725daed355d88a28c90512b6d8957647ef78eb9b33b5b94",
+      "code": "short-key",
+      "en": "Ended",
+      "reason": "Verified subscription state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "c125e5a8242242947354dbd91a1eaac1400ee62f76f7b94b26e3359b2ffc879d",
+      "code": "short-key",
+      "en": "Excluded",
+      "reason": "Verified subscription accounting state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "8f729820f6ad8701a5d6d1923220b101963a5aeb9b042f68b2db8555620af7d7",
+      "code": "short-key",
+      "en": "Tracking",
+      "reason": "Verified subscription accounting column label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "c8e0d09fade2ed46e7e5790759772f73f4fd18622083ce594b6d2ebc0dab5728",
+      "code": "short-key",
+      "en": "Views",
+      "reason": "Verified task-list views label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "73b8e3a60d6d3f78e4b4fb6eb0c421883ed17202da1ae3ba2ba05cb9d7ad7a2f",
+      "code": "short-key",
+      "en": "Ending",
+      "reason": "Verified voice-call state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "ad1036ba4233c2f4ba41b514f2e35cf882ff95a6948011a7a51b14c1deb640b1",
+      "code": "latin",
+      "en": "Choose a dedicated Speko voice persona. Paperclip uses its voice while",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "53df2e1679aa2180bd6a229f5f7f438ceb7ce433c06cc74cced3c050950557f6",
+      "code": "latin",
+      "en": "Choose a dedicated Speko voice persona. Paperclip uses its voice while ",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "9e8eb6ff46c54a26bba513b363a5171ebd3814ecc32707fc59921fe1bb18e1c7",
+      "code": "latin",
+      "en": "to Speko",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "d415a0cf344424e28b4167da855a909e3abfbc5661436cb380099991a32ffa3f",
+      "code": "latin",
+      "en": " to Speko",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "e0595323ee73faead075a23b04b879fc4dddaa1a27ff4f6168d590c245027aaa",
+      "code": "short-key",
+      "en": "Speaking",
+      "reason": "Verified voice control state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "1abed994db2c01eab444f6fbc0ebed67f3b2de36b615f02264117dc20e1105e0",
+      "code": "glossary",
+      "en": "could not resolve the starting branch. Check the branch name and repository access.",
+      "reason": "Resolve in this Git branch recovery message means resolve a ref, rendered as determining the branch."
+    },
+    {
+      "id": "2477825549af768f36ddc1c7ead087ab917dff5d6e37b65d2207a6066724ec50",
+      "code": "glossary",
+      "en": " could not resolve the starting branch. Check the branch name and repository access.",
+      "reason": "Resolve in this Git branch recovery message means resolve a ref, rendered as determining the branch."
+    },
+    {
+      "id": "fad68e6ce08cf3acf8d183b24e9df7fdbda088f6a9edcd56e6509a4191c396d4",
+      "code": "short-key",
+      "en": "Setting",
+      "reason": "Verified Git branch recovery label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "40edfeb585463b1ff4648818acce22dd77a92cdcebfa427e7780a43d908ccd38",
+      "code": "short-key",
+      "en": "Setting ",
+      "reason": "Verified Git branch recovery label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "efc5997c884bafccb4b0cf237f8aca771d879fdbbe945fe6940865801c39faa1",
+      "code": "short-key",
+      "en": "Unlinked",
+      "reason": "Verified GitHub bot account state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "4a59913800f5b5cb46f8da522d011c396d53a1334d84e7ae0868ca5d05cb2b76",
+      "code": "short-key",
+      "en": "Findings",
+      "reason": "Verified GitHub review results label. Runtime only, protected from static substitution."
     }
   ]
 }

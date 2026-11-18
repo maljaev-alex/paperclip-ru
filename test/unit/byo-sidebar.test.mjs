@@ -1,13 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
-import { patchByoAppSidebar } from '../../tools/lib/overlay.mjs';
+import { patchByoAppSidebar, splitByoSidebarChanges } from '../../tools/lib/overlay.mjs';
 
 function fixture(assistant = false) {
   const primary = ['browse', 'connections', ...(assistant ? ['assistant-connection'] : []), 'connect', 'chat', 'vercel-connect', 'review', 'attention', 'gateways', 'advanced', 'app'];
   const legacy = ['browse', 'connections', 'connect', 'chat', 'review', 'attention', 'gateways', 'advanced', 'app'];
   return `var route={path:"apps/byo"};var Primary=new Set(${JSON.stringify(primary)});function modern(P){var U=P[0]?.toLowerCase()==="apps",H=U&&P[1]&&!Primary.has(P[1].toLowerCase())?P[1]:null;return H}var Legacy=new Set(${JSON.stringify(legacy)});function legacy(T){var D=T[0]?.toLowerCase()==="apps",O=D&&T[1]&&!Legacy.has(T[1].toLowerCase())?T[1]:null;return O}`;
 }
+
+test('the lazy production layout and its importer are patched together', () => {
+  const [primary, production] = fixture(true).split('var Legacy=');
+  const entry = 'assets/index-abc.js';
+  const layout = 'assets/Layout.production-def.js';
+  const live = new Map([[entry, primary + ';import("./Layout.production-def.js").then(x=>({default:x.Layout}))'],
+    [layout, 'var Legacy=' + production]]);
+  const changes = splitByoSidebarChanges(live);
+  assert.equal(changes.size, 2);
+  for (const [file, value] of changes) {
+    assert.equal(value, live.get(file).replace('"browse","connections"', '"browse","connections","byo"'));
+  }
+  assert.equal(splitByoSidebarChanges(changes).size, 0);
+  for (const broken of [new Map([[entry, live.get(entry)]]),
+    new Map([[entry, live.get(entry)], [layout, live.get(layout).replace('Legacy.has', 'Unknown.has')]]),
+    new Map([[entry, live.get(entry).replace('apps/byo', 'apps/account')], [layout, live.get(layout)]])]) {
+    assert.equal(splitByoSidebarChanges(broken).size, 0);
+  }
+});
 
 test('known October app classifiers stop requesting a connection called byo while ordinary IDs remain unchanged', () => {
   for (const assistant of [false, true]) {

@@ -22,7 +22,7 @@
 
 Состав `dist/`:
 
-- `paperclip-ru-1.0.4.zip` и `paperclip-ru-1.0.4.tar.gz`: одинаковый корень
+- `paperclip-ru-1.0.5.zip` и `paperclip-ru-1.0.5.tar.gz`: одинаковый корень
   `paperclip-ru/` и полный разрешённый tracked snapshot: runtime, словари,
   bootstrap, инструменты разработки, тесты, fixtures, документация, CI и lockfile;
 - `release-manifest.json`: commit, версия, политика совместимости, payload и hashes;
@@ -81,8 +81,8 @@ git pull --ff-only
 git status --short
 npm run release:dry-run
 # При успешных проверках и чистом дереве:
-git tag -a v1.0.4 -m "paperclip-ru 1.0.4"
-git push origin v1.0.4
+git tag -a v1.0.5 -m "paperclip-ru 1.0.5"
+git push origin v1.0.5
 ```
 
 4. Дождаться успешного workflow `release` на теге. Он заново собирает и проверяет

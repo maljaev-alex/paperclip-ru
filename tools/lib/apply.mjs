@@ -13,7 +13,7 @@ import { ToolError, assertInside, atomicWriteFile, copyFileAtomic, ensureDir, ha
 import { findServerPackage, listTargets, workPaths } from "./paths.mjs";
 import { loadDictionary, dictionaryStats } from "./dictionary.mjs";
 import { extractOccurrences, applyDictionary } from "./strings.mjs";
-import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, patchActivityActorFallbacks } from "./overlay.mjs";
+import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, splitByoSidebarChanges, patchActivityActorFallbacks, patchAssistantConnectionName, patchSubscriptionTokenLabels, patchAuditActorLabels, patchCredentialAccessNotice } from "./overlay.mjs";
 import { assessCompatibility, loadCompatibility } from "./compatibility.mjs";
 import { buildManifest, featureList, featuresEqual, inspectManifestFile, liveHash, overlayRel, proveLegacyV2Manifest } from "./manifest.mjs";
 import { classifyFail, classifyState, hasIndexMarker, overlayPathOf } from "./classify.mjs";
@@ -37,31 +37,46 @@ function readLiveMap(server, targets) {
   return live;
 }
 
-function patchJs(source, dict) {
-  let occurrences;
-  try {
-    occurrences = extractOccurrences(source);
-  } catch (err) {
-    return { code: source, replacements: 0, used: new Map(), skipped: err.message, dirtyPatched: false, overviewTabPatched: false };
-  }
-  const result = applyDictionary(source, occurrences, dict.exact, { skipStatic: dict.noStatic });
-  const dirty = patchInstructionDirtyCompare(result.code);
+function patchUiBehavior(source, dict) {
+  const dirty = patchInstructionDirtyCompare(source);
   const overview = patchSkillOverviewNavigation(dirty.code);
   const byo = patchByoAppSidebar(overview.code);
   const actors = patchActivityActorFallbacks(byo.code, dict.exact);
+  const auditActors = patchAuditActorLabels(actors.code, dict.exact);
   return {
-    code: actors.code,
-    replacements: result.replacements,
-    used: result.used,
-    skipped: null,
+    code: patchAssistantConnectionName(auditActors),
     dirtyPatched: dirty.patched,
     overviewTabPatched: overview.patched,
     activityActorNamesPatched: actors.patched,
   };
 }
 
+function patchSourceTemplates(source) {
+  // Both signatures refer to original JSX literal arrays, including captions
+  // the general dictionary can also translate independently.
+  return patchSubscriptionTokenLabels(patchCredentialAccessNotice(source));
+}
+
+function patchJs(source, dict) {
+  const prepared = patchSourceTemplates(source);
+  let occurrences;
+  try {
+    occurrences = extractOccurrences(prepared);
+  } catch (err) {
+    return { code: source, replacements: 0, used: new Map(), skipped: err.message, dirtyPatched: false, overviewTabPatched: false };
+  }
+  const result = applyDictionary(prepared, occurrences, dict.exact, { skipStatic: dict.noStatic });
+  return {
+    ...patchUiBehavior(result.code, dict),
+    replacements: result.replacements,
+    used: result.used,
+    skipped: null,
+  };
+}
+
 export function planPatch({ server, dict, targets, live, panelResize, stats }) {
   const planned = [];
+  const splitSidebar = splitByoSidebarChanges(live);
   const usedTotal = new Map();
   let jsReplacements = 0;
   let dirtyPatched = false;
@@ -71,7 +86,7 @@ export function planPatch({ server, dict, targets, live, panelResize, stats }) {
   for (const rel of targets) {
     if (rel === "index.html") continue;
     const source = live.get(rel);
-    const patched = patchJs(source, dict);
+    const patched = patchJs(splitSidebar.get(rel) ?? source, dict);
     jsReplacements += patched.replacements;
     if (patched.dirtyPatched) dirtyPatched = true;
     if (patched.overviewTabPatched) overviewTabPatched = true;
@@ -328,10 +343,10 @@ function conflictState(classified) {
 }
 
 function liveNeedsSurgicalJsPatches(live, dict) {
+  if (splitByoSidebarChanges(live).size) return true;
   for (const [rel, source] of live) {
     if (!rel.endsWith(".js")) continue;
-    const after = patchActivityActorFallbacks(patchByoAppSidebar(patchSkillOverviewNavigation(patchInstructionDirtyCompare(source).code).code).code, dict.exact);
-    if (after.code !== source) return true;
+    if (patchSourceTemplates(source) !== source || patchUiBehavior(source, dict).code !== source) return true;
   }
   return false;
 }

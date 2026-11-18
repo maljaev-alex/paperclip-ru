@@ -1,6 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { classifyEnglish } from '../helpers/route-allowlist.mjs';
+
+test('connection provider labels are accepted only on their settings picker elements', () => {
+  const route = '/CMP/company/settings/connections';
+  const description = { route, tag: 'SPAN', className: 'mt-1 block text-xs text-muted-foreground' };
+  for (const value of ['GPT-6 Luna', 'Jev 1.13']) {
+    assert.equal(classifyEnglish({ ...description, value }), 'decision-model-display-name');
+    assert.equal(classifyEnglish({ ...description, value, tag: 'P' }), null);
+    assert.equal(classifyEnglish({ ...description, value: `${value} is unavailable` }), null);
+    assert.equal(classifyEnglish({ ...description, value, route: '/CMP/company/settings' }), null);
+  }
+  const label = { route, value: 'xAI', tag: 'SPAN', className: 'block font-medium text-foreground' };
+  assert.equal(classifyEnglish(label), 'fast-response-provider-name');
+  assert.equal(classifyEnglish({ ...label, className: '' }), null);
+  assert.equal(classifyEnglish({ route, value: 'xAI', tag: 'BUTTON', attribute: 'aria-label', className: 'flex w-full rounded-lg border-border' }), 'fast-response-provider-name');
+  assert.equal(classifyEnglish({ route, value: 'xAI', tag: 'BUTTON', attribute: 'title', className: 'flex w-full rounded-lg border-border' }), null);
+});
 import { activityActorsFromMembers } from '../helpers/official-seed.mjs';
 
 test('known connector products and technical terms cannot conceal untranslated operator sentences', () => {
@@ -22,15 +38,76 @@ test('known connector products and technical terms cannot conceal untranslated o
   assert.equal(classifyEnglish({ value: '\u0424\u043e\u0440\u043c\u0430\u0442: VPNx' }), null);
 });
 
-test('only the two observed MCP audit codes pass in the exact technical audit context', () => {
-  const context = { route: '/CMP/activity', tag: 'SPAN', className: 'font-mono text-(length:--text-micro) opacity-70' };
-  for (const value of ['mcp.connection_authorized', 'mcp.connection_revoked']) {
+test('only the observed raw codes and types pass in their technical audit contexts', () => {
+  const context = { route: '/CMP/activity', tag: 'SPAN', className: 'font-mono text-(length:--text-micro) opacity-70', context: 'audit-event-code' };
+  for (const value of ['mcp.connection_authorized', 'mcp.connection_revoked', 'agent.identity.created', 'primary_agent.initialized',
+    'issue.document_created', 'issue.created', 'issue.read_marked', 'issue.conversation_opened', 'company.updated', 'company.created',
+    'project.created', 'agent.paused', 'agent.created', 'budget.policy_upserted']) {
     assert.equal(classifyEnglish({ ...context, value }), 'audit-event-code');
-    for (const change of [{ route: '/CMP/dashboard' }, { tag: 'H2' }, { className: 'font-mono' }, { attribute: 'title' }]) {
+    for (const change of [{ route: '/CMP/dashboard' }, { tag: 'H2' }, { className: 'font-mono' }, { attribute: 'title' }, { context: undefined }]) {
       assert.equal(classifyEnglish({ ...context, ...change, value }), null);
     }
   }
-  for (const value of ['mcp.connection_other', 'mcp_connection', 'mcp connection revoked']) assert.equal(classifyEnglish({ ...context, value }), null);
+  for (const value of ['mcp.connection_other', 'mcp_connection', 'mcp connection revoked', 'issue.updated', 'issue.created - failed']) {
+    assert.equal(classifyEnglish({ ...context, value }), null);
+  }
+  const entity = { ...context, value: 'user_preference', context: 'audit-entity-type', className: 'text-muted-foreground' };
+  assert.equal(classifyEnglish(entity), 'audit-entity-type');
+  assert.equal(classifyEnglish({ ...entity, context: undefined }), null);
+  assert.equal(classifyEnglish({ ...entity, route: '/CMP/skills' }), null);
+  assert.equal(classifyEnglish({ ...entity, value: 'other_preference' }), null);
+});
+
+test('an ambiguous connector name only exempts the matching catalogue card or translated card chrome', () => {
+  const heading = { route: '/CMP/apps/connections', tag: 'H2', context: 'app-catalog-heading', appName: 'Make', appSlug: 'make' };
+  assert.equal(classifyEnglish({ ...heading, value: 'Make' }), 'catalog-product-name');
+  assert.equal(classifyEnglish({ ...heading, value: 'Make', appName: 'Gauge' }), null);
+  assert.equal(classifyEnglish({ ...heading, value: 'Make', route: '/CMP/tasks' }), null);
+  assert.equal(classifyEnglish({ value: 'Make' }), null);
+  const chrome = { ...heading, tag: 'P', context: 'app-catalog-chrome' };
+  assert.equal(classifyEnglish({ ...chrome, value: 'Подключить Make' }), 'translated-text-with-known-name');
+  assert.equal(classifyEnglish({ ...chrome, value: 'Подключить Make', context: undefined }), null);
+  assert.equal(classifyEnglish({ ...chrome, value: 'Подключить Make now' }), null);
+  assert.equal(classifyEnglish({ ...chrome, value: 'Connect Make' }), null);
+  assert.equal(classifyEnglish({ value: 'Подключить Dot', route: '/CMP/issues' }), null);
+  assert.equal(classifyEnglish({ value: 'Подключить Dot', route: '/CMP/company/settings/instance/experimental' }), 'translated-text-with-known-name');
+  assert.equal(classifyEnglish({ value: 'Открыть Docs', route: '/CMP/issues' }), null);
+  const responses = { ...chrome, appName: 'Responses API', appSlug: 'responses-api' };
+  const description = 'Шлюз OpenAI Responses API, например Emissary.';
+  assert.equal(classifyEnglish({ ...responses, value: description }), 'translated-text-with-known-name');
+  assert.equal(classifyEnglish({ ...responses, value: description + ' unavailable' }), null);
+  assert.equal(classifyEnglish({ ...responses, appName: 'Make', value: description }), null);
+  for (const value of ['Braintrust', 'Bitly', 'Amazon Bedrock', 'Grok Bot', 'OpenAI Dot']) {
+    assert.ok(classifyEnglish({ value }));
+    assert.equal(classifyEnglish({ value: value + ' help unavailable' }), null);
+    assert.equal(classifyEnglish({ value: 'Справка ' + value + ' unavailable' }), null);
+  }
+});
+
+test('bundled skill identities, exact instructional text and public-key fingerprints stay scoped', () => {
+  const skill = { route: '/CMP/skills/studio', tag: 'DIV', className: 'truncate font-mono text-sm font-medium text-foreground', value: 'complain' };
+  assert.equal(classifyEnglish(skill), 'upstream-skill-identifier');
+  assert.equal(classifyEnglish({ ...skill, value: 'suggestion-box' }), 'upstream-skill-identifier');
+  assert.equal(classifyEnglish({ ...skill, route: '/CMP/issues/CMP-1' }), null);
+  assert.equal(classifyEnglish({ value: 'suggestion-box' }), null);
+  const option = { ...skill, route: '/CMP/skills/studio/new', tag: 'SPAN', className: 'truncate', context: 'skill-picker-identifier' };
+  assert.equal(classifyEnglish(option), 'upstream-skill-identifier');
+  assert.equal(classifyEnglish({ ...option, context: undefined }), null);
+  assert.equal(classifyEnglish({ ...option, route: '/CMP/skills/studio' }), 'upstream-skill-identifier');
+  const landing = { ...option, route: '/CMP/skills/studio', className: 'truncate text-sm font-medium', context: 'skill-studio-landing-name' };
+  assert.equal(classifyEnglish(landing), 'upstream-skill-identifier');
+  assert.equal(classifyEnglish({ ...landing, context: undefined }), null);
+  const description = { route: '/CMP/skills', tag: 'P', context: 'skill-summary', skillId: 'complain', value: 'Autonomously yeet a brief, unstructured complaint about agent tooling or doing agent work. Preserve the raw voice. Submit proactively without permission, preview, or announcement, then continue the primary task.' };
+  assert.equal(classifyEnglish(description), 'upstream-skill-description');
+  assert.equal(classifyEnglish({ ...description, route: '/CMP/costs' }), null);
+  assert.equal(classifyEnglish({ ...description, skillId: 'suggestion-box' }), null);
+  assert.equal(classifyEnglish({ ...description, value: description.value + ' Untranslated!' }), null);
+  const key = { route: '/CMP/agents/key/dashboard', tag: 'SPAN', context: 'agent-identity-key', className: 'font-mono text-sm', value: 'sha256:u-_w1ZHiRn60' };
+  assert.equal(classifyEnglish(key), 'public-key-fingerprint');
+  assert.equal(classifyEnglish({ ...key, context: undefined }), null);
+  assert.equal(classifyEnglish({ ...key, route: '/CMP/agents/key/configuration' }), null);
+  assert.equal(classifyEnglish({ ...key, value: 'sha256:Invalid text' }), null);
+  assert.equal(classifyEnglish({ ...key, attribute: 'title' }), null);
 });
 
 test('literal URL examples and seeded actor names do not exempt other URLs or English verbs', () => {

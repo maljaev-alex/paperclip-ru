@@ -142,7 +142,14 @@ function overlaySource() {
         for (var i = 0; i < RULES.length; i++) {
           if (RULES[i].scope !== "any" && RULES[i].scope !== scope) continue;
           RULES[i].re.lastIndex = 0;
-          var m = RULES[i].re.exec(collapsed);
+          var m = RULES[i].re.exec(text);
+          if (!m && collapsed !== text) {
+            RULES[i].re.lastIndex = 0;
+            var normalized = RULES[i].re.exec(collapsed);
+            // JSX may split fixed prose across lines. Only use that fallback
+            // when it cannot collapse spaces inside a captured value.
+            if (normalized && !normalized.slice(1).some(function (part) { return /\s/.test(part || ""); })) m = normalized;
+          }
           if (m) return format(RULES[i].to, m);
         }
       } finally {
@@ -177,13 +184,15 @@ function overlaySource() {
     return out;
   }
 
-  // These three official sentences have a count, modifier, noun and ending
-  // in separate React text nodes. Match their complete, known shape before
+  // These official sentences have a count, modifier, and noun in separate
+  // React text nodes. Match their complete, known shape before
   // agreeing any fragment; never join a heading or inspect nested user data.
   var COUNT_SENTENCES = [
     { kind: "sources-warning", parts: [{ sources: ["selected"], key: "\u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439" }, { sources: ["skill has","skills have"], key: "\u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442" }, { sources: ["validation errors and will be skipped."], key: "\u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b." }] },
     { kind: "sources-new", parts: [{ sources: ["new"], key: "\u043d\u043e\u0432\u044b\u0439" }, { sources: ["skill","skills"], key: "\u043d\u0430\u0432\u044b\u043a" }, { sources: ["available"], key: "\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d" }] },
-    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] }
+    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] },
+    { kind: "subscription-identities", parts: [{ sources: ["unconfirmed"], key: "subscription-identity-modifier" }, { sources: ["account identity", "account identities"], key: "subscription-identity" }] },
+    { kind: "subscriptions-active", optionalTail: true, parts: [{ sources: ["active"], key: "subscription-active-modifier" }, { sources: ["subscription", "subscriptions"], key: "subscription-active" }] }
   ];
 
   function countSentencePart(value, part) {
@@ -202,18 +211,27 @@ function overlaySource() {
     var kind = sourcesRoute && parent.matches('p.text-sm.text-muted-foreground') ? 'sources-warning'
       : sourcesRoute && parent.matches('a.text-xs.underline') ? 'sources-new'
       : parent.matches('.execution-blocker-notice p') ? 'saved-messages' : null;
-    if (!kind) return null;
+    var subscriptionOverview = !kind && /^\/[^/]+\/costs\/?$/.test(window.location.pathname)
+      && parent.matches('div.space-y-1.text-xs.text-muted-foreground > div');
+    if (!kind && !subscriptionOverview) return null;
     var children = Array.prototype.slice.call(parent.childNodes);
     if (children.some(function (child) { return child.nodeType !== 3 && child.nodeType !== 8; })) return null;
     var nodes = children.filter(function (child) { return child.nodeType === 3; });
-    if (nodes.length !== 4 || nodes.indexOf(node) === -1) return null;
+    if (nodes.length < 3 || nodes.indexOf(node) === -1) return null;
     var text = nodes.map(function (child) { return child === node ? value : child.nodeValue; });
     var count = text[0].trim();
     if (!/^\d+$/.test(count)) return null;
-    var sentence = COUNT_SENTENCES.find(function (candidate) { return candidate.kind === kind; });
-    if (!sentence || !sentence.parts.every(function (part, index) {
-      return PLURALS[part.key] && countSentencePart(text[index + 1], part);
-    })) return null;
+    var sentence = COUNT_SENTENCES.find(function (candidate) {
+      if (kind ? candidate.kind !== kind : !/^subscription/.test(candidate.kind)) return false;
+      var total = candidate.parts.length + 1;
+      if (nodes.length !== total && !(candidate.optionalTail && nodes.length === total + 1)) return false;
+      return candidate.parts.every(function (part, index) {
+        return PLURALS[part.key] && countSentencePart(text[index + 1], part);
+      });
+    });
+    if (!sentence) return null;
+    var suffix = sentence.optionalTail && text[sentence.parts.length + 1];
+    if (suffix && node === nodes[sentence.parts.length + 1]) return translate(value, 'subscription-price');
     var result = value;
     sentence.parts.forEach(function (part, index) {
       var target = nodes[index + 1];
@@ -230,11 +248,42 @@ function overlaySource() {
   // and the noun never meet in one string, so the {plural:N:...} rule syntax
   // cannot reach them. Once the noun node sits in the tree its previous sibling
   // holds the count, which is enough to pick the right Russian form.
+  var LIVE_COUNT_FORMS = Object.create(null);
+  [
+    ["p.text-sm.text-destructive", "completed runs await accounting."],
+    ["p.text-sm.text-destructive", "usage events are unpriced. Known spend excludes their unknown cost."],
+    ['[role="status"].border-b > span', "rows and"],
+    ['[role="status"].border-b > span', "columns. Download for the complete file."]
+  ].forEach(function (entry) {
+    var key = translate(entry[1]);
+    var forms = PLURALS[key];
+    if (!forms) return;
+    forms.concat(key, entry[1]).forEach(function (part) {
+      LIVE_COUNT_FORMS[part] = { selector: entry[0], forms: forms };
+    });
+  });
+
+  function liveCountForms(node, suffix) {
+    var entry = LIVE_COUNT_FORMS[suffix.trim()];
+    return entry && node.parentElement && node.parentElement.matches(entry.selector) ? entry.forms : null;
+  }
+
   function agree(node, value) {
     if (!node || typeof value !== "string") return value;
     var sentence = agreeCountSentence(node, value);
     if (sentence !== null) return sentence;
-    var forms = PLURALS[value.replace(/^\s+|\s+$/g, "")];
+    if (/^\d+$/.test(value.trim()) && nativeNodeValue) {
+      var next = node.nextSibling;
+      while (next && next.nodeType === 8) next = next.nextSibling;
+      if (next && next.nodeType === 3 && allowed(next)) {
+        var nextForms = liveCountForms(next, next.nodeValue);
+        if (nextForms) {
+          var nextValue = next.nodeValue.match(/^\s*/)[0] + plural(value, nextForms[0], nextForms[1], nextForms[2]) + next.nodeValue.match(/\s*$/)[0];
+          if (nextValue !== next.nodeValue) nativeNodeValue.call(next, nextValue);
+        }
+      }
+    }
+    var forms = liveCountForms(node, value) || PLURALS[value.trim()];
     if (!forms) return value;
     var prev = node.previousSibling;
     while (prev && prev.nodeType === 8) prev = prev.previousSibling;
@@ -265,6 +314,12 @@ function overlaySource() {
   }
 
   function translateAttribute(el, name, value) {
+    if (name === 'aria-label' && value === 'Подключить Local endpoint' && el.closest('[data-app-slug="local"]')) {
+      return translate('Connect Local endpoint', 'attr');
+    }
+    if (name === 'aria-label' && value.startsWith('Select ') && el.matches('tbody td button[role="checkbox"]')) {
+      return 'Выбрать ' + value.slice(7);
+    }
     if (name === 'title' && activityActorSummary(el)) {
       var prefix = el.firstElementChild.textContent + ' ';
       if (value.indexOf(prefix) !== 0) return value;
@@ -355,6 +410,12 @@ function overlaySource() {
 
   function userTextNode(node) {
     var current = window.location.pathname;
+    if (textAfterLabel(node, 'p.text-sm.leading-relaxed.text-muted-foreground', 'The invitation includes everything your agent needs to join')) {
+      var ending = node.nextSibling;
+      while (ending && ending.nodeType === 8) ending = ending.nextSibling;
+      var caption = '. You can review its request before granting access.';
+      if (!ending || (ending.nodeType === 3 && (ending.nodeValue === caption || ending.nodeValue === translate(caption)))) return true;
+    }
     if (aiAgentBindingRoute() && node && node.parentElement && connectionChoiceButton(node.parentElement)
         && textAfterLabel(node, 'span.mt-1.block.text-xs.text-muted-foreground > span.block', 'For you:')) return true;
     if (/^\/assistant-connections\/?$/.test(current)) {
@@ -370,6 +431,12 @@ function overlaySource() {
     if (!el || el.nodeType !== 1) return false;
     if (el.closest('svg,[role="img"],.sr-only,[data-slot="badge"]')) return false;
     if (el.closest('[translate="no"], [data-testid="issue-detail-header"] h2, [data-testid="task-chat-composer-assignee"]')) return true;
+    // CsvPreview uses ordinary text nodes for unmodified file contents.
+    if (el.matches('thead > tr > th.whitespace-nowrap.text-left[scope="col"], tbody > tr > td.whitespace-pre-wrap.align-top')) {
+      var csvTable = el.closest('table');
+      if (csvTable && csvTable.matches('div[role="region"].min-h-0.flex-1.overflow-auto > table.w-full.border-collapse.text-sm')
+          && csvTable.querySelector(':scope > caption.sr-only')) return true;
+    }
     if (el.matches('span:first-child:not([class])') && el.parentElement && activityActorSummary(el.parentElement)) return true;
     if (el.matches('span.inline-flex[title]') && el.querySelector('[data-slot="avatar"]') && el.querySelector('.truncate')) return true;
     if (activitySummary(el)) return false;
@@ -388,6 +455,14 @@ function overlaySource() {
     if (link === el && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && el.matches('.truncate')) return true;
     if (link && el !== link && entity.test(link.getAttribute('href') || '') && entityName.test(link.getAttribute('href') || '') && nameLeaf && !el.closest('button,[role="img"],svg,[data-slot="badge"]')) return true;
     var current = window.location.pathname;
+    // AuditFeed renders a human-readable verb and the raw event key separately.
+    if (/^\/[^/]+\/activity\/?$/.test(current)) {
+      if (el.matches('li.px-4.py-3 span.font-mono.opacity-70')) return true;
+      var agentActor = el.closest('li.px-4.py-3 span.inline-flex.min-w-0.items-center[title]');
+      var agentName = agentActor && agentActor.querySelector(':scope > span.truncate.font-medium.text-foreground');
+      if (agentName && (el === agentActor || el === agentName)) return true;
+    }
+    if (el.matches('.pc-ru-audit-identity, .pc-ru-audit-identity > span.truncate')) return true;
     // The official MCP consent/setup surfaces display client and organization
     // names without the usual entity links. Keep only those exact data leaves
     // untouched; adjacent headings, permissions and actions still translate.
@@ -395,7 +470,11 @@ function overlaySource() {
       if (el.closest('h1 bdi')) return true;
       if (el.closest('[data-slot="card"]') && el.matches('p.break-words.text-lg.font-semibold, label > span.break-words.font-medium')) return true;
     }
-    if (/^\/assistant-connections\/?$/.test(current) && el.matches('[data-slot="card"] h2.font-medium')) return true;
+    if (/^\/assistant-connections\/?$/.test(current)) {
+      if (el.matches('[data-slot="card"] h2.font-medium')) return true;
+      if (el.matches('[data-slot="card"] > p.text-sm > a.underline[href]') &&
+          /^\/[^/]+\/agents\/[^/]+\/runtime$/.test(el.getAttribute('href'))) return true;
+    }
     if (/^\/[^/]+\/apps\/assistant-connection\/?$/.test(current) && el.matches('div.space-y-1 > p.font-medium, details section > p.text-sm > strong:first-of-type')) return true;
     if (/^\/[^/]+\/apps\/?$/.test(current) && el.matches('[data-app-slug="assistant-connection"] .border-t > span:not([class])')) return true;
     // ConnectionChoiceList is shared by legacy setup and agent bindings. Its
@@ -463,6 +542,72 @@ function overlaySource() {
     return true;
   }
 
+  // IssueShareSheet has separate React text nodes for captions and names.
+  // Translate the captions in place, also when React updates just one node.
+  function shareText(node, value) {
+    if (node.nodeType !== 3 || !node.parentElement) return null;
+    var parent = node.parentElement;
+    if (parent.matches('[data-slot="alert-dialog-title"]')) {
+      var before = 'Remove ';
+      var translatedBefore = 'Удалить сохранённое разрешение для ';
+      var after = "'s saved grant?";
+      var parts = Array.prototype.filter.call(parent.childNodes, function (child) { return child.nodeType !== 8; });
+      if (parts.some(function (part) { return part.nodeType !== 3; })) return null;
+      if (!parts[0] || (parts[0].nodeValue !== before && parts[0].nodeValue !== translatedBefore)) return null;
+      if (parts.length > 3 || (parts[2] && parts[2].nodeValue !== after && parts[2].nodeValue !== '?')) return null;
+      if (node === parts[1]) return value;
+      if (node === parts[0] && value === before) return parts[2] ? translatedBefore : value;
+      if (node === parts[2] && value === after) return '?';
+      return null;
+    }
+    if (parent.matches('[data-testid="shared-agent-caution"] > span')) {
+      var label = parent.firstElementChild;
+      if (!label || !label.matches('span.font-semibold')) return null;
+      var caption = label.nextSibling;
+      while (caption && caption.nodeType === 8) caption = caption.nextSibling;
+      if (!caption || caption.nodeType !== 3) return null;
+      var name = caption.nextSibling;
+      while (name && name.nodeType === 8) name = name.nextSibling;
+      if (node === name) return value;
+      if (node === caption && value === ' ') return ' Память и рабочая область агента ';
+      if (value === "'s memory & workspace may carry residual private context from this task into its later runs for other people. Grant only if that's acceptable.") {
+        return ' могут сохранить частные сведения из этой задачи и перенести их в последующие запуски для других людей. Предоставляйте доступ, только если это допустимо.';
+      }
+      return null;
+    }
+    var descriptionBefore = "This removes this grant and the access it supplies to this task's descendants. Ownership, current assignment, project membership, inherited access, or another grant can still provide access. Revoking access does ";
+    var translatedDescriptionBefore = 'Удаление разрешения также отзывает доступ, который оно предоставляло к подзадачам. Владелец задачи, её текущий исполнитель и участники проекта могут сохранить доступ. Также может действовать унаследованный доступ или другое разрешение. Отзыв доступа ';
+    if (parent.matches('[data-slot="alert-dialog-description"]')) {
+      if (value === descriptionBefore) return translatedDescriptionBefore;
+      if (value === " erase content already seen or retained in an agent's memory.") return ' удаляет содержимое, которое уже просмотрено или сохранено в памяти агента.';
+    }
+    if (value === 'not' && parent.matches('[data-slot="alert-dialog-description"] > span.font-semibold')) {
+      var leading = parent.previousSibling;
+      if (leading && (leading.nodeValue === descriptionBefore || leading.nodeValue === translatedDescriptionBefore)) return 'не';
+    }
+    return null;
+  }
+
+  function translateUiText(node, value) {
+    var translated = shareText(node, value);
+    if (translated !== null) return translated;
+    var parent = node.parentElement;
+    if (parent && parent.matches('button[data-slot="button"],h3.break-words.text-sm.font-medium')
+      && /^\/[^/]+\/issues?\/[^/]+\/?$/.test(window.location.pathname)) {
+      var parts = Array.prototype.filter.call(parent.childNodes, function (child) { return child.nodeType !== 8; });
+      if (parts.length === 2 && parts.every(function (child) { return child.nodeType === 3; })
+        && (parts[0].nodeValue === 'Talk to ' || parts[0].nodeValue === translate('Talk to ', 'voice-launch'))) {
+        return node === parts[0] ? translate(value, 'voice-launch') : value;
+      }
+    }
+    if (parent && parent.matches('li.px-4.py-3 > div > div.min-w-0 > div.flex.flex-wrap.items-center.text-foreground > span.text-muted-foreground:nth-child(2)')
+      && /^\/[^/]+\/activity\/?$/.test(window.location.pathname)) {
+      var auditVerb = translate(value, 'audit-verb');
+      if (auditVerb !== value) return auditVerb;
+    }
+    return agree(node, translate(value));
+  }
+
   var natives = {};
   var hookFailures = [];
 
@@ -484,8 +629,7 @@ function overlaySource() {
         get: d.get,
         set: function (value) {
           if (typeof value === "string" && (!guard || guard(this))) {
-            value = translate(value);
-            if (this.nodeType === 3) value = agree(this, value);
+            value = this.nodeType === 3 ? translateUiText(this, value) : translate(value);
           }
           d.set.call(this, value);
         }
@@ -523,7 +667,7 @@ function overlaySource() {
     if (node.nodeType !== 3) return;
     if (!node.isConnected) return;
     if (!allowed(parent) || !allowed(node)) return;
-    var next = agree(node, translate(node.nodeValue));
+    var next = translateUiText(node, node.nodeValue);
     if (next !== node.nodeValue) nativeNodeValue.call(node, next);
   }
 
@@ -603,7 +747,7 @@ function overlaySource() {
     while (node) {
       if (node.nodeType === 3) {
         if (allowed(node)) {
-          var next = agree(node, translate(node.nodeValue));
+          var next = translateUiText(node, node.nodeValue);
           if (next !== node.nodeValue) node.nodeValue = next;
         }
       } else if (node.nodeType === 1) {
@@ -767,28 +911,52 @@ export function patchSkillOverviewNavigation(code) {
   const [full, ctName, tabArg, setSearch, searchArg, paramsName] = m;
   const from = Math.max(0, m.index - 4000);
   const around = code.slice(from, Math.min(code.length, m.index + 40000));
-  const nnM = around.match(/(\w+)\.hasExplicitFilePath/);
-  const navM = around.match(new RegExp(`onSelectPath:\\w+=>\\{${ctName}\\("files"\\),(\\w+)\\((\\w+)\\((\\w+),`));
+  const nnM = around.match(/([\w$]+)\.hasExplicitFilePath/);
+  // Newer esbuild outputs wrap the same callback in their function-name helper.
+  const navM = around.match(new RegExp(`onSelectPath:(?:[\\w$]+\\()?([\\w$]+)=>\\{${ctName}\\("files"\\),([\\w$]+)\\(([\\w$]+)\\(([\\w$]+),\\1\\)\\)\\}`));
   if (!nnM || !navM) return { code, patched: false };
   const nn = nnM[1];
-  const navigate = navM[1];
-  const toSkill = navM[2];
-  const skillId = navM[3];
+  const [, , navigate, toSkill, skillId] = navM;
   const patchedFn = `function ${ctName}(${tabArg}){${setSearch}(${searchArg}=>{const ${paramsName}=new URLSearchParams(${searchArg});return ${tabArg}==="overview"?${paramsName}.delete("tab"):${paramsName}.set("tab",${tabArg}),${paramsName}}),${tabArg}==="overview"&&${nn}.hasExplicitFilePath&&${skillId}&&${navigate}(${toSkill}(${skillId}))}`;
   return { code: `${code.slice(0, m.index)}${patchedFn}${code.slice(m.index + full.length)}`, patched: true };
 }
 
 /** Keep the known BYO page out of the upstream connection-detail sidebar. */
 export function patchByoAppSidebar(code) {
+  if ((code.match(/path:"apps\/byo"/g) || []).length !== 1) return { code, patched: false, replacements: 0 };
+  return patchKnownAppClassifiers(code, ['legacy', 'modern']);
+}
+
+// November lazy-loads the production layout. Follow its actual import and
+// require both known classifiers before changing either half of the bundle.
+export function splitByoSidebarChanges(live) {
+  const changes = new Map();
+  for (const [rel, entry] of live) {
+    if (!/^assets\/index-[\w-]+\.js$/.test(rel) || (entry.match(/path:"apps\/byo"/g) || []).length !== 1) continue;
+    const imports = [...entry.matchAll(/import\("\.\/(Layout\.production-[\w-]+\.js)"\)\.then\(([\w$]+)=>\(\{default:\2\.Layout\}\)\)/g)];
+    if (imports.length !== 1) continue;
+    const layoutRel = 'assets/' + imports[0][1];
+    const layout = live.get(layoutRel);
+    if (!layout) continue;
+    const modern = patchKnownAppClassifiers(entry, ['modern']);
+    const legacy = patchKnownAppClassifiers(layout, ['legacy']);
+    if (modern.patched && legacy.patched) {
+      if (modern.replacements) changes.set(rel, modern.code);
+      if (legacy.replacements) changes.set(layoutRel, legacy.code);
+    }
+  }
+  return changes;
+}
+
+function patchKnownAppClassifiers(code, expectedKinds) {
   const unchanged = { code, patched: false, replacements: 0 };
-  if ((code.match(/path:"apps\/byo"/g) || []).length !== 1) return unchanged;
   const legacy = '["browse","connections","connect","chat","review","attention","gateways","advanced","app"]';
   const modern = new Set([
     '["browse","connections","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
     '["browse","connections","assistant-connection","connect","chat","vercel-connect","review","attention","gateways","advanced","app"]',
   ]);
   const sets = [...code.matchAll(/var ([\w$]+)=new Set\((\["browse","connections",[^;\r\n]{0,200}?\])\)/g)];
-  if (sets.length !== 2) return unchanged;
+  if (sets.length !== expectedKinds.length) return unchanged;
   const kinds = [];
   for (const match of sets) {
     let entries;
@@ -802,7 +970,7 @@ export function patchByoAppSidebar(code) {
     const branch = new RegExp(`([\\w$]+)=([\\w$]+)\\[0\\]\\?\\.toLowerCase\\(\\)==="apps",[\\w$]+=\\1&&\\2\\[1\\]&&!${escapedName}\\.has\\(\\2\\[1\\]\\.toLowerCase\\(\\)\\)\\?\\2\\[1\\]:null`);
     if (!branch.test(code.slice(match.index + match[0].length, match.index + 2000))) return unchanged;
   }
-  if (kinds.filter(kind => kind === 'legacy').length !== 1 || kinds.filter(kind => kind === 'modern').length !== 1) return unchanged;
+  if (!expectedKinds.every(kind => kinds.includes(kind))) return unchanged;
   let replacements = 0;
   for (const match of sets.reverse()) {
     const entries = JSON.parse(match[2]);
@@ -813,6 +981,70 @@ export function patchByoAppSidebar(code) {
     replacements += 1;
   }
   return { code, patched: true, replacements };
+}
+
+export function patchAssistantConnectionName(code) {
+  // The display helper is shared by the setup page, management list and revoke
+  // label. Capture upstream’s given-name helper before it adds an English possessive.
+  const pattern = /function ([\w$]+)\(([\w$]+)\)\{const ([\w$]+)=\2\.clientName\.trim\(\);return`\$\{\2\.user\?`\$\{[\w$]+\(([\w$]+)\(\2\.user\.name\)\)\} `:""\}\$\{\3\} connection`\}(?=[\w$]+\(\1,"assistantConnectionDisplayName"\))/g;
+  const matches = [...code.matchAll(pattern)];
+  if (matches.length !== 1) return code;
+  const [match] = matches;
+  const [, name, connection, clientName, givenName] = match;
+  const owner = `${givenName}(${connection}.user.name)`;
+  const display = '`Подключение «${' + clientName + '}»${' + connection + '.user?` (${' + owner + '})`:""}`';
+  const localized = `function ${name}(${connection}){const ${clientName}=${connection}.clientName.trim();return ${display}}`;
+  return code.slice(0, match.index) + localized + code.slice(match.index + match[0].length);
+}
+
+// The three captions are siblings of the values returned by formatTokens.
+// Keep the short word "out" scoped to this component in the official bundle.
+export function patchSubscriptionTokenLabels(code) {
+  const pattern = /children:\[([\w$]+)\(([\w$]+)\.inputTokens\+\2\.cachedInputTokens\)," in · ",\1\(\2\.outputTokens\)," out",\2\.cachedInputTokens>0&&\(0,[\w$]+\.jsxs\)\("span",\{className:"block",children:\[\1\(\2\.cachedInputTokens\)," input cached"\]\}\)\]\}\)\}[\w$]+\([\w$]+,"SubscriptionTokenUsage"\)/g;
+  return code.replace(pattern, match => match.replace('" in · "', '" вх. · "').replace('" out"', '" исх."').replace('" input cached"', '" вход. из кэша"'));
+}
+
+// AuditActor feeds Identity both API-defined user names and its own fallbacks.
+// Only the fallbacks belong in the dictionary. Mark those identity leaves so
+// the DOM pass preserves a real user with a name such as "System" or "Save".
+export function patchAuditActorLabels(code, exact) {
+  const keys = ["Plugin", "Agent", "User", "System"];
+  if (!keys.every(key => exact.has(key))) return code;
+  const pattern = /\(0,([\w$]+)\.jsx\)\(([\w$]+),\{name:([\w$]+)\?\.label\?\?"User",avatarUrl:\3\?\.image\?\?null,size:"sm",className:"font-medium text-foreground"\}\)\}const ([\w$]+)=([\w$]+)\.actorType==="plugin"\?"Plugin":\5\.actorType==="agent"\?"Agent":\5\.actorType==="user"\?"User":"System";return\(0,\1\.jsx\)\(\2,\{name:\4,size:"sm",className:"font-medium text-foreground"\}\)\}[\w$]+\([\w$]+,"AuditActor"\)/g;
+  return code.replace(pattern, match => match
+    .replace(/"(Plugin|Agent|User|System)"/g, (_, key) => JSON.stringify(exact.get(key)))
+    .replaceAll('className:"font-medium text-foreground"', 'className:"font-medium text-foreground pc-ru-audit-identity"'));
+}
+
+// Localize the credential notice at its source. The three translated paragraphs
+// contain agent, credential and account names which must never enter the DOM dictionary.
+export function patchCredentialAccessNotice(code) {
+  const signature = /if\(([\w$]+)\.credentialAccess\)\{const\{agentName:([\w$]+),credentialName:([\w$]+),deniedUser:([\w$]+),settingsHref:[\w$]+\}=\1\.credentialAccess;return\(0,[\w$]+\.jsxs\)\("div",\{role:"alert","data-testid":"task-chat-credential-access-notice"/g;
+  const matches = [...code.matchAll(signature)];
+  if (matches.length !== 1) return code;
+  const [match] = matches;
+  const [, item, agent, credential, person] = match;
+  const end = code.indexOf('return ' + item + '.collapsible?', match.index + match[0].length);
+  if (end === -1 || end - match.index > 4000) return code;
+  let notice = code.slice(match.index, end);
+  const actorVar = '${' + person + '}';
+  const paragraphs = [
+    ['font-semibold text-destructive',
+      `${agent}," couldn’t start"`,
+      `"Не удалось запустить агента ",${agent}`],
+    ['break-words font-medium text-foreground',
+      `${agent}," is configured to use ",${credential}||"an AI credential",", but ",${person}==="you"?"you don’t":\`${actorVar} doesn’t\`," have access to that credential."`,
+      `"Для агента «",${agent},"» настроены ",${credential}?\`учётные данные «\${${credential}}»\`:"учётные данные ИИ",". ",${person}==="you"?"У вас нет доступа к этим данным.":\`У пользователя «${actorVar}» нет доступа к этим данным.\``],
+    ['text-muted-foreground',
+      `"Choose an AI connection ",${person}==="you"?"you can":\`${actorVar} can\`," use, or ask an administrator to update ",${agent},"’s connection. Then try again."`,
+      `"Выберите подключение к ИИ, доступное ",${person}==="you"?"вам":\`пользователю «${actorVar}»\`,", или попросите администратора изменить подключение агента «",${agent},"». Затем повторите попытку."`],
+  ];
+  for (const [className, english, russian] of paragraphs) {
+    const from = `className:"${className}",children:[${english}]`;
+    if (!notice.includes(from) || notice.indexOf(from) !== notice.lastIndexOf(from)) return code;
+    notice = notice.replace(from, () => `translate:"no",className:"${className}",children:[${russian}]`);
+  }
+  return code.slice(0, match.index) + notice + code.slice(end);
 }
 
 /** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */

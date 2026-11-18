@@ -3,6 +3,18 @@ import assert from "node:assert/strict";
 import { loadDictionary, EXACT_LAYER_ORDER, dictionaryFingerprint } from "../../tools/lib/dictionary.mjs";
 import { createTranslator, plural } from "../../tools/lib/translate-runtime.mjs";
 
+test("voice, audit and subscription price rules apply only within their UI scopes", () => {
+  const { translate } = createTranslator(loadDictionary());
+  assert.equal(translate("Talk to ", "voice-launch"), "Поговорить с агентом ");
+  assert.equal(translate("Talk to "), "Talk to ");
+  assert.equal(translate("requested a handoff for", "audit-verb"), "запросил передачу ·");
+  assert.equal(translate("requested a handoff for"), "requested a handoff for");
+  assert.equal(translate(" · 21 prices unknown", "subscription-price"), " · неизвестна 21 цена");
+  assert.equal(translate(" · 4 prices unknown", "subscription-price"), " · неизвестны 4 цены");
+  assert.equal(translate(" · 5 prices unknown", "subscription-price"), " · неизвестны 5 цен");
+  assert.equal(translate(" · 5 prices unknown"), " · 5 prices unknown");
+});
+
 test("слой ru.json перекрывает bulk", () => {
   const dict = loadDictionary();
   assert.equal(EXACT_LAYER_ORDER.at(-1), "ru.json");
@@ -17,6 +29,21 @@ test("September composite chrome preserves embedded entity names", () => {
   assert.equal(translate('Close Dashboard', 'attr'), 'Закрыть Dashboard');
   assert.equal(translate('Settings navigation', 'attr'), 'Settings — навигация');
   assert.equal(translate('Открыть план revision 3', 'attr'), 'Открыть редакцию плана 3');
+});
+
+test("assistant connection consent captions translate without changing the display identity", () => {
+  const { translate } = createTranslator(loadDictionary());
+  const display = "Подключение «Dashboard  QA» (Release)";
+  assert.equal(translate("Revoke " + display, "attr"), "Отозвать: " + display);
+  assert.equal(translate("Connected as you · Read only"), "Подключено от вашего имени · только чтение");
+  assert.equal(translate("Connected as you · Read and write · Configure agents, projects and skills"), "Подключено от вашего имени · чтение и запись · настройка агентов, проектов и навыков");
+});
+
+test("budget and workspace captions retain literal amounts and provider names", () => {
+  const { translate } = createTranslator(loadDictionary());
+  assert.equal(translate("$1,200.15 of $3,000.00 this month"), "$1,200.15 из $3,000.00 за текущий месяц");
+  assert.equal(translate("Selected: Core / local"), "Выбрано: встроенное / локальное");
+  assert.equal(translate("Selected: Save  Dashboard"), "Выбрано: Save  Dashboard");
 });
 
 test("описания вариантов «Лимит» в управлении взаимодействиями переведены", () => {
