@@ -76,6 +76,7 @@ export function officialRoutePlan({ version, seed, settings, authenticated = fal
     requireRoute(`${prefix}/apps/assistant-connection`);
   }
   if (stableAtLeast(version, '2026.1023.0')) {
+    assert.equal(settings?.enableFastResponses, true, 'QA must enable fast responses to reach all organization connection settings');
     requireRoute(`${prefix}/company/settings/connections`);
     destinations.push({ route: `${prefix}/apps/gateways`, finalPath: `${prefix}/apps/gateways` });
   }

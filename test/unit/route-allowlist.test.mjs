@@ -1,6 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { classifyEnglish } from '../helpers/route-allowlist.mjs';
+
+test('connection provider labels are accepted only on their settings picker elements', () => {
+  const route = '/CMP/company/settings/connections';
+  const description = { route, tag: 'SPAN', className: 'mt-1 block text-xs text-muted-foreground' };
+  for (const value of ['GPT-6 Luna', 'Jev 1.13']) {
+    assert.equal(classifyEnglish({ ...description, value }), 'decision-model-display-name');
+    assert.equal(classifyEnglish({ ...description, value, tag: 'P' }), null);
+    assert.equal(classifyEnglish({ ...description, value: `${value} is unavailable` }), null);
+    assert.equal(classifyEnglish({ ...description, value, route: '/CMP/company/settings' }), null);
+  }
+  const label = { route, value: 'xAI', tag: 'SPAN', className: 'block font-medium text-foreground' };
+  assert.equal(classifyEnglish(label), 'fast-response-provider-name');
+  assert.equal(classifyEnglish({ ...label, className: '' }), null);
+  assert.equal(classifyEnglish({ route, value: 'xAI', tag: 'BUTTON', attribute: 'aria-label', className: 'flex w-full rounded-lg border-border' }), 'fast-response-provider-name');
+  assert.equal(classifyEnglish({ route, value: 'xAI', tag: 'BUTTON', attribute: 'title', className: 'flex w-full rounded-lg border-border' }), null);
+});
 import { activityActorsFromMembers } from '../helpers/official-seed.mjs';
 
 test('known connector products and technical terms cannot conceal untranslated operator sentences', () => {

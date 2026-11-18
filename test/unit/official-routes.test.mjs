@@ -8,7 +8,7 @@ const seed = {
   project: { id: 'project-id', urlKey: 'project-key' }, issues: [{ identifier: 'QA-1' }],
   conversation: { id: 'conversation-id' },
 };
-const settings = { enableAgentChat: true, enableChatConnectors: true, enableStreamlinedUi: true, enablePublicMcp: true };
+const settings = { enableAgentChat: true, enableChatConnectors: true, enableStreamlinedUi: true, enablePublicMcp: true, enableFastResponses: true };
 
 test('later stable releases cannot silently lose the September chat and governance routes', () => {
   for (const version of ['2026.916.0', '2026.916.1', '2026.1001.0', '2026.1005.0', '2026.1012.0']) {
@@ -40,6 +40,7 @@ test('the November audit follows current board routes and keeps Cases', () => {
       assert.ok(destinations.some(entry => entry.route === route && entry.finalPath === route));
     }
     assert.equal(destinations.some(entry => entry.route === '/QA/activity/commentary'), version === '2026.1106.0');
+    assert.throws(() => officialRoutePlan({ version, seed, settings: { ...settings, enableFastResponses: false } }), /fast responses/);
   }
 });
 

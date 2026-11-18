@@ -62,13 +62,16 @@ function areaOf(sources) {
 }
 
 const todo = [];
-for (const row of sourceStrings) {
-  if (!bundle.has(row.value)) continue;
-  if (dict.exact.has(row.value)) continue;
+const sourceByValue = new Map(sourceStrings.map(row => [row.value, row]));
+for (const [value, uses] of bundle) {
+  // JSX text beside an icon or another child can carry a meaningful space.
+  // The source extractor indexes trimmed text. Keep the shipped key for translation.
+  const row = sourceByValue.get(value.trim());
+  if (!row || dict.exact.has(value)) continue;
   todo.push({
-    value: row.value,
+    value,
     area: areaOf(row.sources),
-    uses: bundle.get(row.value),
+    uses,
     source: row.sources[0] || "",
   });
 }

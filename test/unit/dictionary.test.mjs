@@ -3,6 +3,18 @@ import assert from "node:assert/strict";
 import { loadDictionary, EXACT_LAYER_ORDER, dictionaryFingerprint } from "../../tools/lib/dictionary.mjs";
 import { createTranslator, plural } from "../../tools/lib/translate-runtime.mjs";
 
+test("voice, audit and subscription price rules apply only within their UI scopes", () => {
+  const { translate } = createTranslator(loadDictionary());
+  assert.equal(translate("Talk to ", "voice-launch"), "Поговорить с агентом ");
+  assert.equal(translate("Talk to "), "Talk to ");
+  assert.equal(translate("requested a handoff for", "audit-verb"), "запросил передачу ·");
+  assert.equal(translate("requested a handoff for"), "requested a handoff for");
+  assert.equal(translate(" · 21 prices unknown", "subscription-price"), " · неизвестна 21 цена");
+  assert.equal(translate(" · 4 prices unknown", "subscription-price"), " · неизвестны 4 цены");
+  assert.equal(translate(" · 5 prices unknown", "subscription-price"), " · неизвестны 5 цен");
+  assert.equal(translate(" · 5 prices unknown"), " · 5 prices unknown");
+});
+
 test("слой ru.json перекрывает bulk", () => {
   const dict = loadDictionary();
   assert.equal(EXACT_LAYER_ORDER.at(-1), "ru.json");

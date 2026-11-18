@@ -87,6 +87,13 @@ export function classifyEnglish(candidate, { companyPrefixes = [], userValues = 
   const skillStudio = /^\/[^/]+\/skills\/studio\/?$/.test(route);
   const agentSkills = /^\/[^/]+\/agents\/[^/]+\/skills\/?$/.test(route);
   const agentDashboard = /^\/[^/]+\/agents\/[^/]+\/dashboard\/?$/.test(route);
+  if (/^\/[^/]+\/company\/settings\/connections\/?$/.test(route)) {
+    if ((value === 'GPT-6 Luna' || value === 'Jev 1.13') && candidate.tag === 'SPAN' && !candidate.attribute
+      && hasClasses('mt-1', 'block', 'text-xs', 'text-muted-foreground')) return 'decision-model-display-name';
+    if (value === 'xAI' && (
+      candidate.tag === 'SPAN' && !candidate.attribute && hasClasses('block', 'font-medium', 'text-foreground')
+      || candidate.tag === 'BUTTON' && candidate.attribute === 'aria-label' && hasClasses('flex', 'w-full', 'rounded-lg', 'border-border'))) return 'fast-response-provider-name';
+  }
   const catalog = /^\/[^/]+\/apps(?:\/connections)?\/?$/.test(route) && /^[a-z0-9][a-z0-9-]*$/.test(candidate.appSlug || '');
   const appTerms = catalog ? catalogTerms.get(candidate.appName) : undefined;
   if (appTerms && candidate.context === 'app-catalog-heading' && candidate.tag === 'H2' && !candidate.attribute

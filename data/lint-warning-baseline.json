@@ -6,15 +6,15 @@
   "lastReview": {
     "toolVersion": "1.0.5",
     "date": "2026-11-18",
-    "addedExactFindings": 397,
+    "addedExactFindings": 419,
     "scope": "Source and bundle review of UI additions, provider catalog descriptions and operator notices for Paperclip 2026.1023.0 and 2026.1106.0. Existing exact records are preserved."
   },
   "note": "Exact migration of the previously accepted baseline. Raw findings remain available in lint --json; all new or changed diagnostics fail the gate.",
   "byCode": {
-    "glossary": 119,
-    "latin": 1317,
+    "glossary": 121,
+    "latin": 1322,
     "suspicious": 2,
-    "short-key": 852
+    "short-key": 867
   },
   "accepted": [
     {
@@ -13756,6 +13756,138 @@
       "code": "short-key",
       "en": "Tier",
       "reason": "Confirmed operator-facing field label or provider option. Kept in no-static to avoid rewriting ambiguous standalone literals during bundle patching."
+    },
+    {
+      "id": "7413d5336ff9ce0c2cebac17271bcdd20d3487a8a58a6d2dd79f6b7c7ae129cb",
+      "code": "short-key",
+      "en": "Resets",
+      "reason": "Verified account quota expiry label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "6ee29b3eb9ecfa1665f0355af4ca06efb79430920495e60ebb20f5eeec3dca72",
+      "code": "short-key",
+      "en": "Resets ",
+      "reason": "Verified account quota expiry label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "0ba805309a98920b6c8c56d29b8c6b75586aa5abda81a6559dbe741c79661603",
+      "code": "short-key",
+      "en": "Row",
+      "reason": "Verified CSV row header label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "ae43b0f32a18315285c329ecc41e4624930f16ec29dd775b28458c2e0ec0f850",
+      "code": "short-key",
+      "en": "Reported",
+      "reason": "Verified decision history provider status label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "0ae0418b2192877ba914bcbe62986c48baf10ac9c7d1f8075249fa72aacfa8f7",
+      "code": "latin",
+      "en": ". Muse keeps the connection credential in its secure vault. Hostname permission applies to future requests to this Paperclip hostname.",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "51a66883f6b85700756159de1d2401a6fc80a0a5286634a9e42411d68dc21932",
+      "code": "short-key",
+      "en": "Billed",
+      "reason": "Verified subscription billing label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "a2209ea7b5bc30069725daed355d88a28c90512b6d8957647ef78eb9b33b5b94",
+      "code": "short-key",
+      "en": "Ended",
+      "reason": "Verified subscription state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "c125e5a8242242947354dbd91a1eaac1400ee62f76f7b94b26e3359b2ffc879d",
+      "code": "short-key",
+      "en": "Excluded",
+      "reason": "Verified subscription accounting state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "8f729820f6ad8701a5d6d1923220b101963a5aeb9b042f68b2db8555620af7d7",
+      "code": "short-key",
+      "en": "Tracking",
+      "reason": "Verified subscription accounting column label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "c8e0d09fade2ed46e7e5790759772f73f4fd18622083ce594b6d2ebc0dab5728",
+      "code": "short-key",
+      "en": "Views",
+      "reason": "Verified task-list views label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "73b8e3a60d6d3f78e4b4fb6eb0c421883ed17202da1ae3ba2ba05cb9d7ad7a2f",
+      "code": "short-key",
+      "en": "Ending",
+      "reason": "Verified voice-call state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "ad1036ba4233c2f4ba41b514f2e35cf882ff95a6948011a7a51b14c1deb640b1",
+      "code": "latin",
+      "en": "Choose a dedicated Speko voice persona. Paperclip uses its voice while",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "53df2e1679aa2180bd6a229f5f7f438ceb7ce433c06cc74cced3c050950557f6",
+      "code": "latin",
+      "en": "Choose a dedicated Speko voice persona. Paperclip uses its voice while ",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "9e8eb6ff46c54a26bba513b363a5171ebd3814ecc32707fc59921fe1bb18e1c7",
+      "code": "latin",
+      "en": "to Speko",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "d415a0cf344424e28b4167da855a909e3abfbc5661436cb380099991a32ffa3f",
+      "code": "latin",
+      "en": " to Speko",
+      "reason": "Preserves the verified provider brand name in its operator-facing setup copy."
+    },
+    {
+      "id": "e0595323ee73faead075a23b04b879fc4dddaa1a27ff4f6168d590c245027aaa",
+      "code": "short-key",
+      "en": "Speaking",
+      "reason": "Verified voice control state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "1abed994db2c01eab444f6fbc0ebed67f3b2de36b615f02264117dc20e1105e0",
+      "code": "glossary",
+      "en": "could not resolve the starting branch. Check the branch name and repository access.",
+      "reason": "Resolve in this Git branch recovery message means resolve a ref, rendered as determining the branch."
+    },
+    {
+      "id": "2477825549af768f36ddc1c7ead087ab917dff5d6e37b65d2207a6066724ec50",
+      "code": "glossary",
+      "en": " could not resolve the starting branch. Check the branch name and repository access.",
+      "reason": "Resolve in this Git branch recovery message means resolve a ref, rendered as determining the branch."
+    },
+    {
+      "id": "fad68e6ce08cf3acf8d183b24e9df7fdbda088f6a9edcd56e6509a4191c396d4",
+      "code": "short-key",
+      "en": "Setting",
+      "reason": "Verified Git branch recovery label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "40edfeb585463b1ff4648818acce22dd77a92cdcebfa427e7780a43d908ccd38",
+      "code": "short-key",
+      "en": "Setting ",
+      "reason": "Verified Git branch recovery label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "efc5997c884bafccb4b0cf237f8aca771d879fdbbe945fe6940865801c39faa1",
+      "code": "short-key",
+      "en": "Unlinked",
+      "reason": "Verified GitHub bot account state label. Runtime only, protected from static substitution."
+    },
+    {
+      "id": "4a59913800f5b5cb46f8da522d011c396d53a1334d84e7ae0868ca5d05cb2b76",
+      "code": "short-key",
+      "en": "Findings",
+      "reason": "Verified GitHub review results label. Runtime only, protected from static substitution."
     }
   ]
 }

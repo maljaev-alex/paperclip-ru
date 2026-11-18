@@ -38,6 +38,7 @@ export async function prepareOfficialInstance(baseUrl) {
     enableDecisions: true, enableIsolatedWorkspaces: true, enableGoalsSidebarLink: true,
     ...(Object.hasOwn(settings, 'enableAgentChat') ? { enableAgentChat: true } : {}),
     ...(Object.hasOwn(settings, 'enableChatConnectors') ? { enableChatConnectors: true } : {}),
+    ...(Object.hasOwn(settings, 'enableFastResponses') ? { enableFastResponses: true } : {}),
     ...(officialAuthenticated() && Object.hasOwn(settings, 'enablePublicMcp') ? { enablePublicMcp: true } : {}),
   };
   await api('/instance/settings/experimental', 'PATCH', requested);

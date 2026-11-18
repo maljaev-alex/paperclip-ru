@@ -184,13 +184,15 @@ function overlaySource() {
     return out;
   }
 
-  // These three official sentences have a count, modifier, noun and ending
-  // in separate React text nodes. Match their complete, known shape before
+  // These official sentences have a count, modifier, and noun in separate
+  // React text nodes. Match their complete, known shape before
   // agreeing any fragment; never join a heading or inspect nested user data.
   var COUNT_SENTENCES = [
     { kind: "sources-warning", parts: [{ sources: ["selected"], key: "\u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439" }, { sources: ["skill has","skills have"], key: "\u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442" }, { sources: ["validation errors and will be skipped."], key: "\u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b." }] },
     { kind: "sources-new", parts: [{ sources: ["new"], key: "\u043d\u043e\u0432\u044b\u0439" }, { sources: ["skill","skills"], key: "\u043d\u0430\u0432\u044b\u043a" }, { sources: ["available"], key: "\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d" }] },
-    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] }
+    { kind: "saved-messages", parts: [{ sources: ["saved"], key: "\u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435" }, { sources: ["message is","messages are"], key: "\u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435" }, { sources: ["waiting for recovery."], key: "\u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f." }] },
+    { kind: "subscription-identities", parts: [{ sources: ["unconfirmed"], key: "subscription-identity-modifier" }, { sources: ["account identity", "account identities"], key: "subscription-identity" }] },
+    { kind: "subscriptions-active", optionalTail: true, parts: [{ sources: ["active"], key: "subscription-active-modifier" }, { sources: ["subscription", "subscriptions"], key: "subscription-active" }] }
   ];
 
   function countSentencePart(value, part) {
@@ -209,18 +211,27 @@ function overlaySource() {
     var kind = sourcesRoute && parent.matches('p.text-sm.text-muted-foreground') ? 'sources-warning'
       : sourcesRoute && parent.matches('a.text-xs.underline') ? 'sources-new'
       : parent.matches('.execution-blocker-notice p') ? 'saved-messages' : null;
-    if (!kind) return null;
+    var subscriptionOverview = !kind && /^\/[^/]+\/costs\/?$/.test(window.location.pathname)
+      && parent.matches('div.space-y-1.text-xs.text-muted-foreground > div');
+    if (!kind && !subscriptionOverview) return null;
     var children = Array.prototype.slice.call(parent.childNodes);
     if (children.some(function (child) { return child.nodeType !== 3 && child.nodeType !== 8; })) return null;
     var nodes = children.filter(function (child) { return child.nodeType === 3; });
-    if (nodes.length !== 4 || nodes.indexOf(node) === -1) return null;
+    if (nodes.length < 3 || nodes.indexOf(node) === -1) return null;
     var text = nodes.map(function (child) { return child === node ? value : child.nodeValue; });
     var count = text[0].trim();
     if (!/^\d+$/.test(count)) return null;
-    var sentence = COUNT_SENTENCES.find(function (candidate) { return candidate.kind === kind; });
-    if (!sentence || !sentence.parts.every(function (part, index) {
-      return PLURALS[part.key] && countSentencePart(text[index + 1], part);
-    })) return null;
+    var sentence = COUNT_SENTENCES.find(function (candidate) {
+      if (kind ? candidate.kind !== kind : !/^subscription/.test(candidate.kind)) return false;
+      var total = candidate.parts.length + 1;
+      if (nodes.length !== total && !(candidate.optionalTail && nodes.length === total + 1)) return false;
+      return candidate.parts.every(function (part, index) {
+        return PLURALS[part.key] && countSentencePart(text[index + 1], part);
+      });
+    });
+    if (!sentence) return null;
+    var suffix = sentence.optionalTail && text[sentence.parts.length + 1];
+    if (suffix && node === nodes[sentence.parts.length + 1]) return translate(value, 'subscription-price');
     var result = value;
     sentence.parts.forEach(function (part, index) {
       var target = nodes[index + 1];
@@ -579,7 +590,19 @@ function overlaySource() {
 
   function translateUiText(node, value) {
     var translated = shareText(node, value);
-    return translated === null ? agree(node, translate(value)) : translated;
+    if (translated !== null) return translated;
+    var parent = node.parentElement;
+    if (parent && parent.matches('button[data-slot="button"],h3.break-words.text-sm.font-medium')
+      && /^\/[^/]+\/issues?\/[^/]+\/?$/.test(window.location.pathname)) {
+      var parts = Array.prototype.filter.call(parent.childNodes, function (child) { return child.nodeType !== 8; });
+      if (parts.length === 2 && parts.every(function (child) { return child.nodeType === 3; })
+        && (parts[0].nodeValue === 'Talk to ' || parts[0].nodeValue === translate('Talk to ', 'voice-launch'))) {
+        return node === parts[0] ? translate(value, 'voice-launch') : value;
+      }
+    }
+    if (parent && parent.matches('li.px-4.py-3 > div > div.min-w-0 > div.flex.flex-wrap.items-center.text-foreground > span.text-muted-foreground:nth-child(2)')
+      && /^\/[^/]+\/activity\/?$/.test(window.location.pathname)) return translate(value, 'audit-verb');
+    return agree(node, translate(value));
   }
 
   var natives = {};
@@ -988,6 +1011,37 @@ export function patchAuditActorLabels(code, exact) {
   return code.replace(pattern, match => match
     .replace(/"(Plugin|Agent|User|System)"/g, (_, key) => JSON.stringify(exact.get(key)))
     .replaceAll('className:"font-medium text-foreground"', 'className:"font-medium text-foreground pc-ru-audit-identity"'));
+}
+
+// Localize the credential notice at its source. The three translated paragraphs
+// contain agent, credential and account names which must never enter the DOM dictionary.
+export function patchCredentialAccessNotice(code) {
+  const signature = /if\(([\w$]+)\.credentialAccess\)\{const\{agentName:([\w$]+),credentialName:([\w$]+),deniedUser:([\w$]+),settingsHref:[\w$]+\}=\1\.credentialAccess;return\(0,[\w$]+\.jsxs\)\("div",\{role:"alert","data-testid":"task-chat-credential-access-notice"/g;
+  const matches = [...code.matchAll(signature)];
+  if (matches.length !== 1) return code;
+  const [match] = matches;
+  const [, item, agent, credential, person] = match;
+  const end = code.indexOf('return ' + item + '.collapsible?', match.index + match[0].length);
+  if (end === -1 || end - match.index > 4000) return code;
+  let notice = code.slice(match.index, end);
+  const actorVar = '${' + person + '}';
+  const paragraphs = [
+    ['font-semibold text-destructive',
+      `${agent}," couldn’t start"`,
+      `"Не удалось запустить агента ",${agent}`],
+    ['break-words font-medium text-foreground',
+      `${agent}," is configured to use ",${credential}||"an AI credential",", but ",${person}==="you"?"you don’t":\`${actorVar} doesn’t\`," have access to that credential."`,
+      `"Для агента «",${agent},"» настроены ",${credential}?\`учётные данные «\${${credential}}»\`:"учётные данные ИИ",". ",${person}==="you"?"У вас нет доступа к этим данным.":\`У пользователя «${actorVar}» нет доступа к этим данным.\``],
+    ['text-muted-foreground',
+      `"Choose an AI connection ",${person}==="you"?"you can":\`${actorVar} can\`," use, or ask an administrator to update ",${agent},"’s connection. Then try again."`,
+      `"Выберите подключение к ИИ, доступное ",${person}==="you"?"вам":\`пользователю «${actorVar}»\`,", или попросите администратора изменить подключение агента «",${agent},"». Затем повторите попытку."`],
+  ];
+  for (const [className, english, russian] of paragraphs) {
+    const from = `className:"${className}",children:[${english}]`;
+    if (!notice.includes(from) || notice.indexOf(from) !== notice.lastIndexOf(from)) return code;
+    notice = notice.replace(from, () => `translate:"no",className:"${className}",children:[${russian}]`);
+  }
+  return code.slice(0, match.index) + notice + code.slice(end);
 }
 
 /** Translate only ActivityRow's UI fallbacks, leaving both API name sources intact. */

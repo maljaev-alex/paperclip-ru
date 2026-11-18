@@ -13,7 +13,7 @@ import { ToolError, assertInside, atomicWriteFile, copyFileAtomic, ensureDir, ha
 import { findServerPackage, listTargets, workPaths } from "./paths.mjs";
 import { loadDictionary, dictionaryStats } from "./dictionary.mjs";
 import { extractOccurrences, applyDictionary } from "./strings.mjs";
-import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, splitByoSidebarChanges, patchActivityActorFallbacks, patchAssistantConnectionName, patchSubscriptionTokenLabels, patchAuditActorLabels } from "./overlay.mjs";
+import { buildOverlay, patchIndexHtml, patchInstructionDirtyCompare, patchSkillOverviewNavigation, patchByoAppSidebar, splitByoSidebarChanges, patchActivityActorFallbacks, patchAssistantConnectionName, patchSubscriptionTokenLabels, patchAuditActorLabels, patchCredentialAccessNotice } from "./overlay.mjs";
 import { assessCompatibility, loadCompatibility } from "./compatibility.mjs";
 import { buildManifest, featureList, featuresEqual, inspectManifestFile, liveHash, overlayRel, proveLegacyV2Manifest } from "./manifest.mjs";
 import { classifyFail, classifyState, hasIndexMarker, overlayPathOf } from "./classify.mjs";
@@ -52,13 +52,14 @@ function patchUiBehavior(source, dict) {
 }
 
 function patchJs(source, dict) {
+  const prepared = patchCredentialAccessNotice(source);
   let occurrences;
   try {
-    occurrences = extractOccurrences(source);
+    occurrences = extractOccurrences(prepared);
   } catch (err) {
     return { code: source, replacements: 0, used: new Map(), skipped: err.message, dirtyPatched: false, overviewTabPatched: false };
   }
-  const result = applyDictionary(source, occurrences, dict.exact, { skipStatic: dict.noStatic });
+  const result = applyDictionary(prepared, occurrences, dict.exact, { skipStatic: dict.noStatic });
   return {
     ...patchUiBehavior(result.code, dict),
     replacements: result.replacements,
@@ -339,7 +340,7 @@ function liveNeedsSurgicalJsPatches(live, dict) {
   if (splitByoSidebarChanges(live).size) return true;
   for (const [rel, source] of live) {
     if (!rel.endsWith(".js")) continue;
-    if (patchUiBehavior(source, dict).code !== source) return true;
+    if (patchCredentialAccessNotice(source) !== source || patchUiBehavior(source, dict).code !== source) return true;
   }
   return false;
 }

@@ -5,6 +5,57 @@ import { loadDictionary } from '../../tools/lib/dictionary.mjs';
 import { buildOverlay } from '../../tools/lib/overlay.mjs';
 import { createTranslator } from '../../tools/lib/translate-runtime.mjs';
 
+test('subscription counts, voice labels and audit verbs preserve adjoining React nodes', async t => {
+  const browser = await chromium.launch({ channel: 'chromium', headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.route('http://127.0.0.1/**', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><html><body></body></html>' }));
+  await page.goto('http://127.0.0.1/CMP/costs');
+  await page.addScriptTag({ content: buildOverlay(loadDictionary(), { toolVersion: 'test' }) });
+  await page.evaluate(() => {
+    document.body.innerHTML = '<div class="space-y-1 text-xs text-muted-foreground"><div id="identity"></div><div id="active"></div></div>';
+    for (const [id, values] of Object.entries({
+      identity: ['21', ' unconfirmed ', 'account identities'],
+      active: ['2', ' active ', 'subscriptions', ' · 5 prices unknown'],
+    })) {
+      const element = document.getElementById(id);
+      for (const value of values) {
+        element.appendChild(document.createComment('React split'));
+        element.appendChild(document.createTextNode(value));
+      }
+    }
+    window.identityCount = document.querySelector('#identity').childNodes[1];
+    window.identityNoun = document.querySelector('#identity').lastChild;
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#identity').textContent(), '21 неподтверждённая учётная запись');
+  assert.equal(await page.locator('#active').textContent(), '2 активные подписки · неизвестны 5 цен');
+  await page.evaluate(() => { window.identityCount.nodeValue = '5'; });
+  assert.equal(await page.locator('#identity').textContent(), '5 неподтверждённых учётных записей');
+  assert.equal(await page.locator('#identity').evaluate(el => el.lastChild === window.identityNoun), true);
+
+  await page.evaluate(() => {
+    history.replaceState(null, '', '/CMP/issues/CMP-42');
+    document.body.innerHTML = '<button id="voice" data-slot="button"></button><p>Talk to</p>';
+    for (const value of ['Talk to ', 'Dashboard']) document.querySelector('#voice').appendChild(document.createTextNode(value));
+    window.voiceName = document.querySelector('#voice').lastChild;
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#voice').textContent(), 'Поговорить с агентом Dashboard');
+  await page.evaluate(() => { window.voiceName.nodeValue = 'History'; });
+  assert.equal(await page.locator('#voice').textContent(), 'Поговорить с агентом History');
+  assert.equal(await page.locator('p').textContent(), 'Talk to');
+
+  await page.evaluate(() => {
+    history.replaceState(null, '', '/CMP/activity');
+    document.body.innerHTML = '<ul><li class="px-4 py-3"><div><div class="min-w-0"><div class="flex flex-wrap items-center text-foreground"><span>QA</span><span id="verb" class="text-muted-foreground">requested a handoff for</span><a class="font-medium text-primary hover:underline" href="/CMP/cases/CMP-C1">CMP-C1 · Dashboard</a></div></div></div></li></ul><p>requested a handoff for</p>';
+    window.__paperclipRu.resweep();
+  });
+  assert.equal(await page.locator('#verb').textContent(), 'запросил передачу ·');
+  assert.equal(await page.locator('a').textContent(), 'CMP-C1 · Dashboard');
+  assert.equal(await page.locator('p').textContent(), 'requested a handoff for');
+});
+
 const expected = {"1":["1 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0435\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d.","1 \u043d\u043e\u0432\u044b\u0439 \u043d\u0430\u0432\u044b\u043a \u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d","1 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u043e\u0436\u0438\u0434\u0430\u0435\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f.","1 \u0444\u0430\u0439\u043b"],"2":["2 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0445 \u043d\u0430\u0432\u044b\u043a\u0430 \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u0442 \u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b.","2 \u043d\u043e\u0432\u044b\u0445 \u043d\u0430\u0432\u044b\u043a\u0430 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b","2 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0445 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f \u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f.","2 \u0444\u0430\u0439\u043b\u0430"],"5":["5 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0445 \u043d\u0430\u0432\u044b\u043a\u043e\u0432 \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u0442 \u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u044b.","5 \u043d\u043e\u0432\u044b\u0445 \u043d\u0430\u0432\u044b\u043a\u043e\u0432 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b","5 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0445 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0439 \u043e\u0436\u0438\u0434\u0430\u044e\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f.","5 \u0444\u0430\u0439\u043b\u043e\u0432"],"21":["21 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u043d\u0430\u0432\u044b\u043a \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u043e\u0448\u0438\u0431\u043a\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0431\u0443\u0434\u0435\u0442 \u043f\u0440\u043e\u043f\u0443\u0449\u0435\u043d.","21 \u043d\u043e\u0432\u044b\u0439 \u043d\u0430\u0432\u044b\u043a \u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d","21 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u043e\u0436\u0438\u0434\u0430\u0435\u0442 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f.","21 \u0444\u0430\u0439\u043b"]};
 
 test('official split count sentences agree at 1, 2, 5 and 21 without replacing React nodes or user prose', async t => {
